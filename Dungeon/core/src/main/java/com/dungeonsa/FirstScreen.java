@@ -1,4 +1,4 @@
-package com.dungeonsa.FungonProyecto;
+package com.dungeonsa;
 
 import com.badlogic.gdx.Screen;
 

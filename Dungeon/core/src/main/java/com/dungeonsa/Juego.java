@@ -1,6 +1,7 @@
-package com.dungeonsa.FungonProyecto;
+package com.dungeonsa;
 
 import com.badlogic.gdx.Game;
+import com.dungeonsa.FirstScreen;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Juego extends Game {
