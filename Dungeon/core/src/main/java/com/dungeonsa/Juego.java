@@ -13,19 +13,17 @@ public class Juego extends Game {
 	public static final int ANCHO=450;
 	public static final int ALTO=800;
 	public static final String TITULO="Pajarraco";
+	public static final String ICONO="pepe.png";
 
 	private OrthographicCamera camara;
 	private FitViewport vista;
 	private SpriteBatch sb;
 
-	private static Juego instancia;
 	private Pantalla actual;
 	private Music musica;
 
 	@Override
 	public void create() {
-		instancia=this;
-
 		cambiarPantalla(null, new FirstScreen());
 	}
 
@@ -40,10 +38,6 @@ public class Juego extends Game {
 
 	public SpriteBatch getSb() {
 		return sb;
-	}
-
-	public static Juego getInstancia() {
-		return instancia;
 	}
 
 	public Pantalla getActual() {

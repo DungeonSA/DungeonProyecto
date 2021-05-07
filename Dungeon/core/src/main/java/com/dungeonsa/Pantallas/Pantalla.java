@@ -11,7 +11,7 @@ public abstract class Pantalla implements Screen {
     protected SpriteBatch sb;
 
     public Pantalla() {
-        this.juego=Juego.getInstancia();
+        this.juego=(Juego)Gdx.app.getApplicationListener();
         this.sb= juego.getSb();
     }
 

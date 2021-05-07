@@ -16,9 +16,9 @@ public class Lwjgl3Launcher {
 
 	private static Lwjgl3ApplicationConfiguration getDefaultConfiguration() {
 		Lwjgl3ApplicationConfiguration configuration = new Lwjgl3ApplicationConfiguration();
-		configuration.setTitle("Dungeon");
-		configuration.setWindowedMode(640, 480);
-		configuration.setWindowIcon("libgdx128.png", "libgdx64.png", "libgdx32.png", "libgdx16.png");
+		configuration.setTitle(Juego.TITULO);
+		configuration.setWindowedMode(Juego.ANCHO,Juego.ALTO);
+		configuration.setWindowIcon(Juego.ICONO);
 		return configuration;
 	}
 }
