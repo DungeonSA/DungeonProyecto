@@ -1,6 +1,7 @@
 package com.dungeonsa;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -18,12 +19,16 @@ public class Juego extends Game {
 	private OrthographicCamera camara;
 	private FitViewport vista;
 	private SpriteBatch sb;
-
+	private AssetManager am;
 	private Pantalla actual;
 	private Music musica;
 
 	@Override
 	public void create() {
+		camara=new OrthographicCamera();
+		vista=new FitViewport(ANCHO,ALTO,camara);
+		sb=new SpriteBatch();
+
 		cambiarPantalla(null, new FirstScreen());
 	}
 
