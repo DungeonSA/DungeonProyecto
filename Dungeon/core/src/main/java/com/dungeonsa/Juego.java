@@ -28,7 +28,7 @@ public class Juego extends Game {
 		camara=new OrthographicCamera();
 		vista=new FitViewport(ANCHO,ALTO,camara);
 		sb=new SpriteBatch();
-
+		am=new AssetManager();
 		cambiarPantalla(null, new FirstScreen());
 	}
 
@@ -48,6 +48,8 @@ public class Juego extends Game {
 	public Pantalla getActual() {
 		return actual;
 	}
+
+	public AssetManager getAm() { return am; }
 
 	public void cambiarPantalla(Pantalla antigua, Pantalla nueva){
 		if(antigua!=null){

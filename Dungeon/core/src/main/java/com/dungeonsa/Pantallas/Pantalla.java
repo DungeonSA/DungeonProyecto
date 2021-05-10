@@ -2,6 +2,7 @@ package com.dungeonsa.Pantallas;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.dungeonsa.Juego;
@@ -9,10 +10,12 @@ import com.dungeonsa.Juego;
 public abstract class Pantalla implements Screen {
     protected Juego juego;
     protected SpriteBatch sb;
+    protected AssetManager am;
 
     public Pantalla() {
         this.juego=(Juego)Gdx.app.getApplicationListener();
         this.sb= juego.getSb();
+        this.am=juego.getAm();
     }
 
     @Override

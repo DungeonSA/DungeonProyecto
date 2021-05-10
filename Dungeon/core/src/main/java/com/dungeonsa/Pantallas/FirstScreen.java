@@ -17,13 +17,13 @@ public class FirstScreen extends Pantalla {
 
 	@Override
 	public void leerEntrada(float delta) {
-		if(Gdx.input.isButtonPressed(Input.Keys.A)){
+		if(Gdx.input.isKeyPressed(Input.Keys.A)){
 			Jugador.moverIzquierda();
-		}if(Gdx.input.isButtonPressed(Input.Keys.W)){
+		}if(Gdx.input.isKeyPressed(Input.Keys.W)){
 			Jugador.moverArriba();
-		}if(Gdx.input.isButtonPressed(Input.Keys.S)){
+		}if(Gdx.input.isKeyPressed(Input.Keys.S)){
 			Jugador.moverAbajo();
-		}if(Gdx.input.isButtonPressed(Input.Keys.D)){
+		}if(Gdx.input.isKeyPressed(Input.Keys.D)){
 			Jugador.moverDerecha();
 		}
 	}
@@ -35,7 +35,9 @@ public class FirstScreen extends Pantalla {
 
 	@Override
 	public void dibujar(float delta) {
+		sb.begin();
 
+		sb.end();
 	}
 
 	@Override
