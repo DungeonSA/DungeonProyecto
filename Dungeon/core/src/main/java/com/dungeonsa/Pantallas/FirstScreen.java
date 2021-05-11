@@ -13,6 +13,7 @@ public class FirstScreen extends Pantalla {
 	public FirstScreen() {
 		super();
 		am.load("Menu.png", Texture.class);
+		am.finishLoading();
 		fondo=am.get("Menu.png");
 
 	}
