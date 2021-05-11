@@ -36,11 +36,6 @@ public class Juego extends Game {
 		vista=new FitViewport(ancho,alto,camara);
 		sb=new SpriteBatch();
 		am=new AssetManager();
-		am.setLoader(TiledMap.class,
-				new TmxMapLoader(new InternalFileHandleResolver()));
-		am.load("mapadev.tmx", TiledMap.class);
-		am.load("Graficos.atlas", TextureAtlas.class);
-
 		cambiarPantalla(null, new FirstScreen());
 	}
 
@@ -52,8 +47,8 @@ public class Juego extends Game {
 	@Override
 	public void dispose() {
 		super.dispose();
-//		sb.dispose();
-//		am.dispose();
+		sb.dispose();
+		am.dispose();
 	}
 
 	//----------------------------GETTERS---------------------------
