@@ -1,8 +1,8 @@
-package com.arp.Dungeon.lwjgl3;
+package com.dungeonsa.lwjgl3;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import com.arp.Dungeon.Juego;
+import com.dungeonsa.Juego;
 
 /** Launches the desktop (LWJGL3) application. */
 public class Lwjgl3Launcher {
@@ -16,9 +16,9 @@ public class Lwjgl3Launcher {
 
 	private static Lwjgl3ApplicationConfiguration getDefaultConfiguration() {
 		Lwjgl3ApplicationConfiguration configuration = new Lwjgl3ApplicationConfiguration();
-		configuration.setTitle("Dungeon");
-		configuration.setWindowedMode(640, 480);
-		configuration.setWindowIcon("libgdx128.png", "libgdx64.png", "libgdx32.png", "libgdx16.png");
+		configuration.setTitle(Juego.TITULO);
+		configuration.setWindowedMode(Juego.ANCHO, Juego.ALTO);
+		configuration.setWindowIcon(Juego.ICONO);
 		return configuration;
 	}
 }

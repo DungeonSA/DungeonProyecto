@@ -3,9 +3,9 @@ package com.dungeonsa.Pantallas;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.dungeonsa.Personajes.Jugador;
 import com.badlogic.gdx.physics.box2d.World;
 
