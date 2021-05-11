@@ -1,7 +1,7 @@
 apply plugin: 'application'
 
 sourceSets.main.resources.srcDirs += [ rootProject.file('assets').path ]
-mainClassName = 'com.dungeonsa.FungonProyecto.lwjgl3.Lwjgl3Launcher'
+mainClassName = 'com.arp.Dungeon.lwjgl3.Lwjgl3Launcher'
 eclipse.project.name = appName + '-lwjgl3'
 sourceCompatibility = 8.0
 
@@ -9,6 +9,7 @@ dependencies {
 	implementation project(':core')
 	implementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
 	implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+	implementation "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
 }
 
 import org.gradle.internal.os.OperatingSystem
@@ -24,9 +25,10 @@ run {
 }
 
 jar {
+// sets the name of the .jar file this produces to the name of the game or app.
 	archiveBaseName.set(appName)
 // the duplicatesStrategy will matter starting in Gradle 7.0; this setting works.
-	duplicatesStrategy(DuplicatesStrategy.INCLUDE)
+	duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
 	dependsOn configurations.runtimeClasspath
 	from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
 // these "exclude" lines remove some unnecessary duplicate files in the output JAR.

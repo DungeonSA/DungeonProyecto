@@ -26,7 +26,7 @@ configure(subprojects) {
 
 subprojects {
 	version = '0.0.1'
-	ext.appName = 'DungeonProyecto'
+	ext.appName = 'Dungeon'
 	repositories {
 		mavenLocal()
 		mavenCentral()
@@ -36,4 +36,4 @@ subprojects {
 	}
 }
 
-eclipse.project.name = 'DungeonProyecto' + '-parent'
+eclipse.project.name = 'Dungeon' + '-parent'
