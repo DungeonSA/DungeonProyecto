@@ -38,7 +38,7 @@ public class Juego extends Game {
 		am=new AssetManager();
 		am.setLoader(TiledMap.class,
 				new TmxMapLoader(new InternalFileHandleResolver()));
-		am.load("mapadev.txm", TiledMap.class);
+		am.load("mapadev.tmx", TiledMap.class);
 		am.load("Graficos.atlas", TextureAtlas.class);
 
 		cambiarPantalla(null, new FirstScreen());

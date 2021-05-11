@@ -6,6 +6,11 @@
    <property name="tipo" value="nada"/>
   </properties>
  </tile>
+ <tile id="132">
+  <properties>
+   <property name="tipo" value="mainchar"/>
+  </properties>
+ </tile>
  <tile id="168">
   <animation>
    <frame tileid="170" duration="11"/>

@@ -50,7 +50,7 @@ public class FirstScreen extends Pantalla {
 //
 //		//Procesa la capa 2 del mapa, la que tiene los "objetos"
 		super();
-//		atlas=am.get("Graficos.atlas");
+		atlas=am.get("Graficos.atlas");
 		mapa=am.get("mapadev.tmx");
 		renderizador=new OrthogonalTiledMapRenderer(mapa,1.0f/LADO_LOSA);
 		float relacionAspecto= (float)juego.getAncho()/juego.getAlto();
