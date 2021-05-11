@@ -1,9 +1,7 @@
 package com.dungeonsa.Pantallas;
 
 
-import Entorno.Muro;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
+import com.dungeonsa.Entorno.Muro;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;

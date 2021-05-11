@@ -1,4 +1,4 @@
-package Entorno;
+package com.dungeonsa.Entorno;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
