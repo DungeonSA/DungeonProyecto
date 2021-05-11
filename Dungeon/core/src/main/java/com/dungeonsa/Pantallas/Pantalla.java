@@ -4,18 +4,24 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.dungeonsa.Juego;
 
 public abstract class Pantalla implements Screen {
     protected Juego juego;
     protected SpriteBatch sb;
     protected AssetManager am;
+    protected FitViewport vista;
+    protected OrthographicCamera camara;
 
     public Pantalla() {
         this.juego=(Juego)Gdx.app.getApplicationListener();
         this.sb= juego.getSb();
         this.am=juego.getAm();
+        this.vista=juego.getVista();
+        this.camara=juego.getCamara();
     }
 
     @Override
@@ -32,4 +38,9 @@ public abstract class Pantalla implements Screen {
     public abstract void actualizar(float delta);
 
     public abstract void dibujar(float delta);
+
+    @Override
+    public void dispose() {
+
+    }
 }
