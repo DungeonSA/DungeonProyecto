@@ -25,6 +25,8 @@ public class PantallaMenuPrincipal extends Pantalla{
 			juego.cambiarPantalla(this,new Pantalladev());
 		}else if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)){
 			juego.cambiarPantalla(this,new PantallaRome());
+		}else if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)){
+		juego.cambiarPantalla(this,new PantallaBasilio());
 		}
 	}
 	@Override
