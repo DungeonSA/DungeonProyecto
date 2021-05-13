@@ -29,11 +29,11 @@ public class Pantalladev extends Pantalla {
     private TiledMap mapa;
     private OrthogonalTiledMapRenderer renderizador;
 
-    public static final Vector2 PASO_ARRIBA=new Vector2(0,.1f);
-    public static final Vector2 PASO_ABAJO=new Vector2(0,-.1f);
-    public static final Vector2 PASO_DERECHA=new Vector2(.1f,0);
-    public static final Vector2 PASO_IZQUIERDA=new Vector2(-.1f,0);
-    public static float VEL_MAX=2.0f;
+    public static final Vector2 PASO_ARRIBA=new Vector2(0,5.0f);
+    public static final Vector2 PASO_ABAJO=new Vector2(0,-5.0f);
+    public static final Vector2 PASO_DERECHA=new Vector2(5.0f,0);
+    public static final Vector2 PASO_IZQUIERDA=new Vector2(-5.0f,0);
+    public static float VEL_MAX=5.0f;
     private Jugador jugador=null;
     private Body cuerpoJugador=null;
     private Vector2 posicionJugador=null;
@@ -108,22 +108,35 @@ public class Pantalladev extends Pantalla {
     @Override
     public void leerEntrada(float delta) {
         posicionJugador=cuerpoJugador.getPosition();
-        if(!Gdx.input.isKeyPressed(Input.Keys.A) &&
-                !Gdx.input.isKeyPressed(Input.Keys.W) &&
-                !Gdx.input.isKeyPressed(Input.Keys.S) &&
-                !Gdx.input.isKeyPressed(Input.Keys.D)){
-            cuerpoJugador.setLinearVelocity(0f,0f);
-        }
+//        if(!Gdx.input.isKeyPressed(Input.Keys.A) &&
+//                !Gdx.input.isKeyPressed(Input.Keys.W) &&
+//                !Gdx.input.isKeyPressed(Input.Keys.S) &&
+//                !Gdx.input.isKeyPressed(Input.Keys.D)){
+//            cuerpoJugador.setLinearVelocity(0f,0f);
+//        }
+
+
+
+
+
+
+
+
+
+
         if(Gdx.input.isKeyPressed(Input.Keys.A) &&
-                cuerpoJugador.getLinearVelocity().x<VEL_MAX){
+                cuerpoJugador.getLinearVelocity().x>-VEL_MAX){
             cuerpoJugador.applyLinearImpulse(PASO_IZQUIERDA,posicionJugador,true);
-        }if(Gdx.input.isKeyPressed(Input.Keys.W) &&
-                cuerpoJugador.getLinearVelocity().x<VEL_MAX){
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.W) &&
+                cuerpoJugador.getLinearVelocity().y<VEL_MAX){
             cuerpoJugador.applyLinearImpulse(PASO_ARRIBA,posicionJugador,true);
-        }if(Gdx.input.isKeyPressed(Input.Keys.S) &&
-                cuerpoJugador.getLinearVelocity().x<VEL_MAX){
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.S) &&
+                cuerpoJugador.getLinearVelocity().y>-VEL_MAX){
             cuerpoJugador.applyLinearImpulse(PASO_ABAJO,posicionJugador,true);
-        }if(Gdx.input.isKeyPressed(Input.Keys.D) &&
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.D) &&
                 cuerpoJugador.getLinearVelocity().x<VEL_MAX){
             cuerpoJugador.applyLinearImpulse(PASO_DERECHA,posicionJugador,true);
         }
