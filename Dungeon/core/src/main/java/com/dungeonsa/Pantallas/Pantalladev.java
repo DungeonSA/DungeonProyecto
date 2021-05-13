@@ -64,7 +64,7 @@ public class Pantalladev extends Pantalla {
                             cuerpoJugador=jugador.getCuerpo();
                             break;
                         case MURO:
-                            new Muro(mundo,atlas,x,y);
+//                            new Muro(mundo,atlas,x,y);
                             break;
                     }
                 }
