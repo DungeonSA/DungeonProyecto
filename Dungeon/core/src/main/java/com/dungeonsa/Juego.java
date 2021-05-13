@@ -3,15 +3,10 @@ package com.dungeonsa;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.dungeonsa.Pantallas.FirstScreen;
+import com.dungeonsa.Pantallas.PantallaMenuPrincipal;
 import com.dungeonsa.Pantallas.Pantalla;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
@@ -36,7 +31,7 @@ public class Juego extends Game {
 		vista=new FitViewport(ancho,alto,camara);
 		sb=new SpriteBatch();
 		am=new AssetManager();
-		cambiarPantalla(null, new FirstScreen());
+		cambiarPantalla(null, new PantallaMenuPrincipal());
 	}
 
 	@Override

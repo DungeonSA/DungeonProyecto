@@ -4,10 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 
-public class FirstScreen extends Pantalla{
+public class PantallaMenuPrincipal extends Pantalla{
 	private Texture fondo;
 
-	public FirstScreen() {
+	public PantallaMenuPrincipal() {
 		super();
 		am.load("Menu.png",Texture.class);
 		am.finishLoading();
