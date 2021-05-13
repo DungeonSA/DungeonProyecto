@@ -4,13 +4,15 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.*;
+import com.dungeonsa.Pantallas.Pantalla;
+import com.dungeonsa.Pantallas.PantallaRome;
 
 public class Muro extends Sprite {
     protected Body cuerpo;
     protected TextureRegion aspecto;
 
-    public Muro(World mundo, TextureAtlas atlas, int x, int y) {
-        super(atlas.findRegion("nada"));
+    public Muro(World mundo, TextureAtlas.AtlasRegion region, int x, int y) {
+        super(region);
 
         //Cuerpo físico
         BodyDef defCuerpo=new BodyDef();
@@ -24,5 +26,12 @@ public class Muro extends Sprite {
         forma.setAsBox(.5f,.5f);
         defComponente.shape=forma;
         cuerpo.createFixture(defComponente);
+
+        //darle aspecto
+        aspecto=new TextureRegion(getTexture(),getRegionX(),getRegionY(),
+                PantallaRome.LADO_LOSA,PantallaRome.LADO_LOSA);
+        setRegion(aspecto);
+        setBounds(0,0,1,1);
+        setPosition(cuerpo.getPosition().x-.5f,cuerpo.getPosition().y-.5f);
     }
 }

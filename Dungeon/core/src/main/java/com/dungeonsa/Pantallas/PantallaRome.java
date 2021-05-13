@@ -2,6 +2,7 @@ package com.dungeonsa.Pantallas;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.math.MathUtils;
 import com.dungeonsa.Entorno.Muro;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapProperties;
@@ -11,16 +12,23 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.dungeonsa.Entorno.Muro1;
 import com.dungeonsa.Personajes.Jugador;
 import com.badlogic.gdx.physics.box2d.World;
 
+import java.util.ArrayList;
+
 public class PantallaRome extends Pantalla {
-    	public static final String TIPO="tipo";
+	public static final String TIPO="tipo";
 	public static final String JUGADOR="mainchar";
 	public static final String MURO="nada";
 	public static final int LADO_LOSA=16;
 	private TiledMap mapa;
+	private TiledMapTileLayer capa;
+	float relacionAspecto;
 	private OrthogonalTiledMapRenderer renderizador;
+
+	private ArrayList<Muro> listaMuros;
 
 	public static final Vector2 PASO_ARRIBA=new Vector2(0,.1f);
 	public static final Vector2 PASO_ABAJO=new Vector2(0,-.1f);
@@ -42,14 +50,15 @@ public class PantallaRome extends Pantalla {
 		atlas=am.get("Graficos.atlas");
 		mapa=am.get("mapadev.tmx");
 		renderizador=new OrthogonalTiledMapRenderer(mapa,1.0f/LADO_LOSA);
-		float relacionAspecto= (float)juego.getAncho()/juego.getAlto();
+		relacionAspecto= (float)juego.getAncho()/juego.getAlto();
 		camara.setToOrtho(false,10*relacionAspecto,10);
 
 		//Físicas
 		mundo=new World(new Vector2(0,0),true);
 		depurador=new Box2DDebugRenderer();
 		//Procesa la capa 2 del mapa, la que tiene los "objetos"
-		TiledMapTileLayer capa=(TiledMapTileLayer)mapa.getLayers().get(2);
+		listaMuros=new ArrayList<>();
+		capa=(TiledMapTileLayer)mapa.getLayers().get(2);
 		for(int x=0;x<capa.getWidth();x++){
 			for(int y=0;y<capa.getHeight();y++){
 				TiledMapTileLayer.Cell celda=capa.getCell(x,y);
@@ -62,7 +71,7 @@ public class PantallaRome extends Pantalla {
 							cuerpoJugador=jugador.getCuerpo();
 							break;
 						case MURO:
-							new Muro(mundo,atlas,x,y);
+							listaMuros.add(new Muro1(mundo,atlas,x,y));
 							break;
 					}
 				}
@@ -73,34 +82,52 @@ public class PantallaRome extends Pantalla {
     @Override
     public void leerEntrada(float delta) {
 		posicionJugador=cuerpoJugador.getPosition();
-//		if(Gdx.input.isKeyPressed(Input.Keys.A)){
-//			Jugador.moverIzquierda();
-//		}if(Gdx.input.isKeyPressed(Input.Keys.W)){
-//			Jugador.moverArriba();
-//		}if(Gdx.input.isKeyPressed(Input.Keys.S)){
-//			Jugador.moverAbajo();
-//		}if(Gdx.input.isKeyPressed(Input.Keys.D)){
-//			Jugador.moverDerecha();
-//		}
+		if(!Gdx.input.isKeyPressed(Input.Keys.A) &&
+				!Gdx.input.isKeyPressed(Input.Keys.W) &&
+				!Gdx.input.isKeyPressed(Input.Keys.S) &&
+				!Gdx.input.isKeyPressed(Input.Keys.D)){
+			cuerpoJugador.setLinearVelocity(0f,0f);
+		}
+		if(Gdx.input.isKeyPressed(Input.Keys.A) &&
+				cuerpoJugador.getLinearVelocity().x<VEL_MAX){
+			cuerpoJugador.applyLinearImpulse(PASO_IZQUIERDA,posicionJugador,true);
+		}if(Gdx.input.isKeyPressed(Input.Keys.W) &&
+				cuerpoJugador.getLinearVelocity().x<VEL_MAX){
+			cuerpoJugador.applyLinearImpulse(PASO_ARRIBA,posicionJugador,true);
+		}if(Gdx.input.isKeyPressed(Input.Keys.S) &&
+				cuerpoJugador.getLinearVelocity().x<VEL_MAX){
+			cuerpoJugador.applyLinearImpulse(PASO_ABAJO,posicionJugador,true);
+		}if(Gdx.input.isKeyPressed(Input.Keys.D) &&
+				cuerpoJugador.getLinearVelocity().x<VEL_MAX){
+			cuerpoJugador.applyLinearImpulse(PASO_DERECHA,posicionJugador,true);
+		}
 }
 
     @Override
     public void actualizar(float delta) {
         renderizador.setView(camara);
+
+        jugador.actualizar(delta);
+
+        //La camara sigue al jugador
+		camara.position.x=MathUtils.clamp(cuerpoJugador.getPosition().x,5*relacionAspecto,capa.getWidth()-5*relacionAspecto);
+		camara.position.y=MathUtils.clamp(cuerpoJugador.getPosition().y,5,capa.getHeight()-5);
         camara.update();
     }
 
     @Override
     public void dibujar(float delta) {
+    	//render basico para capas de fondo
         int[] capas={0,1};
         renderizador.render(capas);
 
         sb.setProjectionMatrix(camara.combined);
         sb.begin();
-
+		for(Muro b:listaMuros) b.draw(sb);
+		jugador.draw(sb);
         sb.end();
 
-        depurador.render(mundo, camara.combined);
+        depurador.render(mundo, camara.combined); //dibuja las lineas del debuger
         mundo.step(.02f,6,2);
     }
 

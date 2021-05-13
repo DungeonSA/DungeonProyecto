@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.*;
+import com.dungeonsa.Pantallas.PantallaRome;
 
 public class Jugador extends Sprite {
     protected Body cuerpo;
@@ -25,9 +26,18 @@ public class Jugador extends Sprite {
         defComponente.shape= forma;
         defComponente.friction=0;
         cuerpo.createFixture(defComponente);
+
+        aspecto=new TextureRegion(getTexture(),getRegionX(),getRegionY(),
+                PantallaRome.LADO_LOSA,PantallaRome.LADO_LOSA);
+        setRegion(aspecto);
+        setBounds(0,0,1,1);
     }
 
     public Body getCuerpo() {
         return cuerpo;
+    }
+
+    public void actualizar(float delta){
+        setPosition(cuerpo.getPosition().x-.5f,cuerpo.getPosition().y-.5f);
     }
 }
