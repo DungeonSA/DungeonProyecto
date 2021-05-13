@@ -67,11 +67,11 @@ public class PantallaBasilio extends Pantalla {
                 if(propiedades.containsKey(TIPO)){
                     switch((String)propiedades.get(TIPO)){
                         case JUGADOR:
-                            jugador=new Jugador(mundo,atlas,x,y);
+                            jugador=new Jugador(mundo,x,y);
                             cuerpoJugador=jugador.getCuerpo();
                             break;
                         case MURO:
-                            listaMuros.add(new Muro1(mundo,atlas,x,y));
+                            listaMuros.add(new Muro1(mundo,x,y));
                             break;
                     }
                 }

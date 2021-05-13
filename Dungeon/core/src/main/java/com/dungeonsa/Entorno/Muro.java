@@ -11,8 +11,8 @@ public class Muro extends Sprite {
     protected Body cuerpo;
     protected TextureRegion aspecto;
 
-    public Muro(World mundo, TextureAtlas.AtlasRegion region, int x, int y) {
-        super(region);
+    public Muro(World mundo, int x, int y) {
+        super();
 
         //Cuerpo físico
         BodyDef defCuerpo=new BodyDef();
@@ -28,9 +28,9 @@ public class Muro extends Sprite {
         cuerpo.createFixture(defComponente);
 
         //darle aspecto
-        aspecto=new TextureRegion(getTexture(),getRegionX(),getRegionY(),
-                PantallaRome.LADO_LOSA,PantallaRome.LADO_LOSA);
-        setRegion(aspecto);
+//        aspecto=new TextureRegion(getTexture(),getRegionX(),getRegionY(),
+//                PantallaRome.LADO_LOSA,PantallaRome.LADO_LOSA);
+//        setRegion(aspecto);
         setBounds(0,0,1,1);
         setPosition(cuerpo.getPosition().x-.5f,cuerpo.getPosition().y-.5f);
     }

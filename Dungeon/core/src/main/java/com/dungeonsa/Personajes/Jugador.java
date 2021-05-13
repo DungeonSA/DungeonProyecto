@@ -10,8 +10,8 @@ public class Jugador extends Sprite {
     protected Body cuerpo;
     protected TextureRegion aspecto;
 
-    public Jugador(World mundo, TextureAtlas atlas, int x, int y){
-        super(atlas.findRegion("mainchar"));
+    public Jugador(World mundo, int x, int y){
+        super();
 
         //Cuerpo físico
         BodyDef defCuerpo=new BodyDef();
@@ -27,9 +27,9 @@ public class Jugador extends Sprite {
         defComponente.friction=0;
         cuerpo.createFixture(defComponente);
 
-        aspecto=new TextureRegion(getTexture(),getRegionX(),getRegionY(),
-                PantallaRome.LADO_LOSA,PantallaRome.LADO_LOSA);
-        setRegion(aspecto);
+//        aspecto=new TextureRegion(getTexture(),getRegionX(),getRegionY(),
+//                PantallaRome.LADO_LOSA,PantallaRome.LADO_LOSA);
+//        setRegion(aspecto);
         setBounds(0,0,1,1);
     }
 
