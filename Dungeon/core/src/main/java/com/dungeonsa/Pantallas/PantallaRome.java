@@ -33,14 +33,18 @@ public class PantallaRome extends Pantalla {
 
 	private ArrayList<Muro> listaMuros;
 
-	public static final Vector2 PASO_ARRIBA=new Vector2(0,.5f);
-	public static final Vector2 PASO_ABAJO=new Vector2(0,-.5f);
-	public static final Vector2 PASO_DERECHA=new Vector2(.5f,0);
-	public static final Vector2 PASO_IZQUIERDA=new Vector2(-.5f,0);
-	public static float VEL_MAX=5.0f;
+	public static final Vector2 PASO_ARRIBA=new Vector2(0,1f);
+	public static final Vector2 PASO_ABAJO=new Vector2(0,-1f);
+	public static final Vector2 PASO_DERECHA=new Vector2(1f,0);
+	public static final Vector2 PASO_IZQUIERDA=new Vector2(-1f,0);
+	public static float VEL_MAX=3.0f;
+
 	private Jugador jugador=null;
 	private Body cuerpoJugador=null;
 	private Vector2 posicionJugador=null;
+
+	private Vector2 inputVector;
+	private Vector2 velocidad;
 
 	TextureAtlas atlas;
 //    Fisicas
@@ -74,10 +78,6 @@ public class PantallaRome extends Pantalla {
 				MapProperties propiedades=celda.getTile().getProperties();
 				if(propiedades.containsKey(TIPO)){
 					switch((String)propiedades.get(TIPO)){
-//						case JUGADOR:
-//							jugador=new Jugador(mundo,x,y);
-//							cuerpoJugador=jugador.getCuerpo();
-//							break;
 						case MURO:
 							listaMuros.add(new Muro1(mundo,x,y));
 							break;
@@ -106,11 +106,18 @@ public class PantallaRome extends Pantalla {
     @Override
     public void leerEntrada(float delta) {
 		posicionJugador=cuerpoJugador.getPosition();
-		if(!Gdx.input.isKeyPressed(Input.Keys.A) &&
-				!Gdx.input.isKeyPressed(Input.Keys.W) &&
-				!Gdx.input.isKeyPressed(Input.Keys.S) &&
-				!Gdx.input.isKeyPressed(Input.Keys.D)){
-			cuerpoJugador.setLinearVelocity(0f,0f);
+
+		if(!Gdx.input.isKeyPressed(Input.Keys.A)  && cuerpoJugador.getLinearVelocity().x < 0){
+			cuerpoJugador.setLinearVelocity(0f,cuerpoJugador.getLinearVelocity().y);
+		}
+		if(!Gdx.input.isKeyPressed(Input.Keys.D)  && cuerpoJugador.getLinearVelocity().x > 0){
+			cuerpoJugador.setLinearVelocity(0f,cuerpoJugador.getLinearVelocity().y);
+		}
+		if(!Gdx.input.isKeyPressed(Input.Keys.W)  && cuerpoJugador.getLinearVelocity().y > 0){
+			cuerpoJugador.setLinearVelocity(cuerpoJugador.getLinearVelocity().x,0f);
+		}
+		if(!Gdx.input.isKeyPressed(Input.Keys.S)  && cuerpoJugador.getLinearVelocity().y < 0){
+			cuerpoJugador.setLinearVelocity(cuerpoJugador.getLinearVelocity().x,0f);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.A) &&
 				cuerpoJugador.getLinearVelocity().x>-VEL_MAX){
@@ -122,10 +129,10 @@ public class PantallaRome extends Pantalla {
 				cuerpoJugador.getLinearVelocity().y>-VEL_MAX){
 			cuerpoJugador.applyLinearImpulse(PASO_ABAJO,posicionJugador,true);
 		}if(Gdx.input.isKeyPressed(Input.Keys.D) &&
-				cuerpoJugador.getLinearVelocity().x<VEL_MAX){
-			cuerpoJugador.applyLinearImpulse(PASO_DERECHA,posicionJugador,true);
+				cuerpoJugador.getLinearVelocity().x<VEL_MAX) {
+			cuerpoJugador.applyLinearImpulse(PASO_DERECHA, posicionJugador, true);
 		}
-}
+    }
 
     @Override
     public void actualizar(float delta) {
