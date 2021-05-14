@@ -10,6 +10,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -27,6 +28,7 @@ public class Pantalladev extends Pantalla {
     //    public static final String BLANDO="blando";
     public static final int LADO_LOSA=16;
     private TiledMap mapa;
+    private float relacionAspecto;
     private OrthogonalTiledMapRenderer renderizador;
 
     public static final Vector2 PASO_ARRIBA=new Vector2(0,5.0f);
@@ -38,7 +40,7 @@ public class Pantalladev extends Pantalla {
     private Body cuerpoJugador=null;
     private Vector2 posicionJugador=null;
 
-    TextureAtlas atlas;
+
     //Físicas
     private World mundo;
     private Box2DDebugRenderer depurador;
@@ -54,8 +56,8 @@ public class Pantalladev extends Pantalla {
 //        atlas=am.get("Graficos.atlas");
         mapa=am.get("pruevasolo.tmx");
         renderizador=new OrthogonalTiledMapRenderer(mapa,1.0f/LADO_LOSA);
-        float relacionAspecto= (float)juego.getAncho()/juego.getAlto();
-        camara.setToOrtho(false,30*relacionAspecto,30);
+        relacionAspecto= (float)juego.getAncho()/juego.getAlto();
+        camara.setToOrtho(false,10*relacionAspecto,10);
 
 
         //Físicas
@@ -91,7 +93,7 @@ public class Pantalladev extends Pantalla {
 
 
                         case JUGADOR:
-                            jugador=new Jugador(mundo,x,y);
+                            jugador=new Jugador(mundo,x,y,celda.getTile().getTextureRegion());
                             cuerpoJugador=jugador.getCuerpo();
 
                             break;
@@ -108,12 +110,18 @@ public class Pantalladev extends Pantalla {
     @Override
     public void leerEntrada(float delta) {
         posicionJugador=cuerpoJugador.getPosition();
-//        if(!Gdx.input.isKeyPressed(Input.Keys.A) &&
-//                !Gdx.input.isKeyPressed(Input.Keys.W) &&
-//                !Gdx.input.isKeyPressed(Input.Keys.S) &&
-//                !Gdx.input.isKeyPressed(Input.Keys.D)){
-//            cuerpoJugador.setLinearVelocity(0f,0f);
-//        }
+        if(!Gdx.input.isKeyPressed(Input.Keys.A)  && cuerpoJugador.getLinearVelocity().x < 0){
+            cuerpoJugador.setLinearVelocity(0f,cuerpoJugador.getLinearVelocity().y);
+        }
+        if(!Gdx.input.isKeyPressed(Input.Keys.D)  && cuerpoJugador.getLinearVelocity().x > 0){
+            cuerpoJugador.setLinearVelocity(0f,cuerpoJugador.getLinearVelocity().y);
+        }
+        if(!Gdx.input.isKeyPressed(Input.Keys.W)  && cuerpoJugador.getLinearVelocity().y > 0){
+            cuerpoJugador.setLinearVelocity(cuerpoJugador.getLinearVelocity().x,0f);
+        }
+        if(!Gdx.input.isKeyPressed(Input.Keys.S)  && cuerpoJugador.getLinearVelocity().y < 0){
+            cuerpoJugador.setLinearVelocity(cuerpoJugador.getLinearVelocity().x,0f);
+        }
 
 
 
@@ -147,18 +155,20 @@ public class Pantalladev extends Pantalla {
     public void actualizar(float delta) {
         renderizador.setView(camara);
         jugador.actualizar(delta);
+        camara.position.x= MathUtils.clamp(cuerpoJugador.getPosition().x,5*relacionAspecto,capa.getWidth()-5*relacionAspecto);
+        camara.position.y=MathUtils.clamp(cuerpoJugador.getPosition().y,5,capa.getHeight()-5);
         camara.update();
 
     }
 
     @Override
     public void dibujar(float delta) {
-        int[] capas={0,1};
+        int[] capas={0};
         renderizador.render(capas);
 
         sb.setProjectionMatrix(camara.combined);
         sb.begin();
-
+        jugador.draw(sb);
         sb.end();
 
         depurador.render(mundo, camara.combined);

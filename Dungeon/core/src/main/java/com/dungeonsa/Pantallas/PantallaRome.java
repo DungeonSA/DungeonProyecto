@@ -94,7 +94,7 @@ public class PantallaRome extends Pantalla {
 				if (propiedades.containsKey(TIPO)) {
 					switch ((String) propiedades.get(TIPO)) {
 						case JUGADOR:
-							jugador = new Jugador(mundo, x, y);
+							jugador = new Jugador(mundo, x, y, celda.getTile().getTextureRegion());
 							cuerpoJugador = jugador.getCuerpo();
 							break;
 					}
