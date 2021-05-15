@@ -15,13 +15,17 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.dungeonsa.Entorno.Cofre;
 import com.dungeonsa.Entorno.Muro1;
 import com.dungeonsa.Pantallas.Pantalla;
 import com.dungeonsa.Personajes.Jugador;
 
+import java.util.ArrayList;
+
 
 public class Pantalladev extends Pantalla {
     TiledMapTileLayer capa;
+    public static ArrayList<Cofre> cofres = new ArrayList<Cofre>();
     public static final String TIPO="tipo";
     public static final String JUGADOR="jugador";
     public static final String DURO="nada";
@@ -82,7 +86,7 @@ public class Pantalladev extends Pantalla {
                 }
             }
         }
-        capa=(TiledMapTileLayer)mapa.getLayers().get(1);
+        capa=(TiledMapTileLayer)mapa.getLayers().get(2);
         for(int x=0;x<capa.getWidth();x++){
             for(int y=0;y<capa.getHeight();y++){
                 TiledMapTileLayer.Cell celda=capa.getCell(x,y);
@@ -93,9 +97,29 @@ public class Pantalladev extends Pantalla {
 
 
                         case JUGADOR:
+
                             jugador=new Jugador(mundo,x,y,celda.getTile().getTextureRegion());
                             cuerpoJugador=jugador.getCuerpo();
 
+                            break;
+
+                    }
+                }
+            }
+        }
+        capa=(TiledMapTileLayer)mapa.getLayers().get(3);
+        for(int x=0;x<capa.getWidth();x++){
+            for(int y=0;y<capa.getHeight();y++){
+                TiledMapTileLayer.Cell celda=capa.getCell(x,y);
+                if(celda==null) continue;
+                MapProperties propiedades=celda.getTile().getProperties();
+                if(propiedades.containsKey(TIPO)){
+                    switch((String)propiedades.get(TIPO)){
+
+
+                        case "cofre":
+                            Cofre c=new Cofre(mundo,x,y,celda.getTile().getTextureRegion());
+                            cofres.add(c);
                             break;
 
                     }
@@ -155,6 +179,9 @@ public class Pantalladev extends Pantalla {
     public void actualizar(float delta) {
         renderizador.setView(camara);
         jugador.actualizar(delta);
+        for (Cofre i : cofres) {
+            i.actualizar(delta);
+        }
         camara.position.x= MathUtils.clamp(cuerpoJugador.getPosition().x,5*relacionAspecto,capa.getWidth()-5*relacionAspecto);
         camara.position.y=MathUtils.clamp(cuerpoJugador.getPosition().y,5,capa.getHeight()-5);
         camara.update();
@@ -163,16 +190,20 @@ public class Pantalladev extends Pantalla {
 
     @Override
     public void dibujar(float delta) {
-        int[] capas={0};
+        int[] capas={0,1,4};
         renderizador.render(capas);
+
 
         sb.setProjectionMatrix(camara.combined);
         sb.begin();
+        for (Cofre i : cofres) {
+            i.draw(sb);
+        }
         jugador.draw(sb);
-        sb.end();
 
+        sb.end();
         depurador.render(mundo, camara.combined);
-        mundo.step(.02f,6,2);
+        mundo.step(.02f,5,5);
     }
 
     @Override

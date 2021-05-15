@@ -20,11 +20,17 @@ public class Jugador extends Sprite {
         cuerpo=mundo.createBody(defCuerpo);
         //Componentes dentro del cuerpo
         FixtureDef defComponente= new FixtureDef();
+        FixtureDef componenteinteraccion=new FixtureDef();
         CircleShape forma=new CircleShape();
         forma.setRadius(0.5f);
         defComponente.shape= forma;
         defComponente.friction=0;
         cuerpo.createFixture(defComponente);
+        forma.setRadius(1);
+        componenteinteraccion.isSensor=true;
+        componenteinteraccion.shape=forma;
+        cuerpo.createFixture(componenteinteraccion);
+
 
         aspecto=new TextureRegion(textureRegion,0,0,
                 PantallaRome.LADO_LOSA,PantallaRome.LADO_LOSA);

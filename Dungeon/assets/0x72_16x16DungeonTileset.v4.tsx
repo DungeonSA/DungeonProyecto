@@ -11,4 +11,9 @@
    <property name="tipo" value="jugador"/>
   </properties>
  </tile>
+ <tile id="191">
+  <properties>
+   <property name="tipo" value="cofre"/>
+  </properties>
+ </tile>
 </tileset>
