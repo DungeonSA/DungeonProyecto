@@ -46,4 +46,6 @@ public class Jugador extends Sprite {
         setRegion(aspecto);
         setPosition(cuerpo.getPosition().x-.5f,cuerpo.getPosition().y-.5f);
     }
+
+
 }

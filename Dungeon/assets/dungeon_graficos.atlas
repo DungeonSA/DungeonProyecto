@@ -1,0 +1,20 @@
+
+dungeon_graficos.png
+size: 256, 256
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+Dungeon_Character
+  rotate: false
+  xy: 2, 2
+  size: 112, 32
+  orig: 112, 32
+  offset: 0, 0
+  index: 2
+Dungeon_Tileset
+  rotate: false
+  xy: 2, 36
+  size: 160, 160
+  orig: 160, 160
+  offset: 0, 0
+  index: -1

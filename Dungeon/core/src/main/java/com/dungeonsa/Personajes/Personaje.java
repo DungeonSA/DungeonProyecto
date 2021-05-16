@@ -1,31 +1,51 @@
 package com.dungeonsa.Personajes;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.physics.box2d.*;
+import com.dungeonsa.Pantallas.PantallaRome;
 
-public class Personaje {
-    protected static Vector2 posicion;
-    protected static Texture h;
-    protected String nombre;
-    protected int vidaMax, vidaActual;
+public class Personaje extends Sprite {
+    protected Body cuerpo;
+    protected TextureRegion aspecto;
 
-    public Personaje(float x, float y) {
-        posicion = new Vector2(x,y);
+    public Personaje(World mundo, int x, int y, TextureRegion textureRegion){
+        super();
+
+        //Cuerpo físico
+        BodyDef defCuerpo=new BodyDef();
+        defCuerpo.type= BodyDef.BodyType.DynamicBody;
+        defCuerpo.position.x=x+0.5f;
+        defCuerpo.position.y=y+0.5f;
+        cuerpo=mundo.createBody(defCuerpo);
+
+        //Componentes dentro del cuerpo
+        FixtureDef defComponente= new FixtureDef();
+        FixtureDef componenteinteraccion=new FixtureDef();
+        CircleShape forma=new CircleShape();
+        forma.setRadius(0.5f);
+        defComponente.shape= forma;
+        defComponente.friction=0;
+        cuerpo.createFixture(defComponente);
+        forma.setRadius(1);
+        componenteinteraccion.isSensor=true;
+        componenteinteraccion.shape=forma;
+        cuerpo.createFixture(componenteinteraccion);
+
+
+        aspecto=new TextureRegion(textureRegion,1,1,
+                PantallaRome.LADO_LOSA, PantallaRome.LADO_LOSA);
+        setRegion(aspecto);
+        setBounds(0,0,1,1);
     }
 
-    public static void moverDerecha() {
-        posicion.add(10,0);
+    public Body getCuerpo() {
+        return cuerpo;
     }
 
-    public static void moverArriba() {
-        posicion.add(0,10);
-    }
-
-    public static void moverAbajo() {
-        posicion.add(0,-10);
-    }
-
-    public static void moverIzquierda() {
-        posicion.add(-10,0);
+    public void actualizar(float delta) {
+        setRegion(aspecto);
+        setPosition(cuerpo.getPosition().x-.5f,cuerpo.getPosition().y-.5f);
     }
 }

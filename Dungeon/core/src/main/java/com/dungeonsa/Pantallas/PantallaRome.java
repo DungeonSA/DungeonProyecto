@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.MathUtils;
 import com.dungeonsa.Entorno.Muro;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -18,13 +17,16 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.dungeonsa.Entorno.Muro1;
 import com.dungeonsa.Personajes.Jugador;
 import com.badlogic.gdx.physics.box2d.World;
+import com.dungeonsa.Personajes.Personaje;
 
 import java.util.ArrayList;
 
 public class PantallaRome extends Pantalla {
 	public static final String TIPO="tipo";
 	public static final String JUGADOR="jugador";
-	public static final String MURO="nada";
+	public static final String MURO="muro";
+	public static final String ENEMIGO="enemigo";
+	public static final String LLAVE_PLATA="llavePlata";
 	public static final int LADO_LOSA=16;
 	private TiledMap mapa;
 	private TiledMapTileLayer capa;
@@ -39,14 +41,10 @@ public class PantallaRome extends Pantalla {
 	public static final Vector2 PASO_IZQUIERDA=new Vector2(-1f,0);
 	public static float VEL_MAX=3.0f;
 
-	private Jugador jugador=null;
+	private Personaje jugador=null;
 	private Body cuerpoJugador=null;
 	private Vector2 posicionJugador=null;
 
-	private Vector2 inputVector;
-	private Vector2 velocidad;
-
-	TextureAtlas atlas;
 //    Fisicas
 	private World mundo;
 	private Box2DDebugRenderer depurador;
@@ -54,12 +52,13 @@ public class PantallaRome extends Pantalla {
 
     public PantallaRome() {
 		super();
-		am.load("0x72_16x16DungeonTileset.v4.png", Texture.class);
+		am.load("Dungeon_character_2.png", Texture.class);
+		am.load("Dungeon_Tileset.png", Texture.class);
 		am.setLoader(TiledMap.class,
 				new TmxMapLoader(new InternalFileHandleResolver()));
-		am.load("pruevasolo.tmx", TiledMap.class);
+		am.load("pruevaRome.tmx", TiledMap.class);
 		am.finishLoading();
-		mapa=am.get("pruevasolo.tmx");
+		mapa=am.get("pruevaRome.tmx");
 
 		renderizador=new OrthogonalTiledMapRenderer(mapa,1.0f/LADO_LOSA);
 		relacionAspecto= (float)juego.getAncho()/juego.getAlto();
@@ -68,9 +67,9 @@ public class PantallaRome extends Pantalla {
 		//Físicas
 		mundo=new World(new Vector2(0,0),true);
 		depurador=new Box2DDebugRenderer();
-		//Procesa la capa 2 del mapa, la que tiene los "objetos"
+		//-----------------------LEE MURO DE MAPA-------------------------//
 		listaMuros=new ArrayList<>();
-		capa=(TiledMapTileLayer)mapa.getLayers().get(0);
+		capa=(TiledMapTileLayer)mapa.getLayers().get(1);
 		for(int x=0;x<capa.getWidth();x++){
 			for(int y=0;y<capa.getHeight();y++){
 				TiledMapTileLayer.Cell celda=capa.getCell(x,y);
@@ -85,7 +84,8 @@ public class PantallaRome extends Pantalla {
 				}
 			}
 		}
-		capa=(TiledMapTileLayer)mapa.getLayers().get(1);
+		//-----------------------LEE LOGICA DE MAPA-------------------------//
+		capa=(TiledMapTileLayer)mapa.getLayers().get(2);
 		for(int x=0;x<capa.getWidth();x++) {
 			for (int y = 0; y < capa.getHeight(); y++) {
 				TiledMapTileLayer.Cell celda = capa.getCell(x, y);
@@ -94,7 +94,7 @@ public class PantallaRome extends Pantalla {
 				if (propiedades.containsKey(TIPO)) {
 					switch ((String) propiedades.get(TIPO)) {
 						case JUGADOR:
-							jugador = new Jugador(mundo, x, y, celda.getTile().getTextureRegion());
+							jugador = new Personaje(mundo, x, y, celda.getTile().getTextureRegion());
 							cuerpoJugador = jugador.getCuerpo();
 							break;
 					}
@@ -149,7 +149,7 @@ public class PantallaRome extends Pantalla {
     @Override
     public void dibujar(float delta) {
     	//render basico para capas de fondo
-        int[] capas={0,1};
+        int[] capas={0,1,2};
         renderizador.render(capas);
 
         sb.setProjectionMatrix(camara.combined);
