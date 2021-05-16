@@ -34,7 +34,7 @@ public class Personaje extends Sprite {
         cuerpo.createFixture(componenteinteraccion);
 
 
-        aspecto=new TextureRegion(textureRegion,1,1,
+        aspecto=new TextureRegion(textureRegion,0,0,
                 PantallaRome.LADO_LOSA, PantallaRome.LADO_LOSA);
         setRegion(aspecto);
         setBounds(0,0,1,1);

@@ -149,13 +149,12 @@ public class PantallaRome extends Pantalla {
     @Override
     public void dibujar(float delta) {
     	//render basico para capas de fondo
-        int[] capas={0,1,2};
+        int[] capas={0,1};
         renderizador.render(capas);
 
         sb.setProjectionMatrix(camara.combined);
         sb.begin();
-//		for(Muro b:listaMuros) b.draw(sb);
-//		jugador.draw(sb);
+		jugador.draw(sb);
         sb.end();
 
         depurador.render(mundo, camara.combined); //dibuja las lineas del debuger

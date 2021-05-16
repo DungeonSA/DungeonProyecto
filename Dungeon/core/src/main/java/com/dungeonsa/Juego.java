@@ -11,8 +11,8 @@ import com.dungeonsa.Pantallas.Pantalla;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Juego extends Game {
-	public static final int ANCHO=450;
-	public static final int ALTO=800;
+	public static final int ANCHO=1280;
+	public static final int ALTO=720;
 	public static final String TITULO="Dungeon";
 	public static final String ICONO="icono.png";
 	private int ancho,alto;
