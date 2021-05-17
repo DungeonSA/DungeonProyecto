@@ -15,6 +15,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.dungeonsa.Entorno.Muro1;
+import com.dungeonsa.Entorno.MuroDungeon;
 import com.dungeonsa.Personajes.Jugador;
 import com.badlogic.gdx.physics.box2d.World;
 import com.dungeonsa.Personajes.Personaje;
@@ -78,7 +79,7 @@ public class PantallaRome extends Pantalla {
 				if(propiedades.containsKey(TIPO)){
 					switch((String)propiedades.get(TIPO)){
 						case MURO:
-							listaMuros.add(new Muro1(mundo,x,y));
+							listaMuros.add(new MuroDungeon(mundo,x,y, celda.getTile().getTextureRegion()));
 							break;
 					}
 				}
@@ -149,11 +150,12 @@ public class PantallaRome extends Pantalla {
     @Override
     public void dibujar(float delta) {
     	//render basico para capas de fondo
-        int[] capas={0,1};
+        int[] capas={0};
         renderizador.render(capas);
 
         sb.setProjectionMatrix(camara.combined);
         sb.begin();
+        for(Muro b: listaMuros)b.draw(sb);
 		jugador.draw(sb);
         sb.end();
 

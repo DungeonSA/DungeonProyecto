@@ -7,7 +7,7 @@ import com.dungeonsa.Pantallas.PantallaRome;
 public class Cofre extends Muro{
     protected TextureRegion aspecto;
     public Cofre(World mundo, int x, int y, TextureRegion textureRegion) {
-        super(mundo, x, y);
+        super(mundo, x, y,textureRegion);
         aspecto=new TextureRegion(textureRegion, 0, 0,
                 PantallaRome.LADO_LOSA,PantallaRome.LADO_LOSA);
         setRegion(aspecto);

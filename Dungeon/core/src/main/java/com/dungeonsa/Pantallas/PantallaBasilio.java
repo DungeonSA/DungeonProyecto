@@ -71,7 +71,7 @@ public class PantallaBasilio extends Pantalla {
                             cuerpoJugador=jugador.getCuerpo();
                             break;
                         case MURO:
-                            listaMuros.add(new Muro1(mundo,x,y));
+//                            listaMuros.add(new Muro1(mundo,x,y));
                             break;
                     }
                 }

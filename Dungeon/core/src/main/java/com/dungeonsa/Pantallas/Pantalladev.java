@@ -78,7 +78,7 @@ public class Pantalladev extends Pantalla {
                     switch((String)propiedades.get(TIPO)){
 
                         case DURO:
-                            new Muro1(mundo,x,y);
+                            new Muro1(mundo,x,y,celda.getTile().getTextureRegion());
                             break;
 
 

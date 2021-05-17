@@ -11,7 +11,7 @@ public class Muro extends Sprite {
     protected Body cuerpo;
     protected TextureRegion aspecto;
 
-    public Muro(World mundo, int x, int y) {
+    public Muro(World mundo, int x, int y, TextureRegion textureRegion) {
         super();
 
         //Cuerpo físico
@@ -28,9 +28,9 @@ public class Muro extends Sprite {
         cuerpo.createFixture(defComponente);
 
         //darle aspecto
-//        aspecto=new TextureRegion(getTexture(),getRegionX(),getRegionY(),
-//                PantallaRome.LADO_LOSA,PantallaRome.LADO_LOSA);
-//        setRegion(aspecto);
+        aspecto=new TextureRegion(textureRegion,0,0,
+                PantallaRome.LADO_LOSA,PantallaRome.LADO_LOSA);
+        setRegion(aspecto);
         setBounds(0,0,1,1);
         setPosition(cuerpo.getPosition().x-.5f,cuerpo.getPosition().y-.5f);
     }
