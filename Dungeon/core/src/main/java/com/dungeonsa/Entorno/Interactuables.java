@@ -1,17 +1,16 @@
-package com.dungeonsa.Personajes;
+package com.dungeonsa.Entorno;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.*;
-import com.dungeonsa.Entorno.Interactuables;
 import com.dungeonsa.Pantallas.PantallaRome;
 
-public class Personaje extends Sprite {
+public class Interactuables extends Sprite {
     protected Body cuerpo;
     protected TextureRegion aspecto;
+    protected boolean usable= false;
 
-    public Personaje(World mundo, int x, int y, TextureRegion textureRegion){
+    public Interactuables(World mundo, int x, int y, TextureRegion textureRegion) {
         super();
 
         //Cuerpo físico
@@ -21,38 +20,33 @@ public class Personaje extends Sprite {
         defCuerpo.position.y=y+0.5f;
         cuerpo=mundo.createBody(defCuerpo);
 
-        //Sensor del cuerpo fisico
+        //Componentes dentro del cuerpo
         FixtureDef defComponente= new FixtureDef();
         FixtureDef componenteinteraccion=new FixtureDef();
         CircleShape forma=new CircleShape();
         forma.setRadius(0.5f);
         defComponente.shape= forma;
         defComponente.friction=0;
-        cuerpo.createFixture(defComponente).setUserData("Cuerpo");
+        cuerpo.createFixture(defComponente);
 
-        //Sensor de Interaccion
-        forma.setRadius(1.5f);
-        componenteinteraccion.isSensor=true;
-        componenteinteraccion.shape=forma;
-
-        cuerpo.createFixture(componenteinteraccion).setUserData("area");
-
-
+        //darle aspecto
         aspecto=new TextureRegion(textureRegion,0,0,
-                PantallaRome.LADO_LOSA, PantallaRome.LADO_LOSA);
+                PantallaRome.LADO_LOSA,PantallaRome.LADO_LOSA);
         setRegion(aspecto);
         setBounds(0,0,1,1);
-    }
-
-    public Body getCuerpo() {
-        return cuerpo;
-    }
-
-    public void actualizar(float delta) {
-        setRegion(aspecto);
         setPosition(cuerpo.getPosition().x-.5f,cuerpo.getPosition().y-.5f);
+    }
+
+    public void interactuar(){
 
     }
 
-//    public Interactuables
+    public boolean isUsable() {
+        return usable;
+    }
+
+    public void setUsable(boolean usable) {
+        this.usable = usable;
+    }
 }
+

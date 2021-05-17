@@ -6,18 +6,14 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.MathUtils;
-import com.dungeonsa.Entorno.Muro;
+import com.badlogic.gdx.physics.box2d.*;
+import com.dungeonsa.Entorno.*;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.dungeonsa.Entorno.Muro1;
-import com.dungeonsa.Entorno.MuroDungeon;
 import com.dungeonsa.Personajes.Jugador;
-import com.badlogic.gdx.physics.box2d.World;
 import com.dungeonsa.Personajes.Personaje;
 
 import java.util.ArrayList;
@@ -27,7 +23,7 @@ public class PantallaRome extends Pantalla {
 	public static final String JUGADOR="jugador";
 	public static final String MURO="muro";
 	public static final String ENEMIGO="enemigo";
-	public static final String LLAVE_PLATA="llavePlata";
+	public static final String COFRE="cofre";
 	public static final int LADO_LOSA=16;
 	private TiledMap mapa;
 	private TiledMapTileLayer capa;
@@ -35,6 +31,7 @@ public class PantallaRome extends Pantalla {
 	private OrthogonalTiledMapRenderer renderizador;
 
 	private ArrayList<Muro> listaMuros;
+	private ArrayList<Interactuables> listaCofres;
 
 	public static final Vector2 PASO_ARRIBA=new Vector2(0,1f);
 	public static final Vector2 PASO_ABAJO=new Vector2(0,-1f);
@@ -70,6 +67,8 @@ public class PantallaRome extends Pantalla {
 		depurador=new Box2DDebugRenderer();
 		//-----------------------LEE MURO DE MAPA-------------------------//
 		listaMuros=new ArrayList<>();
+		listaCofres=new ArrayList<>();
+
 		capa=(TiledMapTileLayer)mapa.getLayers().get(1);
 		for(int x=0;x<capa.getWidth();x++){
 			for(int y=0;y<capa.getHeight();y++){
@@ -98,10 +97,47 @@ public class PantallaRome extends Pantalla {
 							jugador = new Personaje(mundo, x, y, celda.getTile().getTextureRegion());
 							cuerpoJugador = jugador.getCuerpo();
 							break;
+						case COFRE:
+							listaCofres.add(new Cofre(mundo,x,y,celda.getTile().getTextureRegion()));
+							break;
+
+
 					}
 				}
 			}
 		}
+		mundo.setContactListener(new ContactListener() {
+			@Override
+			public void beginContact(Contact contact) {
+				Fixture compA= contact.getFixtureA();
+				Fixture compB= contact.getFixtureB();
+				if(!compA.getUserData().equals("area") && !compB.getUserData().equals("area")){
+
+					return;
+				}
+				if(compA.getUserData().equals("area") && (compB.getUserData() instanceof Cofre)){
+					System.out.println("cofre");
+
+				}else if(compB.getUserData().equals("area") && (compA.getUserData() instanceof Cofre)){
+					System.out.println("cofre");
+				}
+			}
+
+			@Override
+			public void endContact(Contact contact) {
+
+			}
+
+			@Override
+			public void preSolve(Contact contact, Manifold oldManifold) {
+
+			}
+
+			@Override
+			public void postSolve(Contact contact, ContactImpulse impulse) {
+
+			}
+		});
     }
 
     @Override
@@ -138,8 +174,8 @@ public class PantallaRome extends Pantalla {
     @Override
     public void actualizar(float delta) {
         renderizador.setView(camara);
-
         jugador.actualizar(delta);
+
 
         //La camara sigue al jugador
 		camara.position.x=MathUtils.clamp(cuerpoJugador.getPosition().x,5*relacionAspecto,capa.getWidth()-5*relacionAspecto);
@@ -156,6 +192,7 @@ public class PantallaRome extends Pantalla {
         sb.setProjectionMatrix(camara.combined);
         sb.begin();
         for(Muro b: listaMuros)b.draw(sb);
+        for(Interactuables i:listaCofres)i.draw(sb);
 		jugador.draw(sb);
         sb.end();
 
