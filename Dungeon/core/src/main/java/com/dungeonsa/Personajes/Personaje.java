@@ -8,10 +8,15 @@ import com.dungeonsa.Entorno.Interactuables;
 import com.dungeonsa.Pantallas.PantallaRome;
 
 public class Personaje extends Sprite {
+    protected int hp=100;
+    protected int maxhp=100;
+    protected int exp;
+    protected int dp;
     protected Body cuerpo;
     protected TextureRegion aspecto;
 
     public Personaje(World mundo, int x, int y, TextureRegion textureRegion){
+
         super();
 
         //Cuerpo físico
@@ -30,7 +35,7 @@ public class Personaje extends Sprite {
 
         defComponente.shape= forma;
         defComponente.friction=0;
-        cuerpo.createFixture(defComponente).setUserData("Cuerpo");
+        cuerpo.createFixture(defComponente).setUserData("jugador");
 
         //Sensor de Interaccion
         forma.setRadius(1.5f);
