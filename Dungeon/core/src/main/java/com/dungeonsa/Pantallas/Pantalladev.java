@@ -12,9 +12,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.*;
 import com.dungeonsa.Entorno.Cofre;
 import com.dungeonsa.Entorno.Muro;
 import com.dungeonsa.Entorno.Muro1;
@@ -115,38 +113,39 @@ public class Pantalladev extends Pantalla {
             }
         }
 //chequear areas de interaccion
-//		mundo.setContactListener(new ContactListener() {
-//			@Override
-//			public void beginContact(Contact contact) {
-//				Fixture compA= contact.getFixtureA();
-//				Fixture compB= contact.getFixtureB();
-//				if(!compA.getUserData().equals("area_interacciones") && !compB.getUserData().equals("area")){
-//
-//					return;
-//				}
-//				if(compA.getUserData().equals("area_interacciones") && (compB.getUserData() instanceof Cofre)){
-//					System.out.println("cofre");
-//
-//				}else if(compB.getUserData().equals("area_interacciones") && (compA.getUserData() instanceof Cofre)){
-//					System.out.println("cofre");
-//				}
-//			}
-//
-//			@Override
-//			public void endContact(Contact contact) {
-//
-//			}
-//
-//			@Override
-//			public void preSolve(Contact contact, Manifold oldManifold) {
-//
-//			}
-//
-//			@Override
-//			public void postSolve(Contact contact, ContactImpulse impulse) {
-//
-//			}
-//		});
+		mundo.setContactListener(new ContactListener() {
+			@Override
+			public void beginContact(Contact contact) {
+				Fixture compA= contact.getFixtureA();
+				Fixture compB= contact.getFixtureB();
+				if(!compA.getUserData().equals("area_interacciones") && !compB.getUserData().equals("area_interacciones")){
+
+					return;
+				}
+				if(compA.getUserData().equals("area_interacciones") && (compB.getUserData() instanceof Cofre)){
+
+					System.out.println("cofre");
+
+				}else if(compB.getUserData().equals("area_interacciones") && (compA.getUserData() instanceof Cofre)){
+					System.out.println("cofre");
+				}
+			}
+
+			@Override
+			public void endContact(Contact contact) {
+
+			}
+
+			@Override
+			public void preSolve(Contact contact, Manifold oldManifold) {
+
+			}
+
+			@Override
+			public void postSolve(Contact contact, ContactImpulse impulse) {
+
+			}
+		});
     }
 
     @Override

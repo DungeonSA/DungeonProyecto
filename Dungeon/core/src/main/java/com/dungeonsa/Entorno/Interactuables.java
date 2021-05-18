@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.*;
 import com.dungeonsa.Pantallas.PantallaRome;
 
-public class Interactuables extends Sprite {
+public abstract class Interactuables extends Sprite {
     protected Body cuerpo;
     protected TextureRegion aspecto;
     protected boolean usable= false;
@@ -20,14 +20,8 @@ public class Interactuables extends Sprite {
         defCuerpo.position.y=y+0.5f;
         cuerpo=mundo.createBody(defCuerpo);
 
-        //Componentes dentro del cuerpo
-        FixtureDef defComponente= new FixtureDef();
-        FixtureDef componenteinteraccion=new FixtureDef();
-        CircleShape forma=new CircleShape();
-        forma.setRadius(0.5f);
-        defComponente.shape= forma;
-        defComponente.friction=0;
-        cuerpo.createFixture(defComponente);
+
+
 
         //darle aspecto
         aspecto=new TextureRegion(textureRegion,0,0,

@@ -25,7 +25,7 @@ public class Muro extends Sprite {
         PolygonShape forma= new PolygonShape();
         forma.setAsBox(.5f,.5f);
         defComponente.shape=forma;
-        cuerpo.createFixture(defComponente);
+        cuerpo.createFixture(defComponente).setUserData("pared");
 
         //darle aspecto
         aspecto=new TextureRegion(textureRegion,0,0,
