@@ -13,10 +13,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.dungeonsa.Entorno.Cofre;
-import com.dungeonsa.Entorno.Muro;
-import com.dungeonsa.Entorno.Muro1;
-import com.dungeonsa.Entorno.MuroDungeon;
+import com.dungeonsa.Entorno.*;
 import com.dungeonsa.Pantallas.Pantalla;
 import com.dungeonsa.Personajes.Jugador;
 import com.dungeonsa.Personajes.Personaje;
@@ -37,7 +34,8 @@ public class Pantalladev extends Pantalla {
     private OrthogonalTiledMapRenderer renderizador;
 
     private ArrayList<Muro> listaMuros;
-    private ArrayList<Cofre> listaCofres;
+    private static ArrayList<Cofre> listaCofres;
+    private static ArrayList<Body> listanegra;
 
     public static final Vector2 PASO_ARRIBA=new Vector2(0,1f);
     public static final Vector2 PASO_ABAJO=new Vector2(0,-1f);
@@ -74,6 +72,7 @@ public class Pantalladev extends Pantalla {
         //-----------------------LEE MURO DE MAPA-------------------------//
         listaMuros=new ArrayList<>();
         listaCofres=new ArrayList<>();
+        listanegra=new ArrayList<>();
 
         capa=(TiledMapTileLayer)mapa.getLayers().get(1);
         for(int x=0;x<capa.getWidth();x++){
@@ -123,16 +122,29 @@ public class Pantalladev extends Pantalla {
 					return;
 				}
 				if(compA.getUserData().equals("area_interacciones") && (compB.getUserData() instanceof Cofre)){
-
-					System.out.println("cofre");
-
-				}else if(compB.getUserData().equals("area_interacciones") && (compA.getUserData() instanceof Cofre)){
-					System.out.println("cofre");
+                    ((Cofre)compB.getUserData()).empezar_interactuar();
+                    System.out.printf("cofre");
+				}
+				else if(compB.getUserData().equals("area_interacciones") && (compA.getUserData() instanceof Cofre)){
+                    ((Cofre)compA.getUserData()).empezar_interactuar();
+                    System.out.printf("cofre");
 				}
 			}
 
 			@Override
 			public void endContact(Contact contact) {
+                Fixture compA= contact.getFixtureA();
+                Fixture compB= contact.getFixtureB();
+                if(!compA.getUserData().equals("area_interacciones") && !compB.getUserData().equals("area_interacciones")){
+                    return;
+                }
+                if(compA.getUserData().equals("area_interacciones") && (compB.getUserData() instanceof Cofre)){
+                    ((Cofre)compB.getUserData()).dejar_interactuar();
+                    System.out.printf("NOcofre");
+                }else if(compB.getUserData().equals("area_interacciones") && (compA.getUserData() instanceof Cofre)){
+                    ((Cofre)compA.getUserData()).dejar_interactuar();
+                    System.out.printf("NOcofre");
+                }
 
 			}
 
@@ -183,7 +195,7 @@ public class Pantalladev extends Pantalla {
     public void actualizar(float delta) {
         renderizador.setView(camara);
         jugador.actualizar(delta);
-        for(Cofre i:listaCofres)i.actualizar(delta);
+        for(int i=0;i<listaCofres.size();i++)listaCofres.get(i).actualizar(delta);
 
         //La camara sigue al jugador
         camara.position.x=MathUtils.clamp(cuerpoJugador.getPosition().x,5*relacionAspecto,capa.getWidth()-5*relacionAspecto);
@@ -206,6 +218,16 @@ public class Pantalladev extends Pantalla {
 
         depurador.render(mundo, camara.combined); //dibuja las lineas del debuger
         mundo.step(.02f,6,2);
+        for(Body cuerpo:listanegra){
+
+            mundo.destroyBody(cuerpo);
+        }
+        listanegra.clear();
+    }
+
+    public static void eliminarcofre(Interactuables i){
+        listaCofres.remove(i);
+        listanegra.add(i.getCuerpo());
     }
 
     @Override
