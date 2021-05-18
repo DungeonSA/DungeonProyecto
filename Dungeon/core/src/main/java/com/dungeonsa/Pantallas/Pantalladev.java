@@ -16,59 +16,68 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.dungeonsa.Entorno.Cofre;
+import com.dungeonsa.Entorno.Muro;
 import com.dungeonsa.Entorno.Muro1;
+import com.dungeonsa.Entorno.MuroDungeon;
 import com.dungeonsa.Pantallas.Pantalla;
 import com.dungeonsa.Personajes.Jugador;
+import com.dungeonsa.Personajes.Personaje;
 
 import java.util.ArrayList;
 
 
 public class Pantalladev extends Pantalla {
-    TiledMapTileLayer capa;
-    public static ArrayList<Cofre> cofres = new ArrayList<Cofre>();
     public static final String TIPO="tipo";
     public static final String JUGADOR="jugador";
-    public static final String DURO="nada";
-    //    public static final String BLANDO="blando";
+    public static final String MURO="muro";
+    public static final String ENEMIGO="enemigo";
+    public static final String COFRE="cofre";
     public static final int LADO_LOSA=16;
     private TiledMap mapa;
+    private TiledMapTileLayer capa;
     private float relacionAspecto;
     private OrthogonalTiledMapRenderer renderizador;
 
-    public static final Vector2 PASO_ARRIBA=new Vector2(0,5.0f);
-    public static final Vector2 PASO_ABAJO=new Vector2(0,-5.0f);
-    public static final Vector2 PASO_DERECHA=new Vector2(5.0f,0);
-    public static final Vector2 PASO_IZQUIERDA=new Vector2(-5.0f,0);
-    public static float VEL_MAX=5.0f;
-    private Jugador jugador=null;
+    private ArrayList<Muro> listaMuros;
+    private ArrayList<Cofre> listaCofres;
+
+    public static final Vector2 PASO_ARRIBA=new Vector2(0,1f);
+    public static final Vector2 PASO_ABAJO=new Vector2(0,-1f);
+    public static final Vector2 PASO_DERECHA=new Vector2(1f,0);
+    public static final Vector2 PASO_IZQUIERDA=new Vector2(-1f,0);
+    public static float VEL_MAX=3.0f;
+
+    private Personaje jugador=null;
     private Body cuerpoJugador=null;
     private Vector2 posicionJugador=null;
 
-
-    //Físicas
+    //    Fisicas
     private World mundo;
     private Box2DDebugRenderer depurador;
 
+
     public Pantalladev() {
         super();
-        am.load("0x72_16x16DungeonTileset.v4.png", Texture.class);
+        am.load("Dungeon_character_2.png", Texture.class);
+        am.load("Dungeon_Tileset.png", Texture.class);
         am.setLoader(TiledMap.class,
                 new TmxMapLoader(new InternalFileHandleResolver()));
-        am.load("pruevasolo.tmx", TiledMap.class);
+        am.load("pruevaRome.tmx", TiledMap.class);
         am.finishLoading();
+        mapa=am.get("pruevaRome.tmx");
 
-//        atlas=am.get("Graficos.atlas");
-        mapa=am.get("pruevasolo.tmx");
         renderizador=new OrthogonalTiledMapRenderer(mapa,1.0f/LADO_LOSA);
         relacionAspecto= (float)juego.getAncho()/juego.getAlto();
         camara.setToOrtho(false,10*relacionAspecto,10);
 
-
         //Físicas
         mundo=new World(new Vector2(0,0),true);
         depurador=new Box2DDebugRenderer();
-        //Procesar capas--------------------------
-        capa=(TiledMapTileLayer)mapa.getLayers().get(0);
+        //-----------------------LEE MURO DE MAPA-------------------------//
+        listaMuros=new ArrayList<>();
+        listaCofres=new ArrayList<>();
+
+        capa=(TiledMapTileLayer)mapa.getLayers().get(1);
         for(int x=0;x<capa.getWidth();x++){
             for(int y=0;y<capa.getHeight();y++){
                 TiledMapTileLayer.Cell celda=capa.getCell(x,y);
@@ -76,64 +85,74 @@ public class Pantalladev extends Pantalla {
                 MapProperties propiedades=celda.getTile().getProperties();
                 if(propiedades.containsKey(TIPO)){
                     switch((String)propiedades.get(TIPO)){
-
-                        case DURO:
-                            new Muro1(mundo,x,y,celda.getTile().getTextureRegion());
+                        case MURO:
+                            listaMuros.add(new MuroDungeon(mundo,x,y, celda.getTile().getTextureRegion()));
                             break;
-
-
                     }
                 }
             }
         }
+        //-----------------------LEE LOGICA DE MAPA-------------------------//
         capa=(TiledMapTileLayer)mapa.getLayers().get(2);
-        for(int x=0;x<capa.getWidth();x++){
-            for(int y=0;y<capa.getHeight();y++){
-                TiledMapTileLayer.Cell celda=capa.getCell(x,y);
-                if(celda==null) continue;
-                MapProperties propiedades=celda.getTile().getProperties();
-                if(propiedades.containsKey(TIPO)){
-                    switch((String)propiedades.get(TIPO)){
-
-
+        for(int x=0;x<capa.getWidth();x++) {
+            for (int y = 0; y < capa.getHeight(); y++) {
+                TiledMapTileLayer.Cell celda = capa.getCell(x, y);
+                if (celda == null) continue;
+                MapProperties propiedades = celda.getTile().getProperties();
+                if (propiedades.containsKey(TIPO)) {
+                    switch ((String) propiedades.get(TIPO)) {
                         case JUGADOR:
-
-                            jugador=new Jugador(mundo,x,y,celda.getTile().getTextureRegion());
-                            cuerpoJugador=jugador.getCuerpo();
-
+                            jugador = new Personaje(mundo, x, y, celda.getTile().getTextureRegion());
+                            cuerpoJugador = jugador.getCuerpo();
                             break;
+                        case COFRE:
+                            listaCofres.add(new Cofre(mundo,x,y,celda.getTile().getTextureRegion()));
+                            break;
+
 
                     }
                 }
             }
         }
-        capa=(TiledMapTileLayer)mapa.getLayers().get(3);
-        for(int x=0;x<capa.getWidth();x++){
-            for(int y=0;y<capa.getHeight();y++){
-                TiledMapTileLayer.Cell celda=capa.getCell(x,y);
-                if(celda==null) continue;
-                MapProperties propiedades=celda.getTile().getProperties();
-                if(propiedades.containsKey(TIPO)){
-                    switch((String)propiedades.get(TIPO)){
-
-
-                        case "cofre":
-                            Cofre c=new Cofre(mundo,x,y,celda.getTile().getTextureRegion());
-                            cofres.add(c);
-                            break;
-
-                    }
-                }
-            }
-        }
-
-        //----------------------------------------
-
+//chequear areas de interaccion
+//		mundo.setContactListener(new ContactListener() {
+//			@Override
+//			public void beginContact(Contact contact) {
+//				Fixture compA= contact.getFixtureA();
+//				Fixture compB= contact.getFixtureB();
+//				if(!compA.getUserData().equals("area_interacciones") && !compB.getUserData().equals("area")){
+//
+//					return;
+//				}
+//				if(compA.getUserData().equals("area_interacciones") && (compB.getUserData() instanceof Cofre)){
+//					System.out.println("cofre");
+//
+//				}else if(compB.getUserData().equals("area_interacciones") && (compA.getUserData() instanceof Cofre)){
+//					System.out.println("cofre");
+//				}
+//			}
+//
+//			@Override
+//			public void endContact(Contact contact) {
+//
+//			}
+//
+//			@Override
+//			public void preSolve(Contact contact, Manifold oldManifold) {
+//
+//			}
+//
+//			@Override
+//			public void postSolve(Contact contact, ContactImpulse impulse) {
+//
+//			}
+//		});
     }
 
     @Override
     public void leerEntrada(float delta) {
         posicionJugador=cuerpoJugador.getPosition();
+
         if(!Gdx.input.isKeyPressed(Input.Keys.A)  && cuerpoJugador.getLinearVelocity().x < 0){
             cuerpoJugador.setLinearVelocity(0f,cuerpoJugador.getLinearVelocity().y);
         }
@@ -146,63 +165,48 @@ public class Pantalladev extends Pantalla {
         if(!Gdx.input.isKeyPressed(Input.Keys.S)  && cuerpoJugador.getLinearVelocity().y < 0){
             cuerpoJugador.setLinearVelocity(cuerpoJugador.getLinearVelocity().x,0f);
         }
-
-
-
-
-
-
-
-
-
-
         if(Gdx.input.isKeyPressed(Input.Keys.A) &&
                 cuerpoJugador.getLinearVelocity().x>-VEL_MAX){
             cuerpoJugador.applyLinearImpulse(PASO_IZQUIERDA,posicionJugador,true);
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.W) &&
+        }if(Gdx.input.isKeyPressed(Input.Keys.W) &&
                 cuerpoJugador.getLinearVelocity().y<VEL_MAX){
             cuerpoJugador.applyLinearImpulse(PASO_ARRIBA,posicionJugador,true);
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.S) &&
+        }if(Gdx.input.isKeyPressed(Input.Keys.S) &&
                 cuerpoJugador.getLinearVelocity().y>-VEL_MAX){
             cuerpoJugador.applyLinearImpulse(PASO_ABAJO,posicionJugador,true);
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.D) &&
-                cuerpoJugador.getLinearVelocity().x<VEL_MAX){
-            cuerpoJugador.applyLinearImpulse(PASO_DERECHA,posicionJugador,true);
+        }if(Gdx.input.isKeyPressed(Input.Keys.D) &&
+                cuerpoJugador.getLinearVelocity().x<VEL_MAX) {
+            cuerpoJugador.applyLinearImpulse(PASO_DERECHA, posicionJugador, true);
         }
     }
-
 
     @Override
     public void actualizar(float delta) {
         renderizador.setView(camara);
         jugador.actualizar(delta);
-        for (Cofre i : cofres) {
-            i.actualizar(delta);
-        }
-        camara.position.x= MathUtils.clamp(cuerpoJugador.getPosition().x,5*relacionAspecto,capa.getWidth()-5*relacionAspecto);
+        for(Cofre i:listaCofres)i.actualizar(delta);
+
+        //La camara sigue al jugador
+        camara.position.x=MathUtils.clamp(cuerpoJugador.getPosition().x,5*relacionAspecto,capa.getWidth()-5*relacionAspecto);
         camara.position.y=MathUtils.clamp(cuerpoJugador.getPosition().y,5,capa.getHeight()-5);
         camara.update();
-
     }
 
     @Override
     public void dibujar(float delta) {
-        int[] capas={0,1};
+        //render basico para capas de fondo
+        int[] capas={0};
         renderizador.render(capas);
-        sb.begin();
-        jugador.draw(sb);
+
         sb.setProjectionMatrix(camara.combined);
-        for (Cofre i : cofres) {
-            i.draw(sb);
-        }
+        sb.begin();
+        for(Muro b: listaMuros)b.draw(sb);
+        for(Cofre i:listaCofres)i.draw(sb);
+        jugador.draw(sb);
         sb.end();
-        int[] capas2={1,4};
-        renderizador.render(capas2);
-        depurador.render(mundo, camara.combined);
-        mundo.step(.02f,5,5);
+
+        depurador.render(mundo, camara.combined); //dibuja las lineas del debuger
+        mundo.step(.02f,6,2);
     }
 
     @Override
@@ -227,6 +231,11 @@ public class Pantalladev extends Pantalla {
 
     @Override
     public void hide() {
+
+    }
+
+    @Override
+    public void dispose() {
 
     }
 }

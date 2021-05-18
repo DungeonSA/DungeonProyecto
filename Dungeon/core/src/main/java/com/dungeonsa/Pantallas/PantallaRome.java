@@ -106,20 +106,20 @@ public class PantallaRome extends Pantalla {
 				}
 			}
 		}
-
+//chequear areas de interaccion
 //		mundo.setContactListener(new ContactListener() {
 //			@Override
 //			public void beginContact(Contact contact) {
 //				Fixture compA= contact.getFixtureA();
 //				Fixture compB= contact.getFixtureB();
-//				if(!compA.getUserData().equals("area") && !compB.getUserData().equals("area")){
+//				if(!compA.getUserData().equals("area_interacciones") && !compB.getUserData().equals("area")){
 //
 //					return;
 //				}
-//				if(compA.getUserData().equals("area") && (compB.getUserData() instanceof Cofre)){
+//				if(compA.getUserData().equals("area_interacciones") && (compB.getUserData() instanceof Cofre)){
 //					System.out.println("cofre");
 //
-//				}else if(compB.getUserData().equals("area") && (compA.getUserData() instanceof Cofre)){
+//				}else if(compB.getUserData().equals("area_interacciones") && (compA.getUserData() instanceof Cofre)){
 //					System.out.println("cofre");
 //				}
 //			}

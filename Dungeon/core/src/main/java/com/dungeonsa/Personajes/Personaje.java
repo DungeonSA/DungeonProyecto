@@ -19,11 +19,12 @@ public class Personaje extends Sprite {
         defCuerpo.type= BodyDef.BodyType.DynamicBody;
         defCuerpo.position.x=x+0.5f;
         defCuerpo.position.y=y+0.5f;
+        FixtureDef defComponente= new FixtureDef();
+        FixtureDef componenteinteraccion=new FixtureDef();
+        FixtureDef componenteAtacar=new FixtureDef();
         cuerpo=mundo.createBody(defCuerpo);
 
         //Sensor del cuerpo fisico
-        FixtureDef defComponente= new FixtureDef();
-        FixtureDef componenteinteraccion=new FixtureDef();
         CircleShape forma=new CircleShape();
         forma.setRadius(0.5f);
 
@@ -33,13 +34,15 @@ public class Personaje extends Sprite {
 
         //Sensor de Interaccion
         forma.setRadius(1.5f);
-
         componenteinteraccion.isSensor=true;
         componenteinteraccion.shape=forma;
-
-        cuerpo.createFixture(componenteinteraccion).setUserData("area");
-
-
+        cuerpo.createFixture(componenteinteraccion).setUserData("area_interacciones");
+        //Sensor de ataque
+        forma.setRadius(2f);
+        componenteAtacar.isSensor=true;
+        componenteAtacar.shape=forma;
+        cuerpo.createFixture(componenteAtacar).setUserData("area_ataque");
+        //dar aspecto al personaje
         aspecto=new TextureRegion(textureRegion,0,0,
                 PantallaRome.LADO_LOSA, PantallaRome.LADO_LOSA);
         setRegion(aspecto);
