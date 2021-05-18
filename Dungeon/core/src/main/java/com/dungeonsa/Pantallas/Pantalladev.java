@@ -190,18 +190,17 @@ public class Pantalladev extends Pantalla {
 
     @Override
     public void dibujar(float delta) {
-        int[] capas={0,1,4};
+        int[] capas={0,1};
         renderizador.render(capas);
-
-
-        sb.setProjectionMatrix(camara.combined);
         sb.begin();
+        jugador.draw(sb);
+        sb.setProjectionMatrix(camara.combined);
         for (Cofre i : cofres) {
             i.draw(sb);
         }
-        jugador.draw(sb);
-
         sb.end();
+        int[] capas2={1,4};
+        renderizador.render(capas2);
         depurador.render(mundo, camara.combined);
         mundo.step(.02f,5,5);
     }

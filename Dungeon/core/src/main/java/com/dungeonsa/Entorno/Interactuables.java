@@ -15,7 +15,7 @@ public class Interactuables extends Sprite {
 
         //Cuerpo físico
         BodyDef defCuerpo=new BodyDef();
-        defCuerpo.type= BodyDef.BodyType.DynamicBody;
+        defCuerpo.type= BodyDef.BodyType.StaticBody;
         defCuerpo.position.x=x+0.5f;
         defCuerpo.position.y=y+0.5f;
         cuerpo=mundo.createBody(defCuerpo);

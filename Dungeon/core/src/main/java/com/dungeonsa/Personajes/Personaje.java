@@ -26,12 +26,14 @@ public class Personaje extends Sprite {
         FixtureDef componenteinteraccion=new FixtureDef();
         CircleShape forma=new CircleShape();
         forma.setRadius(0.5f);
+
         defComponente.shape= forma;
         defComponente.friction=0;
         cuerpo.createFixture(defComponente).setUserData("Cuerpo");
 
         //Sensor de Interaccion
         forma.setRadius(1.5f);
+
         componenteinteraccion.isSensor=true;
         componenteinteraccion.shape=forma;
 

@@ -31,7 +31,7 @@ public class PantallaRome extends Pantalla {
 	private OrthogonalTiledMapRenderer renderizador;
 
 	private ArrayList<Muro> listaMuros;
-	private ArrayList<Interactuables> listaCofres;
+	private ArrayList<Cofre> listaCofres;
 
 	public static final Vector2 PASO_ARRIBA=new Vector2(0,1f);
 	public static final Vector2 PASO_ABAJO=new Vector2(0,-1f);
@@ -106,38 +106,39 @@ public class PantallaRome extends Pantalla {
 				}
 			}
 		}
-		mundo.setContactListener(new ContactListener() {
-			@Override
-			public void beginContact(Contact contact) {
-				Fixture compA= contact.getFixtureA();
-				Fixture compB= contact.getFixtureB();
-				if(!compA.getUserData().equals("area") && !compB.getUserData().equals("area")){
 
-					return;
-				}
-				if(compA.getUserData().equals("area") && (compB.getUserData() instanceof Cofre)){
-					System.out.println("cofre");
-
-				}else if(compB.getUserData().equals("area") && (compA.getUserData() instanceof Cofre)){
-					System.out.println("cofre");
-				}
-			}
-
-			@Override
-			public void endContact(Contact contact) {
-
-			}
-
-			@Override
-			public void preSolve(Contact contact, Manifold oldManifold) {
-
-			}
-
-			@Override
-			public void postSolve(Contact contact, ContactImpulse impulse) {
-
-			}
-		});
+//		mundo.setContactListener(new ContactListener() {
+//			@Override
+//			public void beginContact(Contact contact) {
+//				Fixture compA= contact.getFixtureA();
+//				Fixture compB= contact.getFixtureB();
+//				if(!compA.getUserData().equals("area") && !compB.getUserData().equals("area")){
+//
+//					return;
+//				}
+//				if(compA.getUserData().equals("area") && (compB.getUserData() instanceof Cofre)){
+//					System.out.println("cofre");
+//
+//				}else if(compB.getUserData().equals("area") && (compA.getUserData() instanceof Cofre)){
+//					System.out.println("cofre");
+//				}
+//			}
+//
+//			@Override
+//			public void endContact(Contact contact) {
+//
+//			}
+//
+//			@Override
+//			public void preSolve(Contact contact, Manifold oldManifold) {
+//
+//			}
+//
+//			@Override
+//			public void postSolve(Contact contact, ContactImpulse impulse) {
+//
+//			}
+//		});
     }
 
     @Override
@@ -175,7 +176,7 @@ public class PantallaRome extends Pantalla {
     public void actualizar(float delta) {
         renderizador.setView(camara);
         jugador.actualizar(delta);
-
+		for(Cofre i:listaCofres)i.actualizar(delta);
 
         //La camara sigue al jugador
 		camara.position.x=MathUtils.clamp(cuerpoJugador.getPosition().x,5*relacionAspecto,capa.getWidth()-5*relacionAspecto);
@@ -192,7 +193,7 @@ public class PantallaRome extends Pantalla {
         sb.setProjectionMatrix(camara.combined);
         sb.begin();
         for(Muro b: listaMuros)b.draw(sb);
-        for(Interactuables i:listaCofres)i.draw(sb);
+        for(Cofre i:listaCofres)i.draw(sb);
 		jugador.draw(sb);
         sb.end();
 
