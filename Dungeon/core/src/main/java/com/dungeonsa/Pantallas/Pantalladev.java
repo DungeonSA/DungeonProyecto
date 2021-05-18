@@ -46,6 +46,7 @@ public class Pantalladev extends Pantalla {
     private Personaje jugador=null;
     private Body cuerpoJugador=null;
     private Vector2 posicionJugador=null;
+    private Vector2 puntoClick;
 
     //    Fisicas
     private World mundo;
@@ -188,6 +189,15 @@ public class Pantalladev extends Pantalla {
         }if(Gdx.input.isKeyPressed(Input.Keys.D) &&
                 cuerpoJugador.getLinearVelocity().x<VEL_MAX) {
             cuerpoJugador.applyLinearImpulse(PASO_DERECHA, posicionJugador, true);
+        }
+
+        if(Gdx.input.isTouched()){
+            Vector2 puntoClick=juego.getVista().unproject(new Vector2(Gdx.input.getX(),Gdx.input.getY()));
+            for(int i=0;i<listaCofres.size();i++){
+                if(listaCofres.get(i).getAreaClick().contains(puntoClick.x, puntoClick.y)){
+                    listaCofres.get(i).usar();
+                }
+            }
         }
     }
 

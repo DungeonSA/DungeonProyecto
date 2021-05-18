@@ -7,12 +7,16 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.dungeonsa.Pantallas.PantallaRome;
 import com.dungeonsa.Pantallas.Pantalladev;
 
+import java.awt.*;
+
 public class Cofre extends Interactuables{
-    protected TextureRegion aspecto;
+    protected Rectangle areaClick;
+
     public Cofre(World mundo, int x, int y, TextureRegion textureRegion) {
         super(mundo, x, y,textureRegion);
         componente.setUserData(this);
-
+        nombre="Cofre";
+        areaClick = new Rectangle(x,y,16,16);
     }
 
     @Override
@@ -20,11 +24,18 @@ public class Cofre extends Interactuables{
         super.actualizar(delta);
 //        setRegion(aspecto);
 //        setPosition(cuerpo.getPosition().x-.5f,cuerpo.getPosition().y-.5f);
-        if(Puedepulsar){
-            Pantalladev.eliminarcofre(this);
 
-        }
     }
 
+    public Rectangle getAreaClick() {
+        return areaClick;
+    }
 
+    @Override
+    public void usar() {
+        super.usar();
+        if(puedepulsar){
+            Pantalladev.eliminarcofre(this);
+        }
+    }
 }

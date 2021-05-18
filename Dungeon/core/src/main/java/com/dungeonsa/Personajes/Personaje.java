@@ -7,6 +7,8 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.dungeonsa.Entorno.Interactuables;
 import com.dungeonsa.Pantallas.PantallaRome;
 
+import java.util.ArrayList;
+
 public class Personaje extends Sprite {
     protected int hp=100;
     protected int maxhp=100;
@@ -15,10 +17,11 @@ public class Personaje extends Sprite {
     protected Body cuerpo;
     protected TextureRegion aspecto;
 
+    protected ArrayList<Interactuables> enRangoDeUso;
+
     public Personaje(World mundo, int x, int y, TextureRegion textureRegion){
-
         super();
-
+        enRangoDeUso = new ArrayList<>();
         //Cuerpo físico
         BodyDef defCuerpo=new BodyDef();
         defCuerpo.type= BodyDef.BodyType.DynamicBody;
@@ -63,6 +66,8 @@ public class Personaje extends Sprite {
         setPosition(cuerpo.getPosition().x-.5f,cuerpo.getPosition().y-.5f);
 
     }
-
-//    public Interactuables
+//
+//    public void entraEnRango (Interactuables objeto){
+//        enRangoDeUso.add(objeto)
+//    }
 }

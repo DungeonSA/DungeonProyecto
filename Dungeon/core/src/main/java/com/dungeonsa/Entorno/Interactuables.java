@@ -4,13 +4,13 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.*;
 import com.dungeonsa.Pantallas.PantallaRome;
-import com.dungeonsa.Pantallas.Pantalladev;
 
 public abstract class Interactuables extends Sprite {
     protected Body cuerpo;
     protected TextureRegion aspecto;
     protected Fixture componente;
-    protected boolean Puedepulsar= false;
+    protected String nombre;
+    protected boolean puedepulsar = false;
 
 
     public Interactuables(World mundo, int x, int y, TextureRegion textureRegion) {
@@ -38,12 +38,17 @@ public abstract class Interactuables extends Sprite {
     }
 
     public void empezar_interactuar() {
-        Puedepulsar = true;
+        puedepulsar = true;
 
     }
     public void dejar_interactuar(){
-        Puedepulsar = true;
+        puedepulsar = false;
     }
+
+    public void usar(){
+
+    }
+
     public void actualizar(float delta){
 
 
