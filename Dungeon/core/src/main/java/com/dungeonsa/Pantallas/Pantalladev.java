@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -14,29 +15,35 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.dungeonsa.Entorno.*;
+import com.dungeonsa.ObjetosDelMundo;
 import com.dungeonsa.Pantallas.Pantalla;
+import com.dungeonsa.Personajes.Enemigo;
+import com.dungeonsa.Personajes.Esqueleto;
 import com.dungeonsa.Personajes.Jugador;
 import com.dungeonsa.Personajes.Personaje;
 
+
 import java.util.ArrayList;
+import java.util.Random;
 
 
-public class Pantalladev extends Pantalla {
+public class Pantalladev extends Pantalla  {
+    public static final int VIDA_MAX_ENEMIGO=100;
+    public static final int VIDA_MIN_ENEMIGO=50;
     public static final String TIPO="tipo";
     public static final String JUGADOR="jugador";
     public static final String MURO="muro";
-    public static final String ENEMIGO="enemigo";
+    public static final String ESQUELETO="esqueleton";
     public static final String COFRE="cofre";
     public static final int LADO_LOSA=16;
     private TiledMap mapa;
     private TiledMapTileLayer capa;
     private float relacionAspecto;
     private OrthogonalTiledMapRenderer renderizador;
-
     private ArrayList<Muro> listaMuros;
     private static ArrayList<Cofre> listaCofres;
+    private static ArrayList<Enemigo> listaEnemigos;
     private static ArrayList<Body> listanegra;
-
     public static final Vector2 PASO_ARRIBA=new Vector2(0,1f);
     public static final Vector2 PASO_ABAJO=new Vector2(0,-1f);
     public static final Vector2 PASO_DERECHA=new Vector2(1f,0);
@@ -73,6 +80,7 @@ public class Pantalladev extends Pantalla {
         //-----------------------LEE MURO DE MAPA-------------------------//
         listaMuros=new ArrayList<>();
         listaCofres=new ArrayList<>();
+        listaEnemigos=new ArrayList<>();
         listanegra=new ArrayList<>();
 
         capa=(TiledMapTileLayer)mapa.getLayers().get(1);
@@ -83,6 +91,7 @@ public class Pantalladev extends Pantalla {
                 MapProperties propiedades=celda.getTile().getProperties();
                 if(propiedades.containsKey(TIPO)){
                     switch((String)propiedades.get(TIPO)){
+
                         case MURO:
                             listaMuros.add(new MuroDungeon(mundo,x,y, celda.getTile().getTextureRegion()));
                             break;
@@ -106,7 +115,11 @@ public class Pantalladev extends Pantalla {
                         case COFRE:
                             listaCofres.add(new Cofre(mundo,x,y,celda.getTile().getTextureRegion()));
                             break;
-
+                        case ESQUELETO:
+                            Random r = new Random();
+                            int VidaEnemigo = r.nextInt(VIDA_MAX_ENEMIGO-VIDA_MIN_ENEMIGO) + VIDA_MIN_ENEMIGO;
+                            listaEnemigos.add(new Esqueleto(mundo,x,y,celda.getTile().getTextureRegion(),VidaEnemigo,12));
+                            break;
 
                     }
                 }
@@ -206,6 +219,7 @@ public class Pantalladev extends Pantalla {
         renderizador.setView(camara);
         jugador.actualizar(delta);
         for(int i=0;i<listaCofres.size();i++)listaCofres.get(i).actualizar(delta);
+        for(int i=0;i<listaEnemigos.size();i++)listaEnemigos.get(i).actualizar(delta);
 
         //La camara sigue al jugador
         camara.position.x=MathUtils.clamp(cuerpoJugador.getPosition().x,5*relacionAspecto,capa.getWidth()-5*relacionAspecto);
@@ -223,6 +237,7 @@ public class Pantalladev extends Pantalla {
         sb.begin();
         for(Muro b: listaMuros)b.draw(sb);
         for(Cofre i:listaCofres)i.draw(sb);
+        for(Enemigo i:listaEnemigos)i.draw(sb);
         jugador.draw(sb);
         sb.end();
 
@@ -239,6 +254,7 @@ public class Pantalladev extends Pantalla {
         listaCofres.remove(i);
         listanegra.add(i.getCuerpo());
     }
+
 
     @Override
     public void show() {
