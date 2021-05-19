@@ -7,10 +7,11 @@ import com.dungeonsa.Pantallas.PantallaRome;
 import com.dungeonsa.Pantallas.Pantalladev;
 
 import java.awt.*;
+import java.util.Collection;
 
-public abstract class Enemigo extends Sprite {
-    protected boolean PuedeSerAtacado = false;
+public  class Enemigo extends Sprite {
     protected Rectangle areaClick;
+    protected boolean PuedeSerAtacado = false;
     protected int hp;
     protected int exp;
     protected int dp;
@@ -19,9 +20,9 @@ public abstract class Enemigo extends Sprite {
 
     public Enemigo(World mundo, int x, int y, TextureRegion textureRegion,int hp,int dp){
         super();
+        areaClick = new Rectangle(x,y,16,16);
         this.hp=hp;
         this.dp=dp;
-        areaClick = new Rectangle(x,y,16,16);
         //Cuerpo físico
         BodyDef defCuerpo=new BodyDef();
         defCuerpo.type= BodyDef.BodyType.DynamicBody;
@@ -50,17 +51,35 @@ public abstract class Enemigo extends Sprite {
         return cuerpo;
     }
 
-    public Rectangle getAreaClick() {
-        return areaClick;
-    }
+
 
     public void actualizar(float delta) {
         setRegion(aspecto);
         setPosition(cuerpo.getPosition().x-.5f,cuerpo.getPosition().y-.5f);
+        if (hp<0){
+            Pantalladev.eliminarEnemigo(this);
+        }
 
     }
+    public void empezar_interactuar() {
+        PuedeSerAtacado = true;
+        System.out.println("hola");
+
+    }
+    public void dejar_interactuar(){
+        PuedeSerAtacado = false;
+        System.out.println("adios");
+    }
     public void recivirAtaque(int daño) {
+        if(PuedeSerAtacado){
+            hp=hp-daño;
+            System.out.printf("hay");
 
         }
     }
+    public Rectangle getAreaClick() {
+        return areaClick;
+    }
+
+}
 

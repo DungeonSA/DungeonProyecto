@@ -126,27 +126,42 @@ public class Pantalladev extends Pantalla  {
             }
         }
 //chequear areas de interaccion
-		mundo.setContactListener(new ContactListener() {
-			@Override
-			public void beginContact(Contact contact) {
-				Fixture compA= contact.getFixtureA();
-				Fixture compB= contact.getFixtureB();
-				if(!compA.getUserData().equals("area_interacciones") && !compB.getUserData().equals("area_interacciones")){
 
-					return;
-				}
-				if(compA.getUserData().equals("area_interacciones") && (compB.getUserData() instanceof Cofre)){
+
+        mundo.setContactListener(new ContactListener() {
+            @Override
+            public void beginContact(Contact contact) {
+                Fixture compA= contact.getFixtureA();
+                Fixture compB= contact.getFixtureB();
+                if(!compA.getUserData().equals("area_interacciones") && !compB.getUserData().equals("area_interacciones")){
+
+                    return;
+                }
+                if(compA.getUserData().equals("area_interacciones") && (compB.getUserData() instanceof Cofre)){
                     ((Cofre)compB.getUserData()).empezar_interactuar();
                     System.out.printf("cofre");
-				}
-				else if(compB.getUserData().equals("area_interacciones") && (compA.getUserData() instanceof Cofre)){
+                }
+                else if(compB.getUserData().equals("area_interacciones") && (compA.getUserData() instanceof Cofre)){
                     ((Cofre)compA.getUserData()).empezar_interactuar();
                     System.out.printf("cofre");
-				}
-			}
+                }
 
-			@Override
-			public void endContact(Contact contact) {
+//                if(!compA.getUserData().equals("area_ataque") && !compB.getUserData().equals("area_ataque")){
+//
+//                    return;
+//                }
+//                if(compA.getUserData().equals("area_ataque") && (compB.getUserData() instanceof Enemigo)){
+//                    ((Enemigo)compB.getUserData()).empezar_interactuar();
+//
+//                }
+//                else if(compB.getUserData().equals("area_ataque") && (compA.getUserData() instanceof Enemigo)){
+//                    ((Enemigo)compA.getUserData()).empezar_interactuar();
+//
+//                }
+            }
+
+            @Override
+            public void endContact(Contact contact) {
                 Fixture compA= contact.getFixtureA();
                 Fixture compB= contact.getFixtureB();
                 if(!compA.getUserData().equals("area_interacciones") && !compB.getUserData().equals("area_interacciones")){
@@ -160,18 +175,21 @@ public class Pantalladev extends Pantalla  {
                     System.out.printf("NOcofre");
                 }
 
-			}
 
-			@Override
-			public void preSolve(Contact contact, Manifold oldManifold) {
+            }
 
-			}
+            @Override
+            public void preSolve(Contact contact, Manifold oldManifold) {
 
-			@Override
-			public void postSolve(Contact contact, ContactImpulse impulse) {
+            }
 
-			}
-		});
+            @Override
+            public void postSolve(Contact contact, ContactImpulse impulse) {
+
+            }
+        });
+
+
     }
 
     @Override
@@ -210,6 +228,13 @@ public class Pantalladev extends Pantalla  {
                 if(listaCofres.get(i).getAreaClick().contains(puntoClick.x, puntoClick.y)){
                     listaCofres.get(i).usar();
                 }
+
+            }
+            for(int i=0;i<listaEnemigos.size();i++){
+                if(listaEnemigos.get(i).getAreaClick().contains(puntoClick.x, puntoClick.y)){
+                    listaEnemigos.get(i).recivirAtaque(5000);
+                }
+
             }
         }
     }
@@ -253,6 +278,10 @@ public class Pantalladev extends Pantalla  {
     public static void eliminarcofre(Interactuables i){
         listaCofres.remove(i);
         listanegra.add(i.getCuerpo());
+    }
+    public static void eliminarEnemigo(Enemigo e){
+        listaEnemigos.remove(e);
+        listanegra.add(e.getCuerpo());
     }
 
 
