@@ -1,6 +1,4 @@
 # DungeonProyecto
 Proyecto para 1º DAM
-sadsad
-basilioda
-raul
-Alvaro
+
+Creado por Álvaro Romeral Pineda, Raúl Hidalgo Rodriguez y Basilio Lagares Marín
