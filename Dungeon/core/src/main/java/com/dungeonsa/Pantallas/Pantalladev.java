@@ -133,7 +133,7 @@ public class Pantalladev extends Pantalla  {
             public void beginContact(Contact contact) {
                 Fixture compA= contact.getFixtureA();
                 Fixture compB= contact.getFixtureB();
-                if(!compA.getUserData().equals("area_interacciones") && !compB.getUserData().equals("area_interacciones")){
+                if(!compA.getUserData().equals("area_interacciones") && !compB.getUserData().equals("area_interacciones")&&!compA.getUserData().equals("area_ataque") && !compB.getUserData().equals("area_ataque")){
 
                     return;
                 }
@@ -146,25 +146,22 @@ public class Pantalladev extends Pantalla  {
                     System.out.printf("cofre");
                 }
 
-//                if(!compA.getUserData().equals("area_ataque") && !compB.getUserData().equals("area_ataque")){
-//
-//                    return;
-//                }
-//                if(compA.getUserData().equals("area_ataque") && (compB.getUserData() instanceof Enemigo)){
-//                    ((Enemigo)compB.getUserData()).empezar_interactuar();
-//
-//                }
-//                else if(compB.getUserData().equals("area_ataque") && (compA.getUserData() instanceof Enemigo)){
-//                    ((Enemigo)compA.getUserData()).empezar_interactuar();
-//
-//                }
+
+                if(compA.getUserData().equals("area_ataque") && (compB.getUserData() instanceof Enemigo)){
+                    ((Enemigo)compB.getUserData()).empezar_interactuar();
+
+                }
+                else if(compB.getUserData().equals("area_ataque") && (compA.getUserData() instanceof Enemigo)){
+                    ((Enemigo)compA.getUserData()).empezar_interactuar();
+
+                }
             }
 
             @Override
             public void endContact(Contact contact) {
                 Fixture compA= contact.getFixtureA();
                 Fixture compB= contact.getFixtureB();
-                if(!compA.getUserData().equals("area_interacciones") && !compB.getUserData().equals("area_interacciones")){
+                if(!compA.getUserData().equals("area_interacciones") && !compB.getUserData().equals("area_interacciones")&&!compA.getUserData().equals("area_ataque") && !compB.getUserData().equals("area_ataque")){
                     return;
                 }
                 if(compA.getUserData().equals("area_interacciones") && (compB.getUserData() instanceof Cofre)){
@@ -173,6 +170,14 @@ public class Pantalladev extends Pantalla  {
                 }else if(compB.getUserData().equals("area_interacciones") && (compA.getUserData() instanceof Cofre)){
                     ((Cofre)compA.getUserData()).dejar_interactuar();
                     System.out.printf("NOcofre");
+                }
+                if(compA.getUserData().equals("area_ataque") && (compB.getUserData() instanceof Enemigo)){
+                    ((Enemigo)compB.getUserData()).dejar_interactuar();
+
+                }
+                else if(compB.getUserData().equals("area_ataque") && (compA.getUserData() instanceof Enemigo)){
+                    ((Enemigo)compA.getUserData()).dejar_interactuar();
+
                 }
 
 
@@ -222,7 +227,7 @@ public class Pantalladev extends Pantalla  {
             cuerpoJugador.applyLinearImpulse(PASO_DERECHA, posicionJugador, true);
         }
 
-        if(Gdx.input.isTouched()){
+        if(Gdx.input.justTouched()){
             Vector2 puntoClick=juego.getVista().unproject(new Vector2(Gdx.input.getX(),Gdx.input.getY()));
             for(int i=0;i<listaCofres.size();i++){
                 if(listaCofres.get(i).getAreaClick().contains(puntoClick.x, puntoClick.y)){
@@ -232,7 +237,8 @@ public class Pantalladev extends Pantalla  {
             }
             for(int i=0;i<listaEnemigos.size();i++){
                 if(listaEnemigos.get(i).getAreaClick().contains(puntoClick.x, puntoClick.y)){
-                    listaEnemigos.get(i).recivirAtaque(5000);
+                    if(jugador.isPuede_atacar()){listaEnemigos.get(i).recivirAtaque(jugador.getDp());
+                    jugador.consumir_ataque();}
                 }
 
             }

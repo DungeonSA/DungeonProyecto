@@ -20,7 +20,7 @@ public  class Enemigo extends Sprite {
 
     public Enemigo(World mundo, int x, int y, TextureRegion textureRegion,int hp,int dp){
         super();
-        areaClick = new Rectangle(x,y,16,16);
+        areaClick = new Rectangle(x,y,1,1);
         this.hp=hp;
         this.dp=dp;
         //Cuerpo físico
@@ -56,6 +56,7 @@ public  class Enemigo extends Sprite {
     public void actualizar(float delta) {
         setRegion(aspecto);
         setPosition(cuerpo.getPosition().x-.5f,cuerpo.getPosition().y-.5f);
+        areaClick.setLocation((int)cuerpo.getPosition().x,(int)cuerpo.getPosition().y);
         if (hp<0){
             Pantalladev.eliminarEnemigo(this);
         }
@@ -72,7 +73,9 @@ public  class Enemigo extends Sprite {
     }
     public void recivirAtaque(int daño) {
         if(PuedeSerAtacado){
+            System.out.println(hp);
             hp=hp-daño;
+            System.out.println(hp);
             System.out.printf("hay");
 
         }

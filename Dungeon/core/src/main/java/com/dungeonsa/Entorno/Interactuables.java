@@ -57,5 +57,6 @@ public abstract class Interactuables extends Sprite {
     public Body getCuerpo() {
         return cuerpo;
     }
+
 }
 

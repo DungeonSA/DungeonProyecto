@@ -16,11 +16,19 @@ public class Personaje extends Sprite {
     protected int dp;
     protected Body cuerpo;
     protected TextureRegion aspecto;
+    protected boolean Puede_atacar;
+    protected float Intervalo_atacar;
+    protected float contador;
+
 
     protected ArrayList<Interactuables> enRangoDeUso;
 
     public Personaje(World mundo, int x, int y, TextureRegion textureRegion){
         super();
+        dp=10;
+        Intervalo_atacar=1.2f;
+        Puede_atacar=true;
+        contador=Intervalo_atacar;
         enRangoDeUso = new ArrayList<>();
         //Cuerpo físico
         BodyDef defCuerpo=new BodyDef();
@@ -61,12 +69,33 @@ public class Personaje extends Sprite {
         return cuerpo;
     }
 
+
+
     public void actualizar(float delta) {
+        System.out.println(contador);
         setRegion(aspecto);
         setPosition(cuerpo.getPosition().x-.5f,cuerpo.getPosition().y-.5f);
+        if(!Puede_atacar&&contador<Intervalo_atacar){
+            contador+=delta;
+        }
+        if(contador>=Intervalo_atacar)Puede_atacar=true;
+
 
     }
-//
+
+    public boolean isPuede_atacar() {
+        return Puede_atacar;
+    }
+
+    public int getDp() {
+        return dp;
+    }
+    public void consumir_ataque(){
+        contador=0.f;
+        Puede_atacar=false;
+
+    }
+
 //    public void entraEnRango (Interactuables objeto){
 //        enRangoDeUso.add(objeto)
 //    }
