@@ -10,6 +10,8 @@ import java.awt.*;
 import java.util.Collection;
 
 public  class Enemigo extends Sprite {
+    protected float Intervalo_color;
+    protected float contador_color;
     protected Rectangle areaClick;
     protected boolean PuedeSerAtacado = false;
     protected int hp;
@@ -20,6 +22,9 @@ public  class Enemigo extends Sprite {
 
     public Enemigo(World mundo, int x, int y, TextureRegion textureRegion,int hp,int dp){
         super();
+        Intervalo_color=0.5f;
+
+        contador_color=Intervalo_color;
         areaClick = new Rectangle(x,y,1,1);
         this.hp=hp;
         this.dp=dp;
@@ -45,6 +50,7 @@ public  class Enemigo extends Sprite {
                 PantallaRome.LADO_LOSA, PantallaRome.LADO_LOSA);
         setRegion(aspecto);
         setBounds(0,0,1,1);
+
     }
 
     public Body getCuerpo() {
@@ -57,9 +63,14 @@ public  class Enemigo extends Sprite {
         setRegion(aspecto);
         setPosition(cuerpo.getPosition().x-.5f,cuerpo.getPosition().y-.5f);
         areaClick.setLocation((int)cuerpo.getPosition().x,(int)cuerpo.getPosition().y);
+        if(contador_color<Intervalo_color){
+            contador_color+=delta;
+        }
+        if(contador_color>=Intervalo_color)this.setColor(1f,1f,1f,1f);
         if (hp<0){
             Pantalladev.eliminarEnemigo(this);
         }
+
 
     }
     public void empezar_interactuar() {
@@ -75,14 +86,18 @@ public  class Enemigo extends Sprite {
         if(PuedeSerAtacado){
             System.out.println(hp);
             hp=hp-daño;
+            this.setColor(1f,0f,0f,1f);
             System.out.println(hp);
             System.out.printf("hay");
 
         }
     }
+    public void cambiar_color(){
+        contador_color=0f;
+        this.setColor(1f,0f,0f,1f);
+    }
     public Rectangle getAreaClick() {
         return areaClick;
     }
-
 }
 

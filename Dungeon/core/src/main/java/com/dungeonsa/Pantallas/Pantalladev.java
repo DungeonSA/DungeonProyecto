@@ -237,7 +237,9 @@ public class Pantalladev extends Pantalla  {
             }
             for(int i=0;i<listaEnemigos.size();i++){
                 if(listaEnemigos.get(i).getAreaClick().contains(puntoClick.x, puntoClick.y)){
-                    if(jugador.isPuede_atacar()){listaEnemigos.get(i).recivirAtaque(jugador.getDp());
+                    if(jugador.isPuede_atacar()){
+                        listaEnemigos.get(i).recivirAtaque(jugador.getDp());
+                        listaEnemigos.get(i).cambiar_color();
                     jugador.consumir_ataque();}
                 }
 
@@ -250,7 +252,7 @@ public class Pantalladev extends Pantalla  {
         renderizador.setView(camara);
         jugador.actualizar(delta);
         for(int i=0;i<listaCofres.size();i++)listaCofres.get(i).actualizar(delta);
-        for(int i=0;i<listaEnemigos.size();i++)listaEnemigos.get(i).actualizar(delta);
+        for(int i=0;i<listaEnemigos.size();i++){listaEnemigos.get(i).actualizar(delta);}
 
         //La camara sigue al jugador
         camara.position.x=MathUtils.clamp(cuerpoJugador.getPosition().x,5*relacionAspecto,capa.getWidth()-5*relacionAspecto);
@@ -269,6 +271,7 @@ public class Pantalladev extends Pantalla  {
         for(Muro b: listaMuros)b.draw(sb);
         for(Cofre i:listaCofres)i.draw(sb);
         for(Enemigo i:listaEnemigos)i.draw(sb);
+
         jugador.draw(sb);
         sb.end();
 
