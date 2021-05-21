@@ -26,10 +26,10 @@ public class PantallaMenuPrincipal extends Pantalla{
 		boton3=am.get("boton3.png");
 		boton4=am.get("boton4.png");
 		//Ubicar botones
-		Pboton1=new Vector2(Juego.ANCHO/2-boton1.getWidth()/2,Juego.ALTO/10*5-boton1.getHeight()/2);
-		Pboton2=new Vector2(Juego.ANCHO/2-boton2.getWidth()/2,Juego.ALTO/10*4-boton2.getHeight()/2);
-		Pboton3=new Vector2(Juego.ANCHO/2-boton3.getWidth()/2,Juego.ALTO/10*3-boton3.getHeight()/2);
-		Pboton4=new Vector2(Juego.ANCHO/2-boton4.getWidth()/2,Juego.ALTO/10*2-boton4.getHeight()/2);
+		Pboton1=new Vector2(Juego.ANCHO/2-boton1.getWidth()/2,Juego.ALTO/11*5-boton1.getHeight()/2);
+		Pboton2=new Vector2(Juego.ANCHO/2-boton2.getWidth()/2,Juego.ALTO/11*4-boton2.getHeight()/2);
+		Pboton3=new Vector2(Juego.ANCHO/2-boton3.getWidth()/2,Juego.ALTO/11*3-boton3.getHeight()/2);
+		Pboton4=new Vector2(Juego.ANCHO/2-boton4.getWidth()/2,Juego.ALTO/11*2-boton4.getHeight()/2);
 		//Definir areas de interaccion
 		Aboton1=new Rectangle((int)Pboton1.x,(int)Pboton1.y,boton1.getWidth(),boton1.getHeight());
 		Aboton2=new Rectangle((int)Pboton2.x,(int)Pboton2.y,boton2.getWidth(),boton2.getHeight());

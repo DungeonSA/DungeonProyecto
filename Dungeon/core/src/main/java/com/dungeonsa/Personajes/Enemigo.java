@@ -3,6 +3,8 @@ package com.dungeonsa.Personajes;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.*;
+import com.dungeonsa.Pantallas.Pantalla;
+import com.dungeonsa.Pantallas.PantallaAccion;
 import com.dungeonsa.Pantallas.PantallaRome;
 import com.dungeonsa.Pantallas.Pantalladev;
 
@@ -19,10 +21,12 @@ public  class Enemigo extends Sprite {
     protected int dp;
     protected Body cuerpo;
     protected TextureRegion aspecto;
+    protected PantallaAccion refPantalla;
 
-    public Enemigo(World mundo, int x, int y, TextureRegion textureRegion,int hp,int dp){
+    public Enemigo(World mundo, int x, int y, TextureRegion textureRegion, int hp, int dp, PantallaAccion refPantalla){
         super();
         Intervalo_color=0.5f;
+        this.refPantalla = refPantalla;
 
         contador_color=Intervalo_color;
         areaClick = new Rectangle(x,y,1,1);
@@ -68,7 +72,7 @@ public  class Enemigo extends Sprite {
         }
         if(contador_color>=Intervalo_color)this.setColor(1f,1f,1f,1f);
         if (hp<0){
-            Pantalladev.eliminarEnemigo(this);
+            refPantalla.eliminarEnemigo(this);
         }
 
 
@@ -93,8 +97,10 @@ public  class Enemigo extends Sprite {
         }
     }
     public void cambiar_color(){
-        contador_color=0f;
-        this.setColor(1f,0f,0f,1f);
+        if (PuedeSerAtacado){
+            contador_color = 0f;
+            this.setColor(1f, 0f, 0f, 1f);
+        }
     }
     public Rectangle getAreaClick() {
         return areaClick;

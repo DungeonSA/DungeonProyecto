@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.dungeonsa.Pantallas.Pantalla;
+import com.dungeonsa.Pantallas.PantallaAccion;
 import com.dungeonsa.Pantallas.PantallaRome;
 import com.dungeonsa.Pantallas.Pantalladev;
 
@@ -12,8 +14,8 @@ import java.awt.*;
 public class Cofre extends Interactuables{
     protected Rectangle areaClick;
 
-    public Cofre(World mundo, int x, int y, TextureRegion textureRegion) {
-        super(mundo, x, y,textureRegion);
+    public Cofre(World mundo, int x, int y, TextureRegion textureRegion, PantallaAccion refPantalla) {
+        super(mundo, x, y,textureRegion,refPantalla);
         componente.setUserData(this);
         nombre="Cofre";
         areaClick = new Rectangle(x,y,16,16);
@@ -35,7 +37,7 @@ public class Cofre extends Interactuables{
     public void usar() {
         super.usar();
         if(puedepulsar){
-            Pantalladev.eliminarcofre(this);
+            refPantalla.eliminarcofre(this);
         }
     }
 }

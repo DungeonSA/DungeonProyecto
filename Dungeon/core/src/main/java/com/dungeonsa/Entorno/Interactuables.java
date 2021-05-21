@@ -3,6 +3,8 @@ package com.dungeonsa.Entorno;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.*;
+import com.dungeonsa.Pantallas.Pantalla;
+import com.dungeonsa.Pantallas.PantallaAccion;
 import com.dungeonsa.Pantallas.PantallaRome;
 
 public abstract class Interactuables extends Sprite {
@@ -11,11 +13,11 @@ public abstract class Interactuables extends Sprite {
     protected Fixture componente;
     protected String nombre;
     protected boolean puedepulsar = false;
+    protected PantallaAccion refPantalla;
 
-
-    public Interactuables(World mundo, int x, int y, TextureRegion textureRegion) {
+    public Interactuables(World mundo, int x, int y, TextureRegion textureRegion, PantallaAccion refPantalla) {
         super();
-
+        this.refPantalla = refPantalla;
         //Cuerpo físico
 
         BodyDef defCuerpo=new BodyDef();
@@ -31,7 +33,7 @@ public abstract class Interactuables extends Sprite {
         componente=cuerpo.createFixture(defComponente);
         //darle aspecto
         aspecto=new TextureRegion(textureRegion,0,0,
-                PantallaRome.LADO_LOSA,PantallaRome.LADO_LOSA);
+                PantallaAccion.LADO_LOSA,PantallaAccion.LADO_LOSA);
         setRegion(aspecto);
         setBounds(0,0,1,1);
         setPosition(cuerpo.getPosition().x-.5f,cuerpo.getPosition().y-.5f);

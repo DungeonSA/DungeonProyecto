@@ -42,7 +42,7 @@ public class Personaje extends Sprite {
 
         //Sensor del cuerpo fisico
         CircleShape forma=new CircleShape();
-        forma.setRadius(0.5f);
+        forma.setRadius(0.4f);
 
         defComponente.shape= forma;
         defComponente.friction=0;
@@ -72,7 +72,7 @@ public class Personaje extends Sprite {
 
 
     public void actualizar(float delta) {
-        System.out.println(contador);
+//        System.out.println(contador);
         setRegion(aspecto);
         setPosition(cuerpo.getPosition().x-.5f,cuerpo.getPosition().y-.5f);
         if(!Puede_atacar&&contador<Intervalo_atacar){
