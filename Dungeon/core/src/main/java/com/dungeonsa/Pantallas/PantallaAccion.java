@@ -155,16 +155,20 @@ public abstract class PantallaAccion extends Pantalla {
             public void beginContact(Contact contact) {
                 Fixture compA = contact.getFixtureA();
                 Fixture compB = contact.getFixtureB();
-                if (!compA.getUserData().equals("area_interacciones") && !compB.getUserData().equals("area_interacciones") && !compA.getUserData().equals("area_ataque") && !compB.getUserData().equals("area_ataque")) {
+                if (!compA.getUserData().equals("area_interacciones")&&!compB.getUserData().equals("area_interacciones") &&
+
+                        !compA.getUserData().equals("area_ataque")&&!compB.getUserData().equals("area_ataque")&&
+
+                        !compA.getUserData().equals("alcance_e")&&!compB.getUserData().equals("alcance_e")) {
 
                     return;
                 }
                 if (compA.getUserData().equals("area_interacciones") && (compB.getUserData() instanceof Cofre)) {
                     ((Cofre) compB.getUserData()).empezar_interactuar();
-                    System.out.printf("cofre");
+
                 } else if (compB.getUserData().equals("area_interacciones") && (compA.getUserData() instanceof Cofre)) {
                     ((Cofre) compA.getUserData()).empezar_interactuar();
-                    System.out.printf("cofre");
+
                 }
 
 
@@ -175,27 +179,62 @@ public abstract class PantallaAccion extends Pantalla {
                     ((Enemigo) compA.getUserData()).empezar_interactuar();
 
                 }
+
+                if (compA.getUserData().equals("alcance_e") && (compB.getUserData() instanceof Enemigo)) {
+                    int a= ((Enemigo)compB.getUserData()).getDp();
+                    jugador.setPuede_recivir_ataque(true);
+                    jugador.setDaño_recivido(a);
+
+
+                } else if (compB.getUserData().equals("alcance_e") && (compA.getUserData() instanceof Enemigo)) {
+                    int a= ((Enemigo)compA.getUserData()).getDp();
+                    jugador.setPuede_recivir_ataque(true);
+                    jugador.setDaño_recivido(a);
+
+
+                }
             }
 
             @Override
             public void endContact(Contact contact) {
                 Fixture compA = contact.getFixtureA();
                 Fixture compB = contact.getFixtureB();
-                if (!compA.getUserData().equals("area_interacciones") && !compB.getUserData().equals("area_interacciones") && !compA.getUserData().equals("area_ataque") && !compB.getUserData().equals("area_ataque")) {
+                if (
+                        !compA.getUserData().equals("area_interacciones")&&!compB.getUserData().equals("area_interacciones") &&
+
+                        !compA.getUserData().equals("area_ataque")&&!compB.getUserData().equals("area_ataque")&&
+
+                        !compA.getUserData().equals("alcance_e")&&!compB.getUserData().equals("alcance_e")
+                ) {
                     return;
                 }
+
+
                 if (compA.getUserData().equals("area_interacciones") && (compB.getUserData() instanceof Cofre)) {
                     ((Cofre) compB.getUserData()).dejar_interactuar();
-                    System.out.printf("NOcofre");
+
                 } else if (compB.getUserData().equals("area_interacciones") && (compA.getUserData() instanceof Cofre)) {
                     ((Cofre) compA.getUserData()).dejar_interactuar();
-                    System.out.printf("NOcofre");
+
                 }
+
+
                 if (compA.getUserData().equals("area_ataque") && (compB.getUserData() instanceof Enemigo)) {
                     ((Enemigo) compB.getUserData()).dejar_interactuar();
 
                 } else if (compB.getUserData().equals("area_ataque") && (compA.getUserData() instanceof Enemigo)) {
                     ((Enemigo) compA.getUserData()).dejar_interactuar();
+
+                }
+                if (compA.getUserData().equals("alcance_e") && (compB.getUserData() instanceof Enemigo)) {
+                    jugador.setPuede_recivir_ataque(false);
+                    jugador.setDaño_recivido(0);
+
+
+                } else if (compB.getUserData().equals("alcance_e") && (compA.getUserData() instanceof Enemigo)) {
+                    jugador.setPuede_recivir_ataque(false);
+                    jugador.setDaño_recivido(0);
+
 
                 }
 

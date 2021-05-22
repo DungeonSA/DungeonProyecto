@@ -18,7 +18,7 @@ public class Cofre extends Interactuables{
         super(mundo, x, y,textureRegion,refPantalla);
         componente.setUserData(this);
         nombre="Cofre";
-        areaClick = new Rectangle(x,y,16,16);
+        areaClick = new Rectangle(x,y,1,1);
     }
 
     @Override

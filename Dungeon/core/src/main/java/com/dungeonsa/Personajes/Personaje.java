@@ -12,23 +12,28 @@ import java.util.ArrayList;
 public class Personaje extends Sprite {
     protected int hp=100;
     protected int maxhp=100;
+    int daño_recivido;
     protected int exp;
     protected int dp;
     protected Body cuerpo;
     protected TextureRegion aspecto;
     protected boolean Puede_atacar;
-    protected float Intervalo_atacar;
-    protected float contador;
-
+    protected boolean Puede_recivir_ataque;
+    protected static float Intervalo_recivir_ataque=0.5f;
+    protected static float Intervalo_atacar=0.7f;
+    protected float contador_atacar;
+    protected float contador_recivir;
 
     protected ArrayList<Interactuables> enRangoDeUso;
 
     public Personaje(World mundo, int x, int y, TextureRegion textureRegion){
         super();
+        daño_recivido=0;
+        Puede_recivir_ataque=true;
         dp=10;
-        Intervalo_atacar=1.2f;
         Puede_atacar=true;
-        contador=Intervalo_atacar;
+        contador_atacar=Intervalo_atacar;
+        contador_recivir=Intervalo_recivir_ataque;
         enRangoDeUso = new ArrayList<>();
         //Cuerpo físico
         BodyDef defCuerpo=new BodyDef();
@@ -46,7 +51,7 @@ public class Personaje extends Sprite {
 
         defComponente.shape= forma;
         defComponente.friction=0;
-        cuerpo.createFixture(defComponente).setUserData("jugador");
+        cuerpo.createFixture(defComponente).setUserData(this);
 
         //Sensor de Interaccion
         forma.setRadius(1.5f);
@@ -58,6 +63,11 @@ public class Personaje extends Sprite {
         componenteAtacar.isSensor=true;
         componenteAtacar.shape=forma;
         cuerpo.createFixture(componenteAtacar).setUserData("area_ataque");
+//        sensor daño_enemigo
+        forma.setRadius(0.8f);
+        componenteAtacar.isSensor=true;
+        componenteAtacar.shape=forma;
+        cuerpo.createFixture(componenteAtacar).setUserData("alcance_e");
         //dar aspecto al personaje
         aspecto=new TextureRegion(textureRegion,0,0,
                 PantallaRome.LADO_LOSA, PantallaRome.LADO_LOSA);
@@ -75,28 +85,42 @@ public class Personaje extends Sprite {
 //        System.out.println(contador);
         setRegion(aspecto);
         setPosition(cuerpo.getPosition().x-.5f,cuerpo.getPosition().y-.5f);
-        if(!Puede_atacar&&contador<Intervalo_atacar){
-            contador+=delta;
+        if(!Puede_atacar&&contador_atacar<Intervalo_atacar){
+            contador_atacar+=delta;
         }
-        if(contador>=Intervalo_atacar)Puede_atacar=true;
+        if(contador_atacar>=Intervalo_atacar)Puede_atacar=true;
+        if(Puede_recivir_ataque&&contador_recivir<Intervalo_recivir_ataque || !Puede_recivir_ataque&&contador_recivir<Intervalo_recivir_ataque){
+            contador_recivir+=delta;
+        }else if(Puede_recivir_ataque&&contador_recivir>=Intervalo_recivir_ataque){
 
+            hp-=daño_recivido;
+            contador_recivir=0f;
 
+        }
+        System.out.println(this.hp);
     }
 
     public boolean isPuede_atacar() {
         return Puede_atacar;
     }
 
+    public void setPuede_recivir_ataque(boolean puede_recivir_ataque) {
+        Puede_recivir_ataque = puede_recivir_ataque;
+    }
+
     public int getDp() {
         return dp;
     }
     public void consumir_ataque(){
-        contador=0.f;
+        contador_atacar=0.f;
         Puede_atacar=false;
 
     }
 
-//    public void entraEnRango (Interactuables objeto){
-//        enRangoDeUso.add(objeto)
-//    }
+
+    public void setDaño_recivido(int daño_recivido) {
+        this.daño_recivido = daño_recivido;
+    }
+
+//
 }

@@ -45,10 +45,10 @@ public  class Enemigo extends Sprite {
         //Sensor del cuerpo fisico
         CircleShape forma=new CircleShape();
         forma.setRadius(0.5f);
-
         defComponente.shape= forma;
         defComponente.friction=0;
         cuerpo.createFixture(defComponente).setUserData(this);
+
         //dar aspecto al personaje
         aspecto=new TextureRegion(textureRegion,0,0,
                 PantallaRome.LADO_LOSA, PantallaRome.LADO_LOSA);
@@ -96,6 +96,11 @@ public  class Enemigo extends Sprite {
 
         }
     }
+
+    public int getDp() {
+        return dp;
+    }
+
     public void cambiar_color(){
         if (PuedeSerAtacado){
             contador_color = 0f;
