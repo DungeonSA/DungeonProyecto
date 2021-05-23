@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.*;
 import com.dungeonsa.Entorno.Interactuables;
 import com.dungeonsa.Pantallas.PantallaRome;
+import com.dungeonsa.Utiles;
 
 import java.util.ArrayList;
 
@@ -48,7 +49,6 @@ public class Personaje extends Sprite {
         //Sensor del cuerpo fisico
         CircleShape forma=new CircleShape();
         forma.setRadius(0.4f);
-
         defComponente.shape= forma;
         defComponente.friction=0;
         cuerpo.createFixture(defComponente).setUserData(this);
@@ -70,7 +70,7 @@ public class Personaje extends Sprite {
         cuerpo.createFixture(componenteAtacar).setUserData("alcance_e");
         //dar aspecto al personaje
         aspecto=new TextureRegion(textureRegion,0,0,
-                PantallaRome.LADO_LOSA, PantallaRome.LADO_LOSA);
+                Utiles.LADO_LOSA, Utiles.LADO_LOSA);
         setRegion(aspecto);
         setBounds(0,0,1,1);
     }

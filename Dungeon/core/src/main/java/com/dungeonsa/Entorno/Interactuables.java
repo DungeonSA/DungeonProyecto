@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.dungeonsa.Pantallas.Pantalla;
 import com.dungeonsa.Pantallas.PantallaAccion;
 import com.dungeonsa.Pantallas.PantallaRome;
+import com.dungeonsa.Utiles;
 
 public abstract class Interactuables extends Sprite {
     protected Body cuerpo;
@@ -33,7 +34,7 @@ public abstract class Interactuables extends Sprite {
         componente=cuerpo.createFixture(defComponente);
         //darle aspecto
         aspecto=new TextureRegion(textureRegion,0,0,
-                PantallaAccion.LADO_LOSA,PantallaAccion.LADO_LOSA);
+                Utiles.LADO_LOSA,Utiles.LADO_LOSA);
         setRegion(aspecto);
         setBounds(0,0,1,1);
         setPosition(cuerpo.getPosition().x-.5f,cuerpo.getPosition().y-.5f);

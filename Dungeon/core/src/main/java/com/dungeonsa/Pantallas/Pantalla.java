@@ -41,6 +41,5 @@ public abstract class Pantalla implements Screen {
 
     @Override
     public void dispose() {
-
     }
 }

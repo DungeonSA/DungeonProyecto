@@ -3,7 +3,9 @@ package com.dungeonsa;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.dungeonsa.Pantallas.PantallaMenuPrincipal;
@@ -11,26 +13,29 @@ import com.dungeonsa.Pantallas.Pantalla;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Juego extends Game {
-	public static final int ANCHO=1280;
-	public static final int ALTO=720;
+
 	public static final String TITULO="Dungeon";
 	public static final String ICONO="icono.png";
+	public static final int ANCHO=800;
+	public static final int ALTO=480;
 	private int ancho,alto;
-
 	private OrthographicCamera camara;
-	private FitViewport vista;
 	private SpriteBatch sb;
 	private AssetManager am;
-	private Pantalla actual;
+	public BitmapFont font;
+	private FitViewport vista;
 
 	@Override
 	public void create() {
 		camara=new OrthographicCamera();
+		camara.setToOrtho(false,ANCHO,ALTO);
 		ancho= Gdx.graphics.getWidth();
 		alto=Gdx.graphics.getHeight();
-		vista=new FitViewport(ancho,alto,camara);
 		sb=new SpriteBatch();
 		am=new AssetManager();
+		font= new BitmapFont();
+		font.setColor(Color.BLACK);
+		vista=new FitViewport(ancho,alto,camara);
 		cambiarPantalla(null, new PantallaMenuPrincipal());
 	}
 
@@ -57,11 +62,11 @@ public class Juego extends Game {
 		return sb;
 	}
 
-	public Pantalla getActual() {
-		return actual;
-	}
-
 	public AssetManager getAm() { return am; }
+
+	public BitmapFont getFont() {
+		return font;
+	}
 
 	public int getAncho() { return ancho; }
 
@@ -72,6 +77,5 @@ public class Juego extends Game {
 			antigua.dispose();
 		}
 		setScreen(nueva);
-		actual=nueva;
 	}
 }

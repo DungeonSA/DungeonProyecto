@@ -3,9 +3,9 @@ package com.dungeonsa.Pantallas;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -14,7 +14,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.dungeonsa.Dificultad;
 import com.dungeonsa.Entorno.Cofre;
 import com.dungeonsa.Entorno.Interactuables;
 import com.dungeonsa.Entorno.Muro;
@@ -23,37 +23,25 @@ import com.dungeonsa.Juego;
 import com.dungeonsa.Personajes.Enemigo;
 import com.dungeonsa.Personajes.Esqueleto;
 import com.dungeonsa.Personajes.Personaje;
+import com.dungeonsa.Utiles;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
 public abstract class PantallaAccion extends Pantalla {
     //pantalla
-    public static final int ANCHO_JUEGO=1280;
-    public static final int ALTO_JUEGO=720;
-    public static final int ANCHO_PANEL=(int)(Gdx.graphics.getDisplayMode().height*.25f);
-    public static final int ALTO_MAPA=(int)(Gdx.graphics.getDisplayMode().height*.25f);
-    public static final int ALTO_HUD=(int)(Gdx.graphics.getDisplayMode().height*.75f);
     protected float relacionAspecto;
-    FitViewport viewportPrincipal;
-    OrthographicCamera camaraMapa;
-    HUD hud;
-    FitViewport viewportHud;
+    protected SpriteBatch HUD;
+    protected Label labelCofres;
 
     //variables mapa
-    public static final int LADO_LOSA = 16;
     private TiledMap mapa;
     private TiledMapTileLayer capa;
     private OrthogonalTiledMapRenderer renderizador;
-    protected static final String TIPO = "tipo";
-    protected static final String JUGADOR = "jugador";
-    protected static final String MURO = "muro";
-    protected static final String ESQUELETO = "esqueleton";
-    protected static final String COFRE = "cofre";
 
     //variables nivel
-    protected static final int VIDA_MAX_ENEMIGO = 100;
-    protected static final int VIDA_MIN_ENEMIGO = 50;
+    protected static final Dificultad dificultad = Dificultad.FACIL;
     protected static ArrayList<Muro> listaMuros;
     protected static ArrayList<Cofre> listaCofres;
     protected static ArrayList<Enemigo> listaEnemigos;
@@ -63,12 +51,10 @@ public abstract class PantallaAccion extends Pantalla {
     protected Personaje jugador = null;
     protected Body cuerpoJugador = null;
     protected Vector2 posicionJugador = null;
-    protected static final Vector2 PASO_ARRIBA = new Vector2(0, 1f);
-    protected static final Vector2 PASO_ABAJO = new Vector2(0, -1f);
-    protected static final Vector2 PASO_DERECHA = new Vector2(1f, 0);
-    protected static final Vector2 PASO_IZQUIERDA = new Vector2(-1f, 0);
-    protected static float VEL_MAX = 3.0f;
-    protected Vector2 puntoClick;
+
+    //Objetivo nivel
+    private static int cofresRecogidos=0;
+    private static int cofresTotales=0;
 
     //Fisicas
     protected World mundo;
@@ -85,16 +71,12 @@ public abstract class PantallaAccion extends Pantalla {
         am.finishLoading();
         mapa = am.get("pruevaRome.tmx");
 
-        renderizador = new OrthogonalTiledMapRenderer(mapa, 1.0f / LADO_LOSA);
-        relacionAspecto = (float) ANCHO_JUEGO / ALTO_JUEGO;
-//        camara.setToOrtho(false, 10 * relacionAspecto, 10);
-        viewportPrincipal=new FitViewport(10*relacionAspecto,10,camara);
-        viewportPrincipal.setScreenBounds(0,0,ANCHO_JUEGO,ALTO_JUEGO);
+        renderizador = new OrthogonalTiledMapRenderer(mapa, 1.0f / Utiles.LADO_LOSA);
+        relacionAspecto = (float) Juego.ANCHO / Juego.ALTO;
+        camara.setToOrtho(false, 10 * relacionAspecto, 10);
 
         //Hud
-        hud=new HUD(sb);
-        viewportHud= hud.getVista();
-        viewportHud.setScreenBounds(ANCHO_JUEGO,0,ANCHO_PANEL,ALTO_HUD);
+        labelCofres=new Label("Cofres: "+cofresRecogidos+"/"+cofresTotales);
 
         //Físicas
         mundo = new World(new Vector2(0, 0), true);
@@ -113,10 +95,10 @@ public abstract class PantallaAccion extends Pantalla {
                 TiledMapTileLayer.Cell celda = capa.getCell(x, y);
                 if (celda == null) continue;
                 MapProperties propiedades = celda.getTile().getProperties();
-                if (propiedades.containsKey(TIPO)) {
-                    switch ((String) propiedades.get(TIPO)) {
+                if (propiedades.containsKey(Utiles.TIPO)) {
+                    switch ((String) propiedades.get(Utiles.TIPO)) {
 
-                        case MURO:
+                        case Utiles.MURO:
                             listaMuros.add(new MuroDungeon(mundo, x, y, celda.getTile().getTextureRegion()));
                             break;
                     }
@@ -130,19 +112,20 @@ public abstract class PantallaAccion extends Pantalla {
                 TiledMapTileLayer.Cell celda = capa.getCell(x, y);
                 if (celda == null) continue;
                 MapProperties propiedades = celda.getTile().getProperties();
-                if (propiedades.containsKey(TIPO)) {
-                    switch ((String) propiedades.get(TIPO)) {
-                        case JUGADOR:
+                if (propiedades.containsKey(Utiles.TIPO)) {
+                    switch ((String) propiedades.get(Utiles.TIPO)) {
+                        case Utiles.JUGADOR:
                             jugador = new Personaje(mundo, x, y, celda.getTile().getTextureRegion());
                             cuerpoJugador = jugador.getCuerpo();
                             break;
-                        case COFRE:
+                        case Utiles.COFRE:
                             listaCofres.add(new Cofre(mundo, x, y, celda.getTile().getTextureRegion(), this));
+                            cofresTotales++;
                             break;
-                        case ESQUELETO:
+                        case Utiles.ESQUELETO:
                             Random r = new Random();
-                            int VidaEnemigo = r.nextInt(VIDA_MAX_ENEMIGO - VIDA_MIN_ENEMIGO) + VIDA_MIN_ENEMIGO;
-                            listaEnemigos.add(new Esqueleto(mundo, x, y, celda.getTile().getTextureRegion(), VidaEnemigo, 12, this));
+                            int VidaEnemigo = r.nextInt(dificultad.getVidaMax() - dificultad.getVidaMin()) + dificultad.getVidaMin();
+                            listaEnemigos.add(new Esqueleto(mundo, x, y, celda.getTile().getTextureRegion(), VidaEnemigo, dificultad.getDamageEnemigo(), this));
                             break;
 
                     }
@@ -269,20 +252,20 @@ public abstract class PantallaAccion extends Pantalla {
             cuerpoJugador.setLinearVelocity(cuerpoJugador.getLinearVelocity().x, 0f);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.A) &&
-                cuerpoJugador.getLinearVelocity().x > -VEL_MAX) {
-            cuerpoJugador.applyLinearImpulse(PASO_IZQUIERDA, posicionJugador, true);
+                cuerpoJugador.getLinearVelocity().x > -Utiles.VEL_MAX) {
+            cuerpoJugador.applyLinearImpulse(Utiles.PASO_IZQUIERDA, posicionJugador, true);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.W) &&
-                cuerpoJugador.getLinearVelocity().y < VEL_MAX) {
-            cuerpoJugador.applyLinearImpulse(PASO_ARRIBA, posicionJugador, true);
+                cuerpoJugador.getLinearVelocity().y < Utiles.VEL_MAX) {
+            cuerpoJugador.applyLinearImpulse(Utiles.PASO_ARRIBA, posicionJugador, true);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.S) &&
-                cuerpoJugador.getLinearVelocity().y > -VEL_MAX) {
-            cuerpoJugador.applyLinearImpulse(PASO_ABAJO, posicionJugador, true);
+                cuerpoJugador.getLinearVelocity().y > -Utiles.VEL_MAX) {
+            cuerpoJugador.applyLinearImpulse(Utiles.PASO_ABAJO, posicionJugador, true);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D) &&
-                cuerpoJugador.getLinearVelocity().x < VEL_MAX) {
-            cuerpoJugador.applyLinearImpulse(PASO_DERECHA, posicionJugador, true);
+                cuerpoJugador.getLinearVelocity().x < Utiles.VEL_MAX) {
+            cuerpoJugador.applyLinearImpulse(Utiles.PASO_DERECHA, posicionJugador, true);
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
             juego.cambiarPantalla(this,new PantallaMenuPrincipal());
@@ -325,12 +308,13 @@ public abstract class PantallaAccion extends Pantalla {
         camara.position.x = MathUtils.clamp(cuerpoJugador.getPosition().x, 5 * relacionAspecto, capa.getWidth() - 5 * relacionAspecto);
         camara.position.y = MathUtils.clamp(cuerpoJugador.getPosition().y, 5, capa.getHeight() - 5);
         camara.update();
+        //objetivo de nivel
+        labelCofres.setText("Cofres: "+cofresRecogidos+"/"+cofresTotales);
     }
 
     @Override
     public void dibujar(float delta) {
         //dibujar mapa fondo
-        viewportPrincipal.apply();
         int[] capas = {0};
         renderizador.render(capas);
         sb.setProjectionMatrix(camara.combined);
@@ -344,8 +328,6 @@ public abstract class PantallaAccion extends Pantalla {
         sb.end();
 
         //Hud
-        viewportHud.apply();
-        hud.getEscenario().draw();
 
         //dibujar depurador (debug de colisiones)
         depurador.render(mundo, camara.combined); //dibuja las lineas del debuger
@@ -361,6 +343,7 @@ public abstract class PantallaAccion extends Pantalla {
     public static void eliminarcofre(Interactuables i) {
         listaCofres.remove(i);
         listanegra.add(i.getCuerpo());
+        cofresRecogidos++;
     }
 
     public static void eliminarEnemigo(Enemigo e) {
@@ -375,7 +358,7 @@ public abstract class PantallaAccion extends Pantalla {
 
     @Override
     public void resize(int width, int height) {
-
+        vista.update(width,height,true);
     }
 
     @Override

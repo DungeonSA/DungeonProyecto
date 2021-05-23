@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.*;
 import com.dungeonsa.Pantallas.Pantalla;
 import com.dungeonsa.Pantallas.PantallaRome;
+import com.dungeonsa.Utiles;
 
 public class Muro extends Sprite {
     protected Body cuerpo;
@@ -29,7 +30,7 @@ public class Muro extends Sprite {
 
         //darle aspecto
         aspecto=new TextureRegion(textureRegion,0,0,
-                PantallaRome.LADO_LOSA,PantallaRome.LADO_LOSA);
+                Utiles.LADO_LOSA,Utiles.LADO_LOSA);
         setRegion(aspecto);
         setBounds(0,0,1,1);
         setPosition(cuerpo.getPosition().x-.5f,cuerpo.getPosition().y-.5f);

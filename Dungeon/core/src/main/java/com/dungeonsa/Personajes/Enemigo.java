@@ -7,19 +7,20 @@ import com.dungeonsa.Pantallas.Pantalla;
 import com.dungeonsa.Pantallas.PantallaAccion;
 import com.dungeonsa.Pantallas.PantallaRome;
 import com.dungeonsa.Pantallas.Pantalladev;
+import com.dungeonsa.Utiles;
 
 import java.awt.*;
 import java.util.Collection;
 
 public  class Enemigo extends Sprite {
+    protected int hp;
+    protected int dp;
     protected float Intervalo_color;
     protected float contador_color;
-    protected Rectangle areaClick;
     protected boolean PuedeSerAtacado = false;
-    protected int hp;
-    protected int exp;
-    protected int dp;
+    protected boolean invencible = false;
     protected Body cuerpo;
+    protected Rectangle areaClick;
     protected TextureRegion aspecto;
     protected PantallaAccion refPantalla;
 
@@ -38,7 +39,7 @@ public  class Enemigo extends Sprite {
         defCuerpo.position.x=x+0.5f;
         defCuerpo.position.y=y+0.5f;
         FixtureDef defComponente= new FixtureDef();
-        FixtureDef componenteinteraccion=new FixtureDef();
+        FixtureDef componenteVision=new FixtureDef();
         FixtureDef componenteAtacar=new FixtureDef();
         cuerpo=mundo.createBody(defCuerpo);
 
@@ -49,9 +50,15 @@ public  class Enemigo extends Sprite {
         defComponente.friction=0;
         cuerpo.createFixture(defComponente).setUserData(this);
 
+        //sensor vision
+        forma.setRadius(2.f);
+        componenteVision.isSensor=true;
+        componenteVision.shape=forma;
+        cuerpo.createFixture(componenteVision).setUserData("vision_enemiga");
+
         //dar aspecto al personaje
         aspecto=new TextureRegion(textureRegion,0,0,
-                PantallaRome.LADO_LOSA, PantallaRome.LADO_LOSA);
+                Utiles.LADO_LOSA, Utiles.LADO_LOSA);
         setRegion(aspecto);
         setBounds(0,0,1,1);
 
@@ -96,6 +103,34 @@ public  class Enemigo extends Sprite {
 
         }
     }
+
+//    public void chase(Personaje jugador) {
+//        if (sense.colCircleBox(playerBounds) && !attackrange.colCircleBox(playerBounds)) {
+//            if (pos.y > jugador.pos.y + 1) {
+//                up = true;
+//            } else {
+//                up = false;
+//            }
+//            if (pos.y < jugador.pos.y - 1) {
+//                down = true;
+//            } else {
+//                down = false;
+//            }
+//
+//            if (pos.x > jugador.pos.x + 1) {
+//                left = true;
+//            } else {
+//                left = false;
+//            }
+//            if (pos.x < jugador.pos.x - 1) {
+//                right = true;
+//            } else {
+//                right = false;
+//            }
+//        } else {
+//            this.get
+//        }
+//    }
 
     public int getDp() {
         return dp;

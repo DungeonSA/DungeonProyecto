@@ -5,9 +5,13 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.dungeonsa.Juego;
 
 public class PantallaMenuPrincipal extends Pantalla{
+	private FitViewport vista;
+	private int ancho,alto;
+
 	private Texture fondo,boton1,boton2,boton3,boton4;
 	private Vector2 Pboton1,Pboton2,Pboton3,Pboton4;
 	private Rectangle Aboton1,Aboton2,Aboton3,Aboton4;
@@ -25,6 +29,11 @@ public class PantallaMenuPrincipal extends Pantalla{
 		boton2=am.get("boton2.png");
 		boton3=am.get("boton3.png");
 		boton4=am.get("boton4.png");
+		//PANTALLA
+		camara.setToOrtho(false,juego.getAncho(),juego.getAlto());
+		ancho= Gdx.graphics.getWidth();
+		alto=Gdx.graphics.getHeight();
+		vista=new FitViewport(ancho,alto,camara);
 		//Ubicar botones
 		Pboton1=new Vector2(Juego.ANCHO/2-boton1.getWidth()/2,Juego.ALTO/11*5-boton1.getHeight()/2);
 		Pboton2=new Vector2(Juego.ANCHO/2-boton2.getWidth()/2,Juego.ALTO/11*4-boton2.getHeight()/2);
@@ -59,13 +68,13 @@ public class PantallaMenuPrincipal extends Pantalla{
 			}else if(Aboton3.contains(puntoClick.x, puntoClick.y)){
 				juego.cambiarPantalla(this,new PantallaBasilio());
 			}else if(Aboton4.contains(puntoClick.x,puntoClick.y)){
-
+				Gdx.app.exit();
 			}
 		}
 	}
 	@Override
 	public void actualizar(float delta) {
-
+		camara.update();
 	}
 
 	@Override
@@ -81,7 +90,7 @@ public class PantallaMenuPrincipal extends Pantalla{
 
 	@Override
 	public void resize(int width, int height) {
-
+		vista.update(width,height,true);
 	}
 
 	@Override
