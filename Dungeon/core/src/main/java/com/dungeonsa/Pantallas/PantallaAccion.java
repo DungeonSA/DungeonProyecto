@@ -14,6 +14,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.dungeonsa.Dificultad;
 import com.dungeonsa.Entorno.Cofre;
 import com.dungeonsa.Entorno.Interactuables;
@@ -34,6 +35,7 @@ public abstract class PantallaAccion extends Pantalla {
     protected float relacionAspecto;
     protected SpriteBatch HUD;
     protected Label labelCofres;
+    private int ancho,alto;
 
     //variables mapa
     private TiledMap mapa;
@@ -73,6 +75,9 @@ public abstract class PantallaAccion extends Pantalla {
 
         renderizador = new OrthogonalTiledMapRenderer(mapa, 1.0f / Utiles.LADO_LOSA);
         relacionAspecto = (float) Juego.ANCHO / Juego.ALTO;
+        ancho= Gdx.graphics.getWidth();
+        alto=Gdx.graphics.getHeight();
+        vista=new FitViewport(ancho,alto,camara);
         camara.setToOrtho(false, 10 * relacionAspecto, 10);
 
         //Hud
@@ -358,7 +363,7 @@ public abstract class PantallaAccion extends Pantalla {
 
     @Override
     public void resize(int width, int height) {
-        vista.update(width,height,true);
+//        vista.update(10,10,true);
     }
 
     @Override
