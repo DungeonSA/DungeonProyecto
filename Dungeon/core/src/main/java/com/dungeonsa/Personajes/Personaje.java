@@ -3,6 +3,7 @@ package com.dungeonsa.Personajes;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.dungeonsa.Entorno.Interactuables;
 import com.dungeonsa.Pantallas.PantallaRome;
@@ -24,6 +25,7 @@ public class Personaje extends Sprite {
     protected static float Intervalo_atacar=0.7f;
     protected float contador_atacar;
     protected float contador_recivir;
+    protected Vector2 posicion;
 
     protected ArrayList<Interactuables> enRangoDeUso;
 
@@ -44,6 +46,7 @@ public class Personaje extends Sprite {
         FixtureDef defComponente= new FixtureDef();
         FixtureDef componenteinteraccion=new FixtureDef();
         FixtureDef componenteAtacar=new FixtureDef();
+        FixtureDef componenteVision=new FixtureDef();
         cuerpo=mundo.createBody(defCuerpo);
 
         //Sensor del cuerpo fisico
@@ -63,6 +66,11 @@ public class Personaje extends Sprite {
         componenteAtacar.isSensor=true;
         componenteAtacar.shape=forma;
         cuerpo.createFixture(componenteAtacar).setUserData("area_ataque");
+        //sensor vision
+        forma.setRadius(2.f);
+        componenteVision.isSensor=true;
+        componenteVision.shape=forma;
+        cuerpo.createFixture(componenteVision).setUserData("vision_enemiga");
 //        sensor daño_enemigo
         forma.setRadius(0.8f);
         componenteAtacar.isSensor=true;
@@ -81,8 +89,10 @@ public class Personaje extends Sprite {
 
 
 
-    public void actualizar(float delta) {
+    public void actualizar(float delta, Vector2 posicion) {
 //        System.out.println(contador);
+        this.posicion=posicion;
+//        System.out.println(posicion);
         setRegion(aspecto);
         setPosition(cuerpo.getPosition().x-.5f,cuerpo.getPosition().y-.5f);
         if(!Puede_atacar&&contador_atacar<Intervalo_atacar){
@@ -97,7 +107,7 @@ public class Personaje extends Sprite {
             contador_recivir=0f;
 
         }
-        System.out.println(this.hp);
+//        System.out.println(this.hp);
     }
 
     public boolean isPuede_atacar() {
@@ -117,6 +127,9 @@ public class Personaje extends Sprite {
 
     }
 
+    public Vector2 getPosicion() {
+        return posicion;
+    }
 
     public void setDaño_recivido(int daño_recivido) {
         this.daño_recivido = daño_recivido;

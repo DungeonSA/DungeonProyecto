@@ -2,6 +2,7 @@ package com.dungeonsa.Personajes;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.dungeonsa.Pantallas.Pantalla;
 import com.dungeonsa.Pantallas.PantallaAccion;
@@ -17,12 +18,14 @@ public  class Enemigo extends Sprite {
     protected int dp;
     protected float Intervalo_color;
     protected float contador_color;
+    protected float velocidad = 100;
     protected boolean PuedeSerAtacado = false;
     protected boolean invencible = false;
     protected Body cuerpo;
     protected Rectangle areaClick;
     protected TextureRegion aspecto;
     protected PantallaAccion refPantalla;
+    protected Vector2 posicion;
 
     public Enemigo(World mundo, int x, int y, TextureRegion textureRegion, int hp, int dp, PantallaAccion refPantalla){
         super();
@@ -39,22 +42,22 @@ public  class Enemigo extends Sprite {
         defCuerpo.position.x=x+0.5f;
         defCuerpo.position.y=y+0.5f;
         FixtureDef defComponente= new FixtureDef();
-        FixtureDef componenteVision=new FixtureDef();
-        FixtureDef componenteAtacar=new FixtureDef();
+//        FixtureDef componenteVision=new FixtureDef();
+//        FixtureDef componenteAtacar=new FixtureDef();
         cuerpo=mundo.createBody(defCuerpo);
 
         //Sensor del cuerpo fisico
         CircleShape forma=new CircleShape();
-        forma.setRadius(0.5f);
+        forma.setRadius(0.4f);
         defComponente.shape= forma;
         defComponente.friction=0;
         cuerpo.createFixture(defComponente).setUserData(this);
 
-        //sensor vision
-        forma.setRadius(2.f);
-        componenteVision.isSensor=true;
-        componenteVision.shape=forma;
-        cuerpo.createFixture(componenteVision).setUserData("vision_enemiga");
+//        //sensor vision
+//        forma.setRadius(2.f);
+//        componenteVision.isSensor=true;
+//        componenteVision.shape=forma;
+//        cuerpo.createFixture(componenteVision).setUserData("vision_enemiga");
 
         //dar aspecto al personaje
         aspecto=new TextureRegion(textureRegion,0,0,
@@ -70,7 +73,7 @@ public  class Enemigo extends Sprite {
 
 
 
-    public void actualizar(float delta) {
+    public void actualizar(float delta, Vector2 posicion) {
         setRegion(aspecto);
         setPosition(cuerpo.getPosition().x-.5f,cuerpo.getPosition().y-.5f);
         areaClick.setLocation((int)cuerpo.getPosition().x,(int)cuerpo.getPosition().y);
@@ -81,7 +84,7 @@ public  class Enemigo extends Sprite {
         if (hp<0){
             refPantalla.eliminarEnemigo(this);
         }
-
+        this.posicion = posicion;
 
     }
     public void empezar_interactuar() {
@@ -104,33 +107,14 @@ public  class Enemigo extends Sprite {
         }
     }
 
-//    public void chase(Personaje jugador) {
-//        if (sense.colCircleBox(playerBounds) && !attackrange.colCircleBox(playerBounds)) {
-//            if (pos.y > jugador.pos.y + 1) {
-//                up = true;
-//            } else {
-//                up = false;
-//            }
-//            if (pos.y < jugador.pos.y - 1) {
-//                down = true;
-//            } else {
-//                down = false;
-//            }
-//
-//            if (pos.x > jugador.pos.x + 1) {
-//                left = true;
-//            } else {
-//                left = false;
-//            }
-//            if (pos.x < jugador.pos.x - 1) {
-//                right = true;
-//            } else {
-//                right = false;
-//            }
-//        } else {
-//            this.get
-//        }
-//    }
+    public void moverHacia(Vector2 objetivo) {
+        cuerpo.applyForce(calculateVelocity(objetivo),objetivo,true);
+    }
+
+    public Vector2 calculateVelocity(Vector2 target) {
+        Vector2 direction = new Vector2(target.x - cuerpo.getPosition().x, target.y - cuerpo.getPosition().y ).nor();
+        return new Vector2( velocidad * direction.x, velocidad * direction.y );
+    }
 
     public int getDp() {
         return dp;

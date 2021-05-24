@@ -23,6 +23,7 @@ import com.dungeonsa.Entorno.MuroDungeon;
 import com.dungeonsa.Juego;
 import com.dungeonsa.Personajes.Enemigo;
 import com.dungeonsa.Personajes.Esqueleto;
+import com.dungeonsa.Personajes.Jugador;
 import com.dungeonsa.Personajes.Personaje;
 import com.dungeonsa.Utiles;
 
@@ -147,6 +148,8 @@ public abstract class PantallaAccion extends Pantalla {
 
                         !compA.getUserData().equals("area_ataque")&&!compB.getUserData().equals("area_ataque")&&
 
+                        !compA.getUserData().equals("vision_enemiga")&&!compB.getUserData().equals("vision_enemiga")&&
+
                         !compA.getUserData().equals("alcance_e")&&!compB.getUserData().equals("alcance_e")) {
 
                     return;
@@ -159,12 +162,21 @@ public abstract class PantallaAccion extends Pantalla {
 
                 }
 
-
                 if (compA.getUserData().equals("area_ataque") && (compB.getUserData() instanceof Enemigo)) {
                     ((Enemigo) compB.getUserData()).empezar_interactuar();
 
                 } else if (compB.getUserData().equals("area_ataque") && (compA.getUserData() instanceof Enemigo)) {
                     ((Enemigo) compA.getUserData()).empezar_interactuar();
+
+                }
+
+                if (compA.getUserData().equals("vision_enemiga") && (compB.getUserData() instanceof Enemigo)) {
+                    ((Enemigo) compB.getUserData()).moverHacia(jugador.getPosicion());
+//                    Vector2 posicion = ((Personaje) compB.getUserData()).getPosicion();
+
+
+                } else if (compB.getUserData().equals("vision_enemiga") && (compA.getUserData() instanceof Enemigo)) {
+                    ((Enemigo) compA.getUserData()).moverHacia(jugador.getPosicion());
 
                 }
 
@@ -191,6 +203,8 @@ public abstract class PantallaAccion extends Pantalla {
                         !compA.getUserData().equals("area_interacciones")&&!compB.getUserData().equals("area_interacciones") &&
 
                         !compA.getUserData().equals("area_ataque")&&!compB.getUserData().equals("area_ataque")&&
+
+                        !compA.getUserData().equals("vision_enemiga")&&!compB.getUserData().equals("vision_enemiga")&&
 
                         !compA.getUserData().equals("alcance_e")&&!compB.getUserData().equals("alcance_e")
                 ) {
@@ -301,12 +315,13 @@ public abstract class PantallaAccion extends Pantalla {
     @Override
     public void actualizar(float delta) {
         renderizador.setView(camara);
-        jugador.actualizar(delta);
+        jugador.actualizar(delta,jugador.getCuerpo().getWorldCenter());
 
         //actualizar estado de objetos
         for (int i = 0; i < listaCofres.size(); i++) listaCofres.get(i).actualizar(delta);
         for (int i = 0; i < listaEnemigos.size(); i++) {
-            listaEnemigos.get(i).actualizar(delta);
+            Vector2 pos= listaEnemigos.get(i).getCuerpo().getWorldCenter();
+            listaEnemigos.get(i).actualizar(delta,pos);
         }
 
         //camara sigue jugador
