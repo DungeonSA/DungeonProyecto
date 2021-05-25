@@ -95,6 +95,7 @@ public  class Enemigo extends Sprite {
           moverHacia(refPantalla.personajeref().getPosicion());
 
         }else this.cuerpo.setLinearVelocity(0f,0f);
+        flipear(delta);
 
 
     }
@@ -147,6 +148,13 @@ public  class Enemigo extends Sprite {
 
     public void setEstadoAlerta(boolean estadoAlerta) {
         EstadoAlerta = estadoAlerta;
+    }
+    public TextureRegion flipear(float delta) {
+        Vector2 velocidad = cuerpo.getLinearVelocity();
+        if ((velocidad.x < 0 && !aspecto.isFlipX()) || (velocidad.x > 0 && aspecto.isFlipX()))
+            aspecto.flip(true, false);
+
+        return aspecto;
     }
 }
 
