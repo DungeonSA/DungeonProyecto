@@ -107,6 +107,8 @@ public class Personaje extends Sprite {
             contador_recivir=0f;
 
         }
+        decidirAspecto(delta);
+
 //        System.out.println(this.hp);
     }
 
@@ -133,6 +135,14 @@ public class Personaje extends Sprite {
 
     public void setDaño_recivido(int daño_recivido) {
         this.daño_recivido = daño_recivido;
+        aspecto.flip(true,false);
+    }
+    public TextureRegion decidirAspecto(float delta) {
+        Vector2 velocidad = cuerpo.getLinearVelocity();
+        if ((velocidad.x < 0 && !aspecto.isFlipX()) || (velocidad.x > 0 && aspecto.isFlipX()))
+            aspecto.flip(true, false);
+
+        return aspecto;
     }
 
 //

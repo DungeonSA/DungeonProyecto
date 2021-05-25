@@ -40,7 +40,7 @@ public  class Enemigo extends Sprite {
         this.dp=dp;
         //Cuerpo físico
         BodyDef defCuerpo=new BodyDef();
-        defCuerpo.type= BodyDef.BodyType.KinematicBody;
+        defCuerpo.type= BodyDef.BodyType.DynamicBody;
         defCuerpo.position.x=x+0.5f;
         defCuerpo.position.y=y+0.5f;
         FixtureDef defComponente= new FixtureDef();
@@ -94,7 +94,7 @@ public  class Enemigo extends Sprite {
         if(this.EstadoAlerta){
           moverHacia(refPantalla.personajeref().getPosicion());
 
-        }
+        }else this.cuerpo.setLinearVelocity(0f,0f);
 
 
     }
@@ -121,7 +121,10 @@ public  class Enemigo extends Sprite {
     public void moverHacia(Vector2 objetivo) {
         cuerpo.setLinearVelocity(calculateVelocity(objetivo));
 
+
+
     }
+
 
     public Vector2 calculateVelocity(Vector2 target) {
         Vector2 direction = new Vector2(target.x - cuerpo.getPosition().x, target.y - cuerpo.getPosition().y ).nor();

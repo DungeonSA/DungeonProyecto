@@ -42,6 +42,7 @@ public abstract class PantallaAccion extends Pantalla {
     private TiledMap mapa;
     private TiledMapTileLayer capa;
     private OrthogonalTiledMapRenderer renderizador;
+    private float tiempo=0;
 
     //variables nivel
     protected static final Dificultad dificultad = Dificultad.FACIL;
@@ -244,6 +245,7 @@ public abstract class PantallaAccion extends Pantalla {
 
 
 
+
                 } else if (compB.getUserData().equals("vision_enemiga") && (compA.getUserData() instanceof Enemigo)) {
                     ((Enemigo) compA.getUserData()).setEstadoAlerta(false);
 
@@ -282,6 +284,7 @@ public abstract class PantallaAccion extends Pantalla {
         if (Gdx.input.isKeyPressed(Input.Keys.A) &&
                 cuerpoJugador.getLinearVelocity().x > -Utiles.VEL_MAX) {
             cuerpoJugador.applyLinearImpulse(Utiles.PASO_IZQUIERDA, posicionJugador, true);
+
         }
         if (Gdx.input.isKeyPressed(Input.Keys.W) &&
                 cuerpoJugador.getLinearVelocity().y < Utiles.VEL_MAX) {
@@ -294,6 +297,7 @@ public abstract class PantallaAccion extends Pantalla {
         if (Gdx.input.isKeyPressed(Input.Keys.D) &&
                 cuerpoJugador.getLinearVelocity().x < Utiles.VEL_MAX) {
             cuerpoJugador.applyLinearImpulse(Utiles.PASO_DERECHA, posicionJugador, true);
+
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
             juego.cambiarPantalla(this,new PantallaMenuPrincipal());
@@ -323,6 +327,11 @@ public abstract class PantallaAccion extends Pantalla {
 
     @Override
     public void actualizar(float delta) {
+        tiempo += delta;
+        if (cofresRecogidos>=cofresTotales){
+
+            juego.cambiarPantalla(this,new PantallaMenuPrincipal());
+        }
         renderizador.setView(camara);
         jugador.actualizar(delta,jugador.getCuerpo().getWorldCenter());
 
