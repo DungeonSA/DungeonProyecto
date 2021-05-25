@@ -21,8 +21,10 @@ public class Personaje extends Sprite {
     protected TextureRegion aspecto;
     protected boolean Puede_atacar;
     protected boolean Puede_recivir_ataque;
-    protected static float Intervalo_recivir_ataque=0.5f;
+    protected static float Intervalo_recivir_ataque=1f;
     protected static float Intervalo_atacar=0.7f;
+    protected static float intervalo_parpadeo=0.3f;
+    protected float parpadeo;
     protected float contador_atacar;
     protected float contador_recivir;
     protected Vector2 posicion;
@@ -37,6 +39,7 @@ public class Personaje extends Sprite {
         Puede_atacar=true;
         contador_atacar=Intervalo_atacar;
         contador_recivir=Intervalo_recivir_ataque;
+        parpadeo=intervalo_parpadeo;
         enRangoDeUso = new ArrayList<>();
         //Cuerpo físico
         BodyDef defCuerpo=new BodyDef();
@@ -101,11 +104,18 @@ public class Personaje extends Sprite {
         if(contador_atacar>=Intervalo_atacar)Puede_atacar=true;
         if(Puede_recivir_ataque&&contador_recivir<Intervalo_recivir_ataque || !Puede_recivir_ataque&&contador_recivir<Intervalo_recivir_ataque){
             contador_recivir+=delta;
-        }else if(Puede_recivir_ataque&&contador_recivir>=Intervalo_recivir_ataque){
 
+        }else if(Puede_recivir_ataque&&contador_recivir>=Intervalo_recivir_ataque&&daño_recivido>0){
             hp-=daño_recivido;
             contador_recivir=0f;
+            System.out.println("dolor");
+            this.setColor(1f,0f,0f,1f);
+            parpadeo=0f;
+        }
 
+if (parpadeo>=intervalo_parpadeo) this.setColor(1f,1f,1f,1f);
+        if(parpadeo<intervalo_parpadeo){
+            parpadeo+=delta;
         }
         flipear(delta);
 
@@ -135,7 +145,7 @@ public class Personaje extends Sprite {
 
     public void setDaño_recivido(int daño_recivido) {
         this.daño_recivido = daño_recivido;
-        aspecto.flip(true,false);
+
     }
     public TextureRegion flipear(float delta) {
         Vector2 velocidad = cuerpo.getLinearVelocity();
