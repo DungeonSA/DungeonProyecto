@@ -42,6 +42,7 @@ public abstract class PantallaAccion extends Pantalla {
     private TiledMap mapa;
     private TiledMapTileLayer capa;
     private OrthogonalTiledMapRenderer renderizador;
+    private float tiempo=0;
 
     //variables nivel
     protected static final Dificultad dificultad = Dificultad.FACIL;
@@ -314,6 +315,11 @@ public abstract class PantallaAccion extends Pantalla {
 
     @Override
     public void actualizar(float delta) {
+        tiempo += delta;
+        if (cofresRecogidos>=cofresTotales){
+
+            juego.cambiarPantalla(this,new PantallaMenuPrincipal());
+        }
         renderizador.setView(camara);
         jugador.actualizar(delta,jugador.getCuerpo().getWorldCenter());
 

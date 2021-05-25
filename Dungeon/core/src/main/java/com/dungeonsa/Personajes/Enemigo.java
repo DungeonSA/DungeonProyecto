@@ -109,6 +109,7 @@ public  class Enemigo extends Sprite {
 
     public void moverHacia(Vector2 objetivo) {
         cuerpo.applyForce(calculateVelocity(objetivo),objetivo,true);
+//        cuerpo.setLinearVelocity(calculateVelocity(objetivo));
     }
 
     public Vector2 calculateVelocity(Vector2 target) {

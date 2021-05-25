@@ -2,14 +2,18 @@ package com.dungeonsa;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.dungeonsa.Pantallas.PantallaMenuPrincipal;
 import com.dungeonsa.Pantallas.Pantalla;
+
+import java.util.ArrayList;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Juego extends Game {
@@ -24,6 +28,8 @@ public class Juego extends Game {
 	private AssetManager am;
 	public BitmapFont font;
 	private FitViewport vista;
+	//Archivo de puntuaciones
+//	Preferences puntuacion = Gdx.app.getPreferences("My Preferences");
 
 	@Override
 	public void create() {
@@ -37,6 +43,8 @@ public class Juego extends Game {
 		font.setColor(Color.BLACK);
 		vista=new FitViewport(ancho,alto,camara);
 		cambiarPantalla(null, new PantallaMenuPrincipal());
+		//lee Puntuacion
+
 	}
 
 	@Override

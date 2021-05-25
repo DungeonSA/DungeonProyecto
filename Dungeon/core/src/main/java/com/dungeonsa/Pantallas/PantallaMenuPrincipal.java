@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.dungeonsa.Juego;
 
@@ -15,6 +16,8 @@ public class PantallaMenuPrincipal extends Pantalla{
 	private Texture fondo,boton1,boton2,boton3,boton4;
 	private Vector2 Pboton1,Pboton2,Pboton3,Pboton4;
 	private Rectangle Aboton1,Aboton2,Aboton3,Aboton4;
+
+	private Label puntuaciones;
 
 	public PantallaMenuPrincipal() {
 		super();
