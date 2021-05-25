@@ -16,11 +16,13 @@ import java.util.Collection;
 public  class Enemigo extends Sprite {
     protected int hp;
     protected int dp;
+    protected Personaje ju;
     protected float Intervalo_color;
     protected float contador_color;
-    protected float velocidad = 100;
+    protected float velocidad = 1;
     protected boolean PuedeSerAtacado = false;
     protected boolean invencible = false;
+    protected boolean EstadoAlerta;
     protected Body cuerpo;
     protected Rectangle areaClick;
     protected TextureRegion aspecto;
@@ -31,14 +33,14 @@ public  class Enemigo extends Sprite {
         super();
         Intervalo_color=0.5f;
         this.refPantalla = refPantalla;
-
+        EstadoAlerta =false;
         contador_color=Intervalo_color;
         areaClick = new Rectangle(x,y,1,1);
         this.hp=hp;
         this.dp=dp;
         //Cuerpo físico
         BodyDef defCuerpo=new BodyDef();
-        defCuerpo.type= BodyDef.BodyType.DynamicBody;
+        defCuerpo.type= BodyDef.BodyType.KinematicBody;
         defCuerpo.position.x=x+0.5f;
         defCuerpo.position.y=y+0.5f;
         FixtureDef defComponente= new FixtureDef();
@@ -74,22 +76,31 @@ public  class Enemigo extends Sprite {
 
 
     public void actualizar(float delta, Vector2 posicion) {
+        this.posicion = posicion;
         setRegion(aspecto);
         setPosition(cuerpo.getPosition().x-.5f,cuerpo.getPosition().y-.5f);
         areaClick.setLocation((int)cuerpo.getPosition().x,(int)cuerpo.getPosition().y);
         if(contador_color<Intervalo_color){
             contador_color+=delta;
         }
-        if(contador_color>=Intervalo_color)this.setColor(1f,1f,1f,1f);
-        if (hp<0){
-            refPantalla.eliminarEnemigo(this);
+        if(contador_color>=Intervalo_color&&!PuedeSerAtacado){
+            this.setColor(1f,1f,1f,1f);
+        }else if(contador_color>=Intervalo_color&&PuedeSerAtacado){
+            this.setColor(1f,0f,1f,1f);
         }
-        this.posicion = posicion;
+            if (hp<0){
+                refPantalla.eliminarEnemigo(this);
+            }
+        if(this.EstadoAlerta){
+          moverHacia(refPantalla.personajeref().getPosicion());
+
+        }
+
 
     }
     public void empezar_interactuar() {
         PuedeSerAtacado = true;
-        System.out.println("hola");
+        this.setColor(1f,0f,1f,1f);
 
     }
     public void dejar_interactuar(){
@@ -108,7 +119,8 @@ public  class Enemigo extends Sprite {
     }
 
     public void moverHacia(Vector2 objetivo) {
-        cuerpo.applyForce(calculateVelocity(objetivo),objetivo,true);
+        cuerpo.setLinearVelocity(calculateVelocity(objetivo));
+
     }
 
     public Vector2 calculateVelocity(Vector2 target) {
@@ -128,6 +140,10 @@ public  class Enemigo extends Sprite {
     }
     public Rectangle getAreaClick() {
         return areaClick;
+    }
+
+    public void setEstadoAlerta(boolean estadoAlerta) {
+        EstadoAlerta = estadoAlerta;
     }
 }
 

@@ -171,12 +171,12 @@ public abstract class PantallaAccion extends Pantalla {
                 }
 
                 if (compA.getUserData().equals("vision_enemiga") && (compB.getUserData() instanceof Enemigo)) {
-                    ((Enemigo) compB.getUserData()).moverHacia(jugador.getPosicion());
-//                    Vector2 posicion = ((Personaje) compB.getUserData()).getPosicion();
+                    ((Enemigo) compB.getUserData()).setEstadoAlerta(true);
+
 
 
                 } else if (compB.getUserData().equals("vision_enemiga") && (compA.getUserData() instanceof Enemigo)) {
-                    ((Enemigo) compA.getUserData()).moverHacia(jugador.getPosicion());
+                    ((Enemigo) compA.getUserData()).setEstadoAlerta(true);
 
                 }
 
@@ -237,6 +237,15 @@ public abstract class PantallaAccion extends Pantalla {
                     jugador.setPuede_recivir_ataque(false);
                     jugador.setDaño_recivido(0);
 
+
+                }
+                if (compA.getUserData().equals("vision_enemiga") && (compB.getUserData() instanceof Enemigo)) {
+                    ((Enemigo) compB.getUserData()).setEstadoAlerta(false);
+
+
+
+                } else if (compB.getUserData().equals("vision_enemiga") && (compA.getUserData() instanceof Enemigo)) {
+                    ((Enemigo) compA.getUserData()).setEstadoAlerta(false);
 
                 }
 
@@ -399,5 +408,8 @@ public abstract class PantallaAccion extends Pantalla {
     @Override
     public void dispose() {
 
+    }
+    public Personaje personajeref(){
+        return this.jugador;
     }
 }

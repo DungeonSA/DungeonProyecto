@@ -42,10 +42,11 @@ public abstract class Interactuables extends Sprite {
 
     public void empezar_interactuar() {
         puedepulsar = true;
-
+        this.setColor(0f,1f,0f,1f);
     }
     public void dejar_interactuar(){
         puedepulsar = false;
+        this.setColor(1f,1f,1f,1f);
     }
 
     public void usar(){
