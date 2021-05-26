@@ -37,6 +37,11 @@ public abstract class Pantalla implements Screen {
 
     public abstract void actualizar(float delta);
 
+    @Override
+    public void resize(int width, int height) {
+//        vista.update(width,height,false);
+    }
+
     public abstract void dibujar(float delta);
 
     @Override

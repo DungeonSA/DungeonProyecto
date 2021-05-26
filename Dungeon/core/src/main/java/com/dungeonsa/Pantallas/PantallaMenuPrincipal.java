@@ -10,8 +10,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.dungeonsa.Juego;
 
 public class PantallaMenuPrincipal extends Pantalla{
-	private FitViewport vista;
-	private int ancho,alto;
 
 	private Texture fondo,boton1,boton2,boton3,boton4;
 	private Vector2 Pboton1,Pboton2,Pboton3,Pboton4;
@@ -21,6 +19,12 @@ public class PantallaMenuPrincipal extends Pantalla{
 
 	public PantallaMenuPrincipal() {
 		super();
+		//PANTALLA
+//		camara.setToOrtho(false,juego.ANCHO,juego.ALTO);
+//		vista=new FitViewport(juego.ANCHO,juego.ALTO,camara);
+//		vista.setScreenBounds(0,0,juego.ANCHO,juego.ALTO);
+//		sb.setProjectionMatrix();
+		//Asset Manager
 		am.load("boton1.png",Texture.class);
 		am.load("boton2.png",Texture.class);
 		am.load("boton3.png",Texture.class);
@@ -32,16 +36,11 @@ public class PantallaMenuPrincipal extends Pantalla{
 		boton2=am.get("boton2.png");
 		boton3=am.get("boton3.png");
 		boton4=am.get("boton4.png");
-		//PANTALLA
-		camara.setToOrtho(false,juego.getAncho(),juego.getAlto());
-		ancho= Gdx.graphics.getWidth();
-		alto=Gdx.graphics.getHeight();
-		vista=new FitViewport(ancho,alto,camara);
 		//Ubicar botones
-		Pboton1=new Vector2(Juego.ANCHO/2-boton1.getWidth()/2,Juego.ALTO/11*5-boton1.getHeight()/2);
-		Pboton2=new Vector2(Juego.ANCHO/2-boton2.getWidth()/2,Juego.ALTO/11*4-boton2.getHeight()/2);
-		Pboton3=new Vector2(Juego.ANCHO/2-boton3.getWidth()/2,Juego.ALTO/11*3-boton3.getHeight()/2);
-		Pboton4=new Vector2(Juego.ANCHO/2-boton4.getWidth()/2,Juego.ALTO/11*2-boton4.getHeight()/2);
+		Pboton1=new Vector2(juego.ANCHO/2-boton1.getWidth()/2,juego.ALTO/11*5-boton1.getHeight()/2);
+		Pboton2=new Vector2(juego.ANCHO/2-boton2.getWidth()/2,juego.ALTO/11*4-boton2.getHeight()/2);
+		Pboton3=new Vector2(juego.ANCHO/2-boton3.getWidth()/2,juego.ALTO/11*3-boton3.getHeight()/2);
+		Pboton4=new Vector2(juego.ANCHO/2-boton4.getWidth()/2,juego.ALTO/11*2-boton4.getHeight()/2);
 		//Definir areas de interaccion
 		Aboton1=new Rectangle((int)Pboton1.x,(int)Pboton1.y,boton1.getWidth(),boton1.getHeight());
 		Aboton2=new Rectangle((int)Pboton2.x,(int)Pboton2.y,boton2.getWidth(),boton2.getHeight());
@@ -82,8 +81,9 @@ public class PantallaMenuPrincipal extends Pantalla{
 
 	@Override
 	public void dibujar(float delta) {
+		vista.apply();
 		sb.begin();
-		sb.draw(fondo,0,0,juego.getAncho(),juego.getAlto());
+		sb.draw(fondo,0,0,juego.ANCHO,juego.ALTO);
 		sb.draw(boton1,Pboton1.x,Pboton1.y);
 		sb.draw(boton2,Pboton2.x,Pboton2.y);
 		sb.draw(boton3,Pboton3.x,Pboton3.y);
@@ -93,7 +93,7 @@ public class PantallaMenuPrincipal extends Pantalla{
 
 	@Override
 	public void resize(int width, int height) {
-		vista.update(width,height,true);
+//		vista.update(width,height,true);
 	}
 
 	@Override

@@ -20,8 +20,8 @@ public class Juego extends Game {
 
 	public static final String TITULO="Dungeon";
 	public static final String ICONO="icono.png";
-	public static final int ANCHO=800;
-	public static final int ALTO=480;
+	public static final int ANCHO=1280;
+	public static final int ALTO=720;
 	private int ancho,alto;
 	private OrthographicCamera camara;
 	private SpriteBatch sb;
@@ -35,13 +35,11 @@ public class Juego extends Game {
 	public void create() {
 		camara=new OrthographicCamera();
 		camara.setToOrtho(false,ANCHO,ALTO);
-		ancho= Gdx.graphics.getWidth();
-		alto=Gdx.graphics.getHeight();
+		vista=new FitViewport(ANCHO,ALTO,camara);
 		sb=new SpriteBatch();
 		am=new AssetManager();
 		font= new BitmapFont();
 		font.setColor(Color.BLACK);
-		vista=new FitViewport(ancho,alto,camara);
 		cambiarPantalla(null, new PantallaMenuPrincipal());
 		//lee Puntuacion
 
@@ -49,7 +47,7 @@ public class Juego extends Game {
 
 	@Override
 	public void resize(int width, int height) {
-		vista.update(width,height,true);
+		vista.update(width,height,false);
 	}
 
 	@Override
@@ -75,10 +73,6 @@ public class Juego extends Game {
 	public BitmapFont getFont() {
 		return font;
 	}
-
-	public int getAncho() { return ancho; }
-
-	public int getAlto() { return alto; }
 
 	public void cambiarPantalla(Pantalla antigua, Pantalla nueva){
 		if(antigua!=null){

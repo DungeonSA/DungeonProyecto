@@ -34,9 +34,7 @@ import java.util.Random;
 public abstract class PantallaAccion extends Pantalla {
     //pantalla
     protected float relacionAspecto;
-    protected SpriteBatch HUD;
     protected Label labelCofres;
-    private int ancho,alto;
 
     //variables mapa
     private TiledMap mapa;
@@ -75,12 +73,11 @@ public abstract class PantallaAccion extends Pantalla {
         am.finishLoading();
         mapa = am.get("pruevaRome.tmx");
 
+        //Pantalla
         renderizador = new OrthogonalTiledMapRenderer(mapa, 1.0f / Utiles.LADO_LOSA);
-        relacionAspecto = (float) Juego.ANCHO / Juego.ALTO;
-        ancho= Gdx.graphics.getWidth();
-        alto=Gdx.graphics.getHeight();
-        vista=new FitViewport(ancho,alto,camara);
-        camara.setToOrtho(false, 10 * relacionAspecto, 10);
+//        relacionAspecto = (float) juego.ANCHO / juego.ALTO;
+//        camara.setToOrtho(false, 10 * relacionAspecto, 10);
+//        vista.setScreenBounds(0,0,juego.ANCHO,juego.ALTO);
 
         //Hud
         labelCofres=new Label("Cofres: "+cofresRecogidos+"/"+cofresTotales);
@@ -354,6 +351,7 @@ public abstract class PantallaAccion extends Pantalla {
     public void dibujar(float delta) {
         //dibujar mapa fondo
         int[] capas = {0};
+//        vista.apply();
         renderizador.render(capas);
         sb.setProjectionMatrix(camara.combined);
 
@@ -396,7 +394,7 @@ public abstract class PantallaAccion extends Pantalla {
 
     @Override
     public void resize(int width, int height) {
-//        vista.update(10,10,true);
+//        vista.update(width,height,true);
     }
 
     @Override

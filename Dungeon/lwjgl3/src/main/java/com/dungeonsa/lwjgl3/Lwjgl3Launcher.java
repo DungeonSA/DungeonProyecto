@@ -18,6 +18,8 @@ public class Lwjgl3Launcher {
 		Lwjgl3ApplicationConfiguration configuration = new Lwjgl3ApplicationConfiguration();
 		configuration.setTitle(Juego.TITULO);
 		configuration.setWindowedMode(Juego.ANCHO, Juego.ALTO);
+//		configuration.setFullscreenMode(configuration.getDisplayMode());
+		configuration.setResizable(false);
 		configuration.setWindowIcon(Juego.ICONO);
 		return configuration;
 	}

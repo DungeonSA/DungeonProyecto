@@ -14,5 +14,4 @@ public abstract class Utiles {
     public static final Vector2 PASO_DERECHA = new Vector2(1f, 0);
     public static final Vector2 PASO_IZQUIERDA = new Vector2(-1f, 0);
     public static final float VEL_MAX = 3.0f;
-    public static final String archivoJson = "puntuaciones.json";
 }
