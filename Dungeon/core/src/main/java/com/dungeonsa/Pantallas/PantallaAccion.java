@@ -75,9 +75,10 @@ public abstract class PantallaAccion extends Pantalla {
 
         //Pantalla
         renderizador = new OrthogonalTiledMapRenderer(mapa, 1.0f / Utiles.LADO_LOSA);
-//        relacionAspecto = (float) juego.ANCHO / juego.ALTO;
+        relacionAspecto = (float) juego.ANCHO / juego.ALTO;
 //        camara.setToOrtho(false, 10 * relacionAspecto, 10);
-//        vista.setScreenBounds(0,0,juego.ANCHO,juego.ALTO);
+        vista=new FitViewport(10*relacionAspecto,10,camara);
+        vista.setScreenBounds(0,0,juego.ANCHO,juego.ALTO);
 
         //Hud
         labelCofres=new Label("Cofres: "+cofresRecogidos+"/"+cofresTotales);
@@ -350,8 +351,8 @@ public abstract class PantallaAccion extends Pantalla {
     @Override
     public void dibujar(float delta) {
         //dibujar mapa fondo
+        vista.apply();
         int[] capas = {0};
-//        vista.apply();
         renderizador.render(capas);
         sb.setProjectionMatrix(camara.combined);
 
@@ -366,7 +367,7 @@ public abstract class PantallaAccion extends Pantalla {
         //Hud
 
         //dibujar depurador (debug de colisiones)
-        depurador.render(mundo, camara.combined); //dibuja las lineas del debuger
+        //depurador.render(mundo, camara.combined); //dibuja las lineas del debuger
         mundo.step(.02f, 6, 2);
 
         //borrar objetos destruidos
