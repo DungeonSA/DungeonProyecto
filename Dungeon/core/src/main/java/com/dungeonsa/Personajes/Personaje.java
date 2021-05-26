@@ -70,7 +70,7 @@ public class Personaje extends Sprite {
         componenteAtacar.shape=forma;
         cuerpo.createFixture(componenteAtacar).setUserData("area_ataque");
         //sensor vision
-        forma.setRadius(2.f);
+        forma.setRadius(3.f);
         componenteVision.isSensor=true;
         componenteVision.shape=forma;
         cuerpo.createFixture(componenteVision).setUserData("vision_enemiga");

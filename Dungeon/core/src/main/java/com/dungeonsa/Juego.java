@@ -29,7 +29,7 @@ public class Juego extends Game {
 	public BitmapFont font;
 	private FitViewport vista;
 	//Archivo de puntuaciones
-//	Preferences puntuacion = Gdx.app.getPreferences("My Preferences");
+	Preferences puntuacion = Gdx.app.getPreferences("My Preferences");
 
 	@Override
 	public void create() {

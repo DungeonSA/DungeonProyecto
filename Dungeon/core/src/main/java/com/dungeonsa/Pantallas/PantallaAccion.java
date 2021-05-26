@@ -43,7 +43,9 @@ public abstract class PantallaAccion extends Pantalla {
     private float tiempo=0;
 
     //variables nivel
-    protected static final Dificultad dificultad = Dificultad.FACIL;
+    protected static String archivoNivel = "pruevaRome.tmx";
+    protected static String nombreNivel = "Mazmorra Default";
+    protected static Dificultad dificultad = Dificultad.FACIL;
     protected static ArrayList<Muro> listaMuros;
     protected static ArrayList<Cofre> listaCofres;
     protected static ArrayList<Enemigo> listaEnemigos;
@@ -68,10 +70,10 @@ public abstract class PantallaAccion extends Pantalla {
         am.load("Dungeon_Tileset.png", Texture.class);
         am.setLoader(TiledMap.class,
                 new TmxMapLoader(new InternalFileHandleResolver()));
-        am.load("pruevaRome.tmx", TiledMap.class);
+        am.load(archivoNivel, TiledMap.class);
         am.load("DungeonFont.fnt", BitmapFont.class);
         am.finishLoading();
-        mapa = am.get("pruevaRome.tmx");
+        mapa = am.get(archivoNivel);
 
         //Pantalla
         renderizador = new OrthogonalTiledMapRenderer(mapa, 1.0f / Utiles.LADO_LOSA);
