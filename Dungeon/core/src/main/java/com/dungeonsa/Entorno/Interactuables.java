@@ -3,9 +3,7 @@ package com.dungeonsa.Entorno;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.*;
-import com.dungeonsa.Pantallas.Pantalla;
 import com.dungeonsa.Pantallas.PantallaAccion;
-import com.dungeonsa.Pantallas.PantallaRome;
 import com.dungeonsa.Utiles;
 
 public abstract class Interactuables extends Sprite {

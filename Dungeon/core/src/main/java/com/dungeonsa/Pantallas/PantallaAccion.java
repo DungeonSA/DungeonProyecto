@@ -32,42 +32,45 @@ import com.dungeonsa.Utiles;
 import java.util.ArrayList;
 import java.util.Random;
 
-public abstract class PantallaAccion extends Pantalla {
+public class PantallaAccion extends Pantalla {
     //pantalla
-    protected float relacionAspecto;
-    protected Hud hud;
-    protected FitViewport viewportHud;
+    private float relacionAspecto;
+    private Hud hud;
+    private FitViewport viewportHud;
 
     //variables mapa
     private TiledMap mapa;
     private TiledMapTileLayer capa;
     private OrthogonalTiledMapRenderer renderizador;
-    Preferences prefs= Gdx.app.getPreferences("preferences");
+    private Preferences prefs= Gdx.app.getPreferences("preferences");
 
     //variables nivel
     protected static String archivoNivel = "DungPruebas.tmx";
     protected static String nombreNivel = "Mazmorra Default";
     protected static Dificultad dificultad = Dificultad.FACIL;
-    protected static ArrayList<Muro> listaMuros;
-    protected static ArrayList<Cofre> listaCofres;
-    protected static ArrayList<Enemigo> listaEnemigos;
-    protected static ArrayList<Body> listanegra;
+    private ArrayList<Muro> listaMuros;
+    private ArrayList<Cofre> listaCofres;
+    private ArrayList<Enemigo> listaEnemigos;
+    private ArrayList<Body> listanegra;
 
     //variables jugador
-    protected Personaje jugador = null;
-    protected Body cuerpoJugador = null;
-    protected Vector2 posicionJugador = null;
+    private Personaje jugador = null;
+    private Body cuerpoJugador = null;
+    private Vector2 posicionJugador = null;
 
     //Objetivo nivel
-    private static int cofresRecogidos=0;
-    private static int cofresTotales=0;
+    private int cofresRecogidos=0;
+    private int cofresTotales=0;
 
     //Fisicas
-    protected World mundo;
-    protected Box2DDebugRenderer depurador;
+    private World mundo;
+    private Box2DDebugRenderer depurador;
 
-    public PantallaAccion() {
+    public PantallaAccion(String archivoNivel,String nombreNivel, Dificultad dificultad) {
         super();
+        this.archivoNivel=archivoNivel;
+        this.nombreNivel=nombreNivel;
+        this.dificultad=dificultad;
         am.load("Dungeon_character_2.png", Texture.class);
         am.load("Dungeon_Tileset.png", Texture.class);
         am.setLoader(TiledMap.class,
@@ -332,7 +335,7 @@ public abstract class PantallaAccion extends Pantalla {
     @Override
     public void actualizar(float delta) {
         if (cofresRecogidos>=cofresTotales){
-            prefs.putString(nombreNivel,nombreNivel+" conseguido en "+(int)hud.getSegundos()+" segundos");
+            prefs.putString(nombreNivel,nombreNivel+": "+(int)hud.getSegundos()+" segundos");
             prefs.flush();
 
             juego.cambiarPantalla(this,new PantallaMenuPrincipal());
@@ -355,7 +358,7 @@ public abstract class PantallaAccion extends Pantalla {
         camara.position.y = MathUtils.clamp(cuerpoJugador.getPosition().y, 5, capa.getHeight() - 5);
         camara.update();
         //actualizar hud
-        hud.actualizar(delta,cofresRecogidos,cofresTotales,jugador.getHp());
+        hud.actualizar(delta,nombreNivel,cofresRecogidos,cofresTotales,jugador.getHp());
     }
 
     @Override
@@ -389,13 +392,13 @@ public abstract class PantallaAccion extends Pantalla {
         listanegra.clear();
     }
 
-    public static void eliminarcofre(Interactuables i) {
+    public void eliminarcofre(Interactuables i) {
         listaCofres.remove(i);
         listanegra.add(i.getCuerpo());
         cofresRecogidos++;
     }
 
-    public static void eliminarEnemigo(Enemigo e) {
+    public void eliminarEnemigo(Enemigo e) {
         listaEnemigos.remove(e);
         listanegra.add(e.getCuerpo());
     }

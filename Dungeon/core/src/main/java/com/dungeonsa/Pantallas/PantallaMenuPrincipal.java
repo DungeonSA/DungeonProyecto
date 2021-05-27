@@ -9,7 +9,9 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.dungeonsa.Dificultad;
 import com.dungeonsa.Juego;
+import com.dungeonsa.Utiles;
 
 public class PantallaMenuPrincipal extends Pantalla{
 
@@ -79,19 +81,19 @@ public class PantallaMenuPrincipal extends Pantalla{
 	@Override
 	public void leerEntrada(float delta) {
 		if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)){
-			juego.cambiarPantalla(this,new Pantalladev());
+			juego.cambiarPantalla(this,new PantallaAccion(Utiles.dungRomeF,Utiles.dungRomeN, Dificultad.FACIL));
 		}else if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)){
-			juego.cambiarPantalla(this,new PantallaRome());
+			juego.cambiarPantalla(this,new PantallaAccion(Utiles.dungRaulF,Utiles.dungRaulN, Dificultad.FACIL));
 		}else if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)){
-			juego.cambiarPantalla(this,new PantallaBasilio());
+			juego.cambiarPantalla(this,new PantallaAccion(Utiles.dungBasilioF,Utiles.dungBasilioN, Dificultad.FACIL));
 		}else if(Gdx.input.justTouched()){
 			Vector2 puntoClick=juego.getVista().unproject(new Vector2(Gdx.input.getX(),Gdx.input.getY()));
 			if(Aboton1.contains(puntoClick.x, puntoClick.y)){
-				juego.cambiarPantalla(this,new PantallaRome());
+				juego.cambiarPantalla(this,new PantallaAccion(Utiles.dungRomeF,Utiles.dungRomeN, Dificultad.FACIL));
 			}else if(Aboton2.contains(puntoClick.x, puntoClick.y)){
-				juego.cambiarPantalla(this,new Pantalladev());
+				juego.cambiarPantalla(this,new PantallaAccion(Utiles.dungRaulF,Utiles.dungRaulN, Dificultad.FACIL));
 			}else if(Aboton3.contains(puntoClick.x, puntoClick.y)){
-				juego.cambiarPantalla(this,new PantallaBasilio());
+				juego.cambiarPantalla(this,new PantallaAccion(Utiles.dungBasilioF,Utiles.dungBasilioN, Dificultad.FACIL));
 			}else if(Aboton4.contains(puntoClick.x,puntoClick.y)){
 				Gdx.app.exit();
 			}

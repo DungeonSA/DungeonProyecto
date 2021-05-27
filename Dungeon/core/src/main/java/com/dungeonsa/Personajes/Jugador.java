@@ -3,7 +3,6 @@ package com.dungeonsa.Personajes;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.*;
-import com.dungeonsa.Pantallas.PantallaRome;
 import com.dungeonsa.Utiles;
 
 public class Jugador extends Sprite {

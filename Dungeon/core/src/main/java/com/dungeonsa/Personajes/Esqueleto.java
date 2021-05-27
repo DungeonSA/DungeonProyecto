@@ -3,9 +3,6 @@ package com.dungeonsa.Personajes;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.World;
 import com.dungeonsa.Pantallas.PantallaAccion;
-import com.dungeonsa.Pantallas.Pantalladev;
-
-import java.awt.*;
 
 public class Esqueleto extends Enemigo {
 

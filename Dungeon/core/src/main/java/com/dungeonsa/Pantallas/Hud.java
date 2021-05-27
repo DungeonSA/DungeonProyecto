@@ -13,7 +13,7 @@ public class Hud {
     private Juego juego;
     private FitViewport vista;
     private Stage escenario;
-    private Label cofres, vida, tiempo;
+    private Label nombreNivel, cofres, vida, tiempo;
     private float segundos;
 
     public Hud(SpriteBatch sb){
@@ -24,6 +24,7 @@ public class Hud {
 
         Label.LabelStyle estiloLabel =new Label.LabelStyle();
         estiloLabel.font = juego.font;
+        nombreNivel=new Label("Ninguno",estiloLabel);
         cofres=new Label("Cofres: 0/0",estiloLabel);
         vida=new Label("hp: 0",estiloLabel);
         tiempo=new Label("0",estiloLabel);
@@ -31,6 +32,8 @@ public class Hud {
         Table tabla=new Table();
         tabla.top();
         tabla.setFillParent(true);
+        tabla.add(nombreNivel).padLeft(1);
+        tabla.row();
         tabla.add(cofres).left();
         tabla.row();
         tabla.add(vida).padLeft(1);
@@ -40,8 +43,9 @@ public class Hud {
         escenario.addActor(tabla);
     }
 
-    public void actualizar(float delta, int cofresActuales, int cofresRestantes, int vidaJugador){
+    public void actualizar(float delta,String nombrenivel, int cofresActuales, int cofresRestantes, int vidaJugador){
         segundos+=delta;
+        nombreNivel.setText(nombrenivel);
         cofres.setText("Cofres: "+cofresActuales+"/"+cofresRestantes);
         vida.setText("hp:"+vidaJugador);
         tiempo.setText((int)segundos);

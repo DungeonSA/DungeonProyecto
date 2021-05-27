@@ -1,13 +1,8 @@
 package com.dungeonsa.Entorno;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
-import com.dungeonsa.Pantallas.Pantalla;
 import com.dungeonsa.Pantallas.PantallaAccion;
-import com.dungeonsa.Pantallas.PantallaRome;
-import com.dungeonsa.Pantallas.Pantalladev;
 
 import java.awt.*;
 

@@ -4,14 +4,10 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.dungeonsa.Pantallas.Pantalla;
 import com.dungeonsa.Pantallas.PantallaAccion;
-import com.dungeonsa.Pantallas.PantallaRome;
-import com.dungeonsa.Pantallas.Pantalladev;
 import com.dungeonsa.Utiles;
 
 import java.awt.*;
-import java.util.Collection;
 
 public  class Enemigo extends Sprite {
     protected int hp;

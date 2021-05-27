@@ -3,6 +3,12 @@ package com.dungeonsa;
 import com.badlogic.gdx.math.Vector2;
 
 public abstract class Utiles {
+    public static final String dungRomeF = "DungRome.tmx";
+    public static final String dungRaulF = "DungPruebas.tmx";
+    public static final String dungBasilioF = "DungBasilio.tmx";
+    public static final String dungRomeN = "Mazmorra Rome";
+    public static final String dungRaulN = "Mazmorra Raul";
+    public static final String dungBasilioN = "Mazmorra Basilio";
     public static final int LADO_LOSA = 16;
     public static final String TIPO = "tipo";
     public static final String JUGADOR = "jugador";
