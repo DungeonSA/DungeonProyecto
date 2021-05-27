@@ -3,6 +3,7 @@ package com.dungeonsa.Pantallas;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -16,6 +17,8 @@ public class PantallaMenuPrincipal extends Pantalla{
 	private Vector2 Pboton1,Pboton2,Pboton3,Pboton4;
 	private Rectangle Aboton1,Aboton2,Aboton3,Aboton4;
 
+	private OrthographicCamera CamaraMenu;
+
 	private Label puntuaciones;
 	private Label nivel1;
 	private Label nivel2;
@@ -26,8 +29,9 @@ public class PantallaMenuPrincipal extends Pantalla{
 	public PantallaMenuPrincipal() {
 		super();
 		//PANTALLA
-		camara.setToOrtho(false,juego.ANCHO,juego.ALTO);
-		vista=new FitViewport(juego.ANCHO,juego.ALTO,camara);
+		CamaraMenu=new OrthographicCamera();
+		CamaraMenu.setToOrtho(false,juego.ANCHO,juego.ALTO);
+		vista=new FitViewport(juego.ANCHO,juego.ALTO,CamaraMenu);
 		vista.setScreenBounds(0,0,juego.ANCHO,juego.ALTO);
 
 
@@ -100,7 +104,7 @@ public class PantallaMenuPrincipal extends Pantalla{
 
 	@Override
 	public void dibujar(float delta) {
-		sb.setProjectionMatrix(camara.combined);
+		sb.setProjectionMatrix(CamaraMenu.combined);
 		vista.apply();
 		sb.begin();
 		sb.draw(fondo,0,0,juego.ANCHO,juego.ALTO);

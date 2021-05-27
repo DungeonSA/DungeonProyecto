@@ -86,8 +86,8 @@ public abstract class PantallaAccion extends Pantalla {
         vista=new FitViewport(10*relacionAspecto,10,camara);
         vista.setScreenBounds(0,0,juego.ANCHO,juego.ALTO);
 
-        hud=new FitViewport(juego.ANCHO,juego.ALTO,camara);
-        vista.setScreenBounds(0,0,juego.ANCHO,juego.ALTO);
+        hud=new FitViewport(juego.ANCHO*10,juego.ALTO*10,camara);
+        hud.setScreenBounds(0,0,100,100);
 
         //Hud
         Label.LabelStyle estiloLabel =new Label.LabelStyle();
@@ -346,6 +346,7 @@ public abstract class PantallaAccion extends Pantalla {
         if (cofresRecogidos>=cofresTotales){
             prefs.putString(nombreNivel,nombreNivel+" conseguido en "+tiempo+" segundos");
             prefs.flush();
+
             juego.cambiarPantalla(this,new PantallaMenuPrincipal());
         }
         if (jugador.getHp()<=0){
@@ -384,12 +385,9 @@ public abstract class PantallaAccion extends Pantalla {
         for (Enemigo i : listaEnemigos) i.draw(sb);
         jugador.draw(sb);
         sb.end();
-//Hud
-        hud.apply();
-        sb.begin();
-        labelCofres.draw(sb,100);
-        vida.draw(sb,100);
-        sb.end();
+//Hu
+
+
 
 
         //dibujar depurador (debug de colisiones)
