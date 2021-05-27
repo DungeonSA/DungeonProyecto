@@ -6,7 +6,7 @@ public class Pantalladev extends PantallaAccion {
 
     public Pantalladev() {
         super();
-        archivoNivel = "pruevaRome.tmx";
+        archivoNivel = "DungPruebas.tmx";
         nombreNivel = "Mazmorra Raul";
         dificultad = Dificultad.NORMAL;
     }

@@ -35,19 +35,17 @@ import java.util.Random;
 public abstract class PantallaAccion extends Pantalla {
     //pantalla
     protected float relacionAspecto;
-    protected Label labelCofres;
-    protected Label vida;
-    protected FitViewport hud;
+    protected Hud hud;
+    protected FitViewport viewportHud;
 
     //variables mapa
     private TiledMap mapa;
     private TiledMapTileLayer capa;
     private OrthogonalTiledMapRenderer renderizador;
     Preferences prefs= Gdx.app.getPreferences("preferences");
-    private float tiempo=0;
 
     //variables nivel
-    protected static String archivoNivel = "pruevaRome.tmx";
+    protected static String archivoNivel = "DungPruebas.tmx";
     protected static String nombreNivel = "Mazmorra Default";
     protected static Dificultad dificultad = Dificultad.FACIL;
     protected static ArrayList<Muro> listaMuros;
@@ -86,19 +84,10 @@ public abstract class PantallaAccion extends Pantalla {
         vista=new FitViewport(10*relacionAspecto,10,camara);
         vista.setScreenBounds(0,0,juego.ANCHO,juego.ALTO);
 
-        hud=new FitViewport(juego.ANCHO*10,juego.ALTO*10,camara);
-        hud.setScreenBounds(0,0,100,100);
-
         //Hud
-        Label.LabelStyle estiloLabel =new Label.LabelStyle();
-        estiloLabel.font = juego.font;
-        labelCofres=new Label("Cofres: "+cofresRecogidos+"/"+cofresTotales,estiloLabel);
-        vida=new Label("hp:",estiloLabel);
-
-        vida.setSize(1,1);
-        vida.setPosition(1,1,1);
-        labelCofres.setSize(1,1);
-        labelCofres.setPosition(1,1,1);
+        hud=new Hud(sb);
+        viewportHud= hud.getVista();
+        viewportHud.setScreenBounds(0,0,juego.ANCHO,juego.ALTO);
 
         //Físicas
         mundo = new World(new Vector2(0, 0), true);
@@ -342,9 +331,8 @@ public abstract class PantallaAccion extends Pantalla {
 
     @Override
     public void actualizar(float delta) {
-        tiempo += delta;
         if (cofresRecogidos>=cofresTotales){
-            prefs.putString(nombreNivel,nombreNivel+" conseguido en "+tiempo+" segundos");
+            prefs.putString(nombreNivel,nombreNivel+" conseguido en "+(int)hud.getSegundos()+" segundos");
             prefs.flush();
 
             juego.cambiarPantalla(this,new PantallaMenuPrincipal());
@@ -366,8 +354,8 @@ public abstract class PantallaAccion extends Pantalla {
         camara.position.x = MathUtils.clamp(cuerpoJugador.getPosition().x, 5 * relacionAspecto, capa.getWidth() - 5 * relacionAspecto);
         camara.position.y = MathUtils.clamp(cuerpoJugador.getPosition().y, 5, capa.getHeight() - 5);
         camara.update();
-        //objetivo de nivel
-        labelCofres.setText("Cofres: "+cofresRecogidos+"/"+cofresTotales);
+        //actualizar hud
+        hud.actualizar(delta,cofresRecogidos,cofresTotales,jugador.getHp());
     }
 
     @Override
@@ -385,9 +373,9 @@ public abstract class PantallaAccion extends Pantalla {
         for (Enemigo i : listaEnemigos) i.draw(sb);
         jugador.draw(sb);
         sb.end();
-//Hu
-
-
+        //Hud
+        viewportHud.apply();
+        hud.getEscenario().draw();
 
 
         //dibujar depurador (debug de colisiones)
@@ -419,7 +407,6 @@ public abstract class PantallaAccion extends Pantalla {
 
     @Override
     public void resize(int width, int height) {
-//        vista.update(width,height,true);
     }
 
     @Override

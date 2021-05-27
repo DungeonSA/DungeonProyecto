@@ -6,7 +6,7 @@ public class PantallaBasilio extends PantallaAccion {
 
     public PantallaBasilio() {
         super();
-        archivoNivel = "pruevaRome.tmx";
+        archivoNivel = "DungBasilio.tmx";
         nombreNivel = "Mazmorra Basilio";
         dificultad = Dificultad.DIFICIL;
     }
