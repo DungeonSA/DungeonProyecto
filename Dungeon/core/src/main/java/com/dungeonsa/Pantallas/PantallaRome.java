@@ -7,7 +7,7 @@ public class PantallaRome extends PantallaAccion {
     public PantallaRome() {
         super();
         archivoNivel = "pruevaRome.tmx";
-        nombreNivel = "Mazmorra Basilio";
+        nombreNivel = "Mazmorra Alvaro";
         dificultad = Dificultad.NORMAL;
     }
 }

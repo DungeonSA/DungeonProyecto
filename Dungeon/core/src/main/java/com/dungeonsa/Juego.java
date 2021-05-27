@@ -29,7 +29,7 @@ public class Juego extends Game {
 	public BitmapFont font;
 	private FitViewport vista;
 	//Archivo de puntuaciones
-	Preferences puntuacion = Gdx.app.getPreferences("My Preferences");
+//	Preferences puntuacion = Gdx.app.getPreferences("My Preferences");
 
 	@Override
 	public void create() {
@@ -38,7 +38,7 @@ public class Juego extends Game {
 		vista=new FitViewport(ANCHO,ALTO,camara);
 		sb=new SpriteBatch();
 		am=new AssetManager();
-		font= new BitmapFont();
+		font= new BitmapFont(Gdx.files.internal("DungeonFont.fnt"));
 		font.setColor(Color.BLACK);
 		cambiarPantalla(null, new PantallaMenuPrincipal());
 		//lee Puntuacion

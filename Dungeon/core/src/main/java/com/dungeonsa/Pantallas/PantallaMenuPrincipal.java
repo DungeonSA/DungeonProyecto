@@ -2,6 +2,7 @@ package com.dungeonsa.Pantallas;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -16,14 +17,32 @@ public class PantallaMenuPrincipal extends Pantalla{
 	private Rectangle Aboton1,Aboton2,Aboton3,Aboton4;
 
 	private Label puntuaciones;
+	private Label nivel1;
+	private Label nivel2;
+	private Label nivel3;
+
+	Preferences prefs= Gdx.app.getPreferences("preferences");
 
 	public PantallaMenuPrincipal() {
 		super();
 		//PANTALLA
-//		camara.setToOrtho(false,juego.ANCHO,juego.ALTO);
-//		vista=new FitViewport(juego.ANCHO,juego.ALTO,camara);
-//		vista.setScreenBounds(0,0,juego.ANCHO,juego.ALTO);
-//		sb.setProjectionMatrix();
+		camara.setToOrtho(false,juego.ANCHO,juego.ALTO);
+		vista=new FitViewport(juego.ANCHO,juego.ALTO,camara);
+		vista.setScreenBounds(0,0,juego.ANCHO,juego.ALTO);
+
+
+		Label.LabelStyle estiloLabel =new Label.LabelStyle();
+		estiloLabel.font = juego.font;
+
+		puntuaciones=new Label("PUNTUACIONES",estiloLabel);
+		nivel1=new Label(prefs.getString("Mazmorra Alvaro","Nivel Alvaro: No completado"),estiloLabel);
+		nivel2=new Label(prefs.getString("Mazmorra Raul","Nivel Raul: No completado"),estiloLabel);
+		nivel3=new Label(prefs.getString("Mazmorra Basilio","Nivel Basilio: No completado"),estiloLabel);
+		puntuaciones.setSize(1,1);
+		puntuaciones.setPosition(10,300,1);
+		nivel1.setPosition(300,270,1);
+		nivel2.setPosition(300,230,1);
+		nivel3.setPosition(300,190,1);
 		//Asset Manager
 		am.load("boton1.png",Texture.class);
 		am.load("boton2.png",Texture.class);
@@ -81,6 +100,7 @@ public class PantallaMenuPrincipal extends Pantalla{
 
 	@Override
 	public void dibujar(float delta) {
+		sb.setProjectionMatrix(camara.combined);
 		vista.apply();
 		sb.begin();
 		sb.draw(fondo,0,0,juego.ANCHO,juego.ALTO);
@@ -88,6 +108,10 @@ public class PantallaMenuPrincipal extends Pantalla{
 		sb.draw(boton2,Pboton2.x,Pboton2.y);
 		sb.draw(boton3,Pboton3.x,Pboton3.y);
 		sb.draw(boton4,Pboton4.x,Pboton4.y);
+		puntuaciones.draw(sb,100);
+		nivel1.draw(sb,100);
+		nivel2.draw(sb,100);
+		nivel3.draw(sb,100);
 		sb.end();
 	}
 

@@ -2,6 +2,7 @@ package com.dungeonsa.Pantallas;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -14,6 +15,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.dungeonsa.Dificultad;
 import com.dungeonsa.Entorno.Cofre;
@@ -27,7 +29,6 @@ import com.dungeonsa.Personajes.Jugador;
 import com.dungeonsa.Personajes.Personaje;
 import com.dungeonsa.Utiles;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -35,11 +36,13 @@ public abstract class PantallaAccion extends Pantalla {
     //pantalla
     protected float relacionAspecto;
     protected Label labelCofres;
+    protected FitViewport hud;
 
     //variables mapa
     private TiledMap mapa;
     private TiledMapTileLayer capa;
     private OrthogonalTiledMapRenderer renderizador;
+    Preferences prefs= Gdx.app.getPreferences("preferences");
     private float tiempo=0;
 
     //variables nivel
@@ -82,8 +85,15 @@ public abstract class PantallaAccion extends Pantalla {
         vista=new FitViewport(10*relacionAspecto,10,camara);
         vista.setScreenBounds(0,0,juego.ANCHO,juego.ALTO);
 
+        hud=new FitViewport(juego.ANCHO,juego.ALTO,camara);
+        vista.setScreenBounds(0,0,juego.ANCHO,juego.ALTO);
+
         //Hud
-        labelCofres=new Label("Cofres: "+cofresRecogidos+"/"+cofresTotales);
+        Label.LabelStyle estiloLabel =new Label.LabelStyle();
+        estiloLabel.font = juego.font;
+        labelCofres=new Label("Cofres: "+cofresRecogidos+"/"+cofresTotales,estiloLabel);
+        labelCofres.setSize(1,1);
+        labelCofres.setPosition(1,1,1);
 
         //Físicas
         mundo = new World(new Vector2(0, 0), true);
@@ -329,7 +339,8 @@ public abstract class PantallaAccion extends Pantalla {
     public void actualizar(float delta) {
         tiempo += delta;
         if (cofresRecogidos>=cofresTotales){
-
+            prefs.putString(nombreNivel,nombreNivel+" conseguido en "+tiempo+" segundos");
+            prefs.flush();
             juego.cambiarPantalla(this,new PantallaMenuPrincipal());
         }
         renderizador.setView(camara);
@@ -364,10 +375,10 @@ public abstract class PantallaAccion extends Pantalla {
         for (Cofre i : listaCofres) i.draw(sb);
         for (Enemigo i : listaEnemigos) i.draw(sb);
         jugador.draw(sb);
+        labelCofres.draw(sb,100);
         sb.end();
 
         //Hud
-
         //dibujar depurador (debug de colisiones)
         //depurador.render(mundo, camara.combined); //dibuja las lineas del debuger
         mundo.step(.02f, 6, 2);
