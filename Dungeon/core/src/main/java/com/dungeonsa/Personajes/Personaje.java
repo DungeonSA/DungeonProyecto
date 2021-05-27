@@ -155,5 +155,12 @@ if (parpadeo>=intervalo_parpadeo) this.setColor(1f,1f,1f,1f);
         return aspecto;
     }
 
-//
+    public int getHp() {
+        return hp;
+    }
+
+    public int getMaxhp() {
+        return maxhp;
+    }
+    //
 }

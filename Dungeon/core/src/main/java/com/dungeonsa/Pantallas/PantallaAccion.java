@@ -36,6 +36,7 @@ public abstract class PantallaAccion extends Pantalla {
     //pantalla
     protected float relacionAspecto;
     protected Label labelCofres;
+    protected Label vida;
     protected FitViewport hud;
 
     //variables mapa
@@ -92,6 +93,10 @@ public abstract class PantallaAccion extends Pantalla {
         Label.LabelStyle estiloLabel =new Label.LabelStyle();
         estiloLabel.font = juego.font;
         labelCofres=new Label("Cofres: "+cofresRecogidos+"/"+cofresTotales,estiloLabel);
+        vida=new Label("hp:",estiloLabel);
+
+        vida.setSize(1,1);
+        vida.setPosition(1,1,1);
         labelCofres.setSize(1,1);
         labelCofres.setPosition(1,1,1);
 
@@ -343,6 +348,9 @@ public abstract class PantallaAccion extends Pantalla {
             prefs.flush();
             juego.cambiarPantalla(this,new PantallaMenuPrincipal());
         }
+        if (jugador.getHp()<=0){
+            juego.cambiarPantalla(this,new PantallaMenuPrincipal());
+        }
         renderizador.setView(camara);
         jugador.actualizar(delta,jugador.getCuerpo().getWorldCenter());
 
@@ -375,10 +383,15 @@ public abstract class PantallaAccion extends Pantalla {
         for (Cofre i : listaCofres) i.draw(sb);
         for (Enemigo i : listaEnemigos) i.draw(sb);
         jugador.draw(sb);
+        sb.end();
+//Hud
+        hud.apply();
+        sb.begin();
         labelCofres.draw(sb,100);
+        vida.draw(sb,100);
         sb.end();
 
-        //Hud
+
         //dibujar depurador (debug de colisiones)
         //depurador.render(mundo, camara.combined); //dibuja las lineas del debuger
         mundo.step(.02f, 6, 2);

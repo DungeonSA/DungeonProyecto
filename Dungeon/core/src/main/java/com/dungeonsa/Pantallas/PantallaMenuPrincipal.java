@@ -39,10 +39,10 @@ public class PantallaMenuPrincipal extends Pantalla{
 		nivel2=new Label(prefs.getString("Mazmorra Raul","Nivel Raul: No completado"),estiloLabel);
 		nivel3=new Label(prefs.getString("Mazmorra Basilio","Nivel Basilio: No completado"),estiloLabel);
 		puntuaciones.setSize(1,1);
-		puntuaciones.setPosition(10,300,1);
-		nivel1.setPosition(300,270,1);
-		nivel2.setPosition(300,230,1);
-		nivel3.setPosition(300,190,1);
+		puntuaciones.setPosition(10,340);
+		nivel1.setPosition(10,270);
+		nivel2.setPosition(10,230);
+		nivel3.setPosition(10,190);
 		//Asset Manager
 		am.load("boton1.png",Texture.class);
 		am.load("boton2.png",Texture.class);
