@@ -19,9 +19,6 @@ public class Cofre extends Interactuables{
     @Override
     public void actualizar(float delta) {
         super.actualizar(delta);
-//        setRegion(aspecto);
-//        setPosition(cuerpo.getPosition().x-.5f,cuerpo.getPosition().y-.5f);
-
     }
 
     public Rectangle getAreaClick() {

@@ -2,18 +2,14 @@ package com.dungeonsa;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.dungeonsa.Pantallas.PantallaMenuPrincipal;
 import com.dungeonsa.Pantallas.Pantalla;
-
-import java.util.ArrayList;
+import com.dungeonsa.Pantallas.PantallaMenuPrincipal;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Juego extends Game {

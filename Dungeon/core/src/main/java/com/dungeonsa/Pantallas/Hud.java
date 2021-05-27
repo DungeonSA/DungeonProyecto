@@ -31,6 +31,7 @@ public class Hud {
 
         Table tabla=new Table();
         tabla.top();
+        tabla.left();
         tabla.setFillParent(true);
         tabla.add(nombreNivel).padLeft(1);
         tabla.row();

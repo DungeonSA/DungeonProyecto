@@ -6,7 +6,6 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -15,18 +14,16 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.dungeonsa.Dificultad;
 import com.dungeonsa.Entorno.Cofre;
 import com.dungeonsa.Entorno.Interactuables;
 import com.dungeonsa.Entorno.Muro;
 import com.dungeonsa.Entorno.MuroDungeon;
-import com.dungeonsa.Juego;
 import com.dungeonsa.Personajes.Enemigo;
 import com.dungeonsa.Personajes.Esqueleto;
-import com.dungeonsa.Personajes.Jugador;
 import com.dungeonsa.Personajes.Personaje;
+import com.dungeonsa.Personajes.Zombie;
 import com.dungeonsa.Utiles;
 
 import java.util.ArrayList;
@@ -34,24 +31,24 @@ import java.util.Random;
 
 public class PantallaAccion extends Pantalla {
     //pantalla
-    private float relacionAspecto;
-    private Hud hud;
-    private FitViewport viewportHud;
+    private final float relacionAspecto;
+    private final Hud hud;
+    private final FitViewport viewportHud;
 
     //variables mapa
-    private TiledMap mapa;
+    private final TiledMap mapa;
     private TiledMapTileLayer capa;
-    private OrthogonalTiledMapRenderer renderizador;
-    private Preferences prefs= Gdx.app.getPreferences("preferences");
+    private final OrthogonalTiledMapRenderer renderizador;
+    private final Preferences prefs= Gdx.app.getPreferences("preferences");
 
     //variables nivel
-    protected static String archivoNivel = "DungPruebas.tmx";
-    protected static String nombreNivel = "Mazmorra Default";
-    protected static Dificultad dificultad = Dificultad.FACIL;
-    private ArrayList<Muro> listaMuros;
-    private ArrayList<Cofre> listaCofres;
-    private ArrayList<Enemigo> listaEnemigos;
-    private ArrayList<Body> listanegra;
+    protected String archivoNivel;
+    protected String nombreNivel;
+    protected Dificultad dificultad;
+    private final ArrayList<Muro> listaMuros;
+    private final ArrayList<Cofre> listaCofres;
+    private final ArrayList<Enemigo> listaEnemigos;
+    private final ArrayList<Body> listanegra;
 
     //variables jugador
     private Personaje jugador = null;
@@ -63,8 +60,7 @@ public class PantallaAccion extends Pantalla {
     private int cofresTotales=0;
 
     //Fisicas
-    private World mundo;
-    private Box2DDebugRenderer depurador;
+    private final World mundo;
 
     public PantallaAccion(String archivoNivel,String nombreNivel, Dificultad dificultad) {
         super();
@@ -94,7 +90,7 @@ public class PantallaAccion extends Pantalla {
 
         //Físicas
         mundo = new World(new Vector2(0, 0), true);
-        depurador = new Box2DDebugRenderer();
+        Box2DDebugRenderer depurador = new Box2DDebugRenderer();
 
         //arrays para ojetos del mapa
         listaMuros = new ArrayList<>();
@@ -140,6 +136,11 @@ public class PantallaAccion extends Pantalla {
                             Random r = new Random();
                             int VidaEnemigo = r.nextInt(dificultad.getVidaMax() - dificultad.getVidaMin()) + dificultad.getVidaMin();
                             listaEnemigos.add(new Esqueleto(mundo, x, y, celda.getTile().getTextureRegion(), VidaEnemigo, dificultad.getDamageEnemigo(), this));
+                            break;
+                        case Utiles.ZOMBIE:
+                            Random s = new Random();
+                            int VidaZombie = s.nextInt(dificultad.getVidaMax() - dificultad.getVidaMin()) + dificultad.getVidaMin();
+                            listaEnemigos.add(new Zombie(mundo, x, y, celda.getTile().getTextureRegion(), VidaZombie, dificultad.getDamageEnemigo(), this));
                             break;
 
                     }

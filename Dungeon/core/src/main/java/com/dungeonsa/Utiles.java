@@ -3,6 +3,7 @@ package com.dungeonsa;
 import com.badlogic.gdx.math.Vector2;
 
 public abstract class Utiles {
+    public static final String prefer = "preferences";
     public static final String dungRomeF = "DungRome.tmx";
     public static final String dungRaulF = "DungPruebas.tmx";
     public static final String dungBasilioF = "DungBasilio.tmx";
@@ -14,6 +15,7 @@ public abstract class Utiles {
     public static final String JUGADOR = "jugador";
     public static final String MURO = "muro";
     public static final String ESQUELETO = "esqueleton";
+    public static final String ZOMBIE = "zombie";
     public static final String COFRE = "cofre";
     public static final Vector2 PASO_ARRIBA = new Vector2(0, 1f);
     public static final Vector2 PASO_ABAJO = new Vector2(0, -1f);

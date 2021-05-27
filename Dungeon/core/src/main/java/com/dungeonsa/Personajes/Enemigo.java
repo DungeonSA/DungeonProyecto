@@ -12,12 +12,10 @@ import java.awt.*;
 public  class Enemigo extends Sprite {
     protected int hp;
     protected int dp;
-    protected Personaje ju;
     protected float Intervalo_color;
     protected float contador_color;
     protected float velocidad = 1;
     protected boolean PuedeSerAtacado = false;
-    protected boolean invencible = false;
     protected boolean EstadoAlerta;
     protected Body cuerpo;
     protected Rectangle areaClick;
