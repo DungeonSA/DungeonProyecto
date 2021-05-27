@@ -114,10 +114,6 @@ public class MenuPrincipal {
         Gdx.input.setInputProcessor(escenario);
     }
 
-    public void actualizar(float delta, int saltos){
-        escenario.act(delta);
-    }
-
     //-------------------------------------------------------------
     public FitViewport getVista() {
         return vista;

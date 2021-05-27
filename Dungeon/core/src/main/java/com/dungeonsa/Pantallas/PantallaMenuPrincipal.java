@@ -14,8 +14,6 @@ public class PantallaMenuPrincipal extends Pantalla{
 	private OrthographicCamera CamaraMenu;
 	private MenuPrincipal hudMenuPrincipal = new MenuPrincipal(sb,this);
 
-	Preferences prefs= Gdx.app.getPreferences("preferences");
-
 	public PantallaMenuPrincipal() {
 		super();
 		//PANTALLA
@@ -31,7 +29,6 @@ public class PantallaMenuPrincipal extends Pantalla{
 
 	@Override
 	public void show() {
-
 	}
 
 	@Override

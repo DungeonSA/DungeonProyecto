@@ -42,6 +42,8 @@ public class Hud {
         tabla.add(tiempo).padLeft(1);
 
         escenario.addActor(tabla);
+
+        Gdx.input.setInputProcessor(null);
     }
 
     public void actualizar(float delta,String nombrenivel, int cofresActuales, int cofresRestantes, int vidaJugador){
