@@ -70,6 +70,12 @@ public class PantallaMenuPrincipal extends Pantalla{
 	}
 
 	@Override
+	public void dispose() {
+		super.dispose();
+		musica.stop();
+	}
+
+	@Override
 	public void resume() {
 
 	}

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.maps.MapProperties;
@@ -40,6 +41,7 @@ public class PantallaAccion extends Pantalla {
     private TiledMapTileLayer capa;
     private final OrthogonalTiledMapRenderer renderizador;
     private final Preferences prefs= Gdx.app.getPreferences("preferences");
+    private final Music musica;
 
     //variables nivel
     protected String archivoNivel;
@@ -73,12 +75,16 @@ public class PantallaAccion extends Pantalla {
         this.dificultad=dificultad;
         am.load("Dungeon_character_2.png", Texture.class);
         am.load("Dungeon_Tileset.png", Texture.class);
+        am.load("musicaDungeon.wav",Music.class);
         am.setLoader(TiledMap.class,
                 new TmxMapLoader(new InternalFileHandleResolver()));
         am.load(archivoNivel, TiledMap.class);
         am.load("DungeonFont.fnt", BitmapFont.class);
         am.finishLoading();
         mapa = am.get(archivoNivel);
+        musica=am.get("musicaDungeon.wav");
+        musica.setVolume(.25f);
+        musica.play();
 
         //Pantalla
         renderizador = new OrthogonalTiledMapRenderer(mapa, 1.0f / Utiles.LADO_LOSA);
@@ -435,7 +441,7 @@ public class PantallaAccion extends Pantalla {
 
     @Override
     public void dispose() {
-
+        musica.stop();
     }
     public Personaje personajeref(){
         return this.jugador;
