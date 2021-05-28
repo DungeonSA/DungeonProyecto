@@ -3,12 +3,13 @@ package com.dungeonsa.Pantallas;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class PantallaMenuPrincipal extends Pantalla{
-
+	private Music musica;
 	private Texture fondo;
 
 	private OrthographicCamera CamaraMenu;
@@ -23,8 +24,13 @@ public class PantallaMenuPrincipal extends Pantalla{
 		vista.setScreenBounds(0,0,juego.ANCHO,juego.ALTO);
 		//Asset Manager
 		am.load("Menu.png",Texture.class);
+		am.load("musica.ogg", Music.class);
 		am.finishLoading();
 		fondo=am.get("Menu.png");
+		musica=am.get("musica.ogg");
+		musica.setLooping(true);
+		musica.setVolume(0.25f);
+		musica.play();
 	}
 
 	@Override

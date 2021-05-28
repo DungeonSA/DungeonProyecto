@@ -21,9 +21,9 @@ public class Victoria extends Pantalla{
 		vista=new FitViewport(juego.ANCHO,juego.ALTO,CamaraMenu);
 		vista.setScreenBounds(0,0,juego.ANCHO,juego.ALTO);
 		//Asset Manager
-		am.load("Menu.png",Texture.class);
+		am.load("Victoria.png",Texture.class);
 		am.finishLoading();
-		fondo=am.get("Menu.png");
+		fondo=am.get("Victoria.png");
 	}
 
 	@Override

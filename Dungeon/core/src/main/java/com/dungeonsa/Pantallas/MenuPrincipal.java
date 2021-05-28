@@ -24,7 +24,7 @@ public class MenuPrincipal {
     private final Stage escenario;
     private Skin skin;
     private Preferences prefs= Gdx.app.getPreferences(Utiles.prefer);
-    private Label nivel1, nivel2, nivel3;
+    private Label nivel0, nivel1, nivel2, nivel3;
     private TextButton boton1, boton2, boton3, boton4;
 
     public MenuPrincipal(SpriteBatch sb,PantallaMenuPrincipal pantallaMenu){
@@ -37,13 +37,18 @@ public class MenuPrincipal {
         Label.LabelStyle estiloLabel =new Label.LabelStyle();
         estiloLabel.font = juego.font;
 
+        nivel0=new Label("Ultimas Puntutaciones",estiloLabel);
         nivel1=new Label(prefs.getString("Mazmorra Rome","Nivel Alvaro: No completado"),estiloLabel);
         nivel2=new Label(prefs.getString("Mazmorra Raul","Nivel Raul: No completado"),estiloLabel);
         nivel3=new Label(prefs.getString("Mazmorra Basilio","Nivel Basilio: No completado"),estiloLabel);
 
         Table puntuacion=new Table();
         puntuacion.left();
+        puntuacion.padTop(60);
+        puntuacion.padLeft(40);
         puntuacion.setFillParent(true);
+        puntuacion.add(nivel0);
+        puntuacion.row();
         puntuacion.add(nivel1);
         puntuacion.row();
         puntuacion.add(nivel2);
@@ -99,6 +104,7 @@ public class MenuPrincipal {
         Table tabla=new Table();
         tabla.right();
         tabla.setFillParent(true);
+        tabla.padTop(300);
         tabla.add(boton1).size(500,50).padRight(100);
         tabla.row();
         tabla.add(boton2).size(500,50).padRight(100);
