@@ -63,7 +63,11 @@ public class PantallaAccion extends Pantalla {
     private final World mundo;
 
     public PantallaAccion(String archivoNivel,String nombreNivel, Dificultad dificultad) {
+
         super();
+        Utiles.ultimadificultad=dificultad;
+        Utiles.ultimoArchivo=archivoNivel;
+        Utiles.ultimomapa=nombreNivel;
         this.archivoNivel=archivoNivel;
         this.nombreNivel=nombreNivel;
         this.dificultad=dificultad;
@@ -270,6 +274,7 @@ public class PantallaAccion extends Pantalla {
             public void postSolve(Contact contact, ContactImpulse impulse) {
             }
         });
+
     }
 
     @Override
@@ -339,10 +344,10 @@ public class PantallaAccion extends Pantalla {
             prefs.putString(nombreNivel,nombreNivel+": "+(int)hud.getSegundos()+" segundos");
             prefs.flush();
 
-            juego.cambiarPantalla(this,new PantallaMenuPrincipal());
+            juego.cambiarPantalla(this,new Victoria());
         }
         if (jugador.getHp()<=0){
-            juego.cambiarPantalla(this,new PantallaMenuPrincipal());
+            juego.cambiarPantalla(this,new Gameover());
         }
         renderizador.setView(camara);
         jugador.actualizar(delta,jugador.getCuerpo().getWorldCenter());

@@ -1,6 +1,7 @@
 package com.dungeonsa;
 
 import com.badlogic.gdx.math.Vector2;
+import com.dungeonsa.Pantallas.PantallaAccion;
 
 public abstract class Utiles {
     public static final String prefer = "preferences";
@@ -22,4 +23,7 @@ public abstract class Utiles {
     public static final Vector2 PASO_DERECHA = new Vector2(1f, 0);
     public static final Vector2 PASO_IZQUIERDA = new Vector2(-1f, 0);
     public static final float VEL_MAX = 3.0f;
+    public static String ultimoArchivo,ultimomapa;
+    public static Dificultad ultimadificultad;
+
 }
