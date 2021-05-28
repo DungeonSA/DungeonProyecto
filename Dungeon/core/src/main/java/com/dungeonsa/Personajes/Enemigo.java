@@ -9,7 +9,7 @@ import com.dungeonsa.Utiles;
 
 import java.awt.*;
 
-public  class Enemigo extends Sprite {
+public abstract class Enemigo extends Sprite {
     protected int hp;
     protected int dp;
     protected float Intervalo_color;
