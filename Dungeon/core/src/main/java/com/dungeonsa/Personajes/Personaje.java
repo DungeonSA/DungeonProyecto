@@ -63,7 +63,7 @@ public class Personaje extends Sprite {
         componenteinteraccion.shape=forma;
         cuerpo.createFixture(componenteinteraccion).setUserData("area_interacciones");
         //Sensor de ataque
-        forma.setRadius(0.8f);
+        forma.setRadius(1f);
         componenteAtacar.isSensor=true;
         componenteAtacar.shape=forma;
         cuerpo.createFixture(componenteAtacar).setUserData("area_ataque");
@@ -91,9 +91,9 @@ public class Personaje extends Sprite {
 
 
     public void actualizar(float delta, Vector2 posicion) {
-//        System.out.println(contador);
+//
         this.posicion=posicion;
-//        System.out.println(posicion);
+//
         setRegion(aspecto);
         setPosition(cuerpo.getPosition().x-.5f,cuerpo.getPosition().y-.5f);
         if(!Puede_atacar&&contador_atacar<Intervalo_atacar){
@@ -106,7 +106,7 @@ public class Personaje extends Sprite {
         }else if(Puede_recivir_ataque&&contador_recivir>=Intervalo_recivir_ataque&&daño_recivido>0){
             hp-=daño_recivido;
             contador_recivir=0f;
-            System.out.println("dolor");
+
             this.setColor(1f,0f,0f,1f);
             parpadeo=0f;
         }
@@ -116,8 +116,6 @@ if (parpadeo>=intervalo_parpadeo) this.setColor(1f,1f,1f,1f);
             parpadeo+=delta;
         }
         flipear(delta);
-
-//        System.out.println(this.hp);
     }
 
     public boolean isPuede_atacar() {
