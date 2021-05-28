@@ -61,7 +61,7 @@ public class MenuGameover {
                 juego.cambiarPantalla(PantallaGameover,new PantallaMenuPrincipal());
             }
         });
-        boton2= new TextButton("reintentar",estiloBoton);
+        boton2= new TextButton("Reintentar",estiloBoton);
         boton2.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -79,7 +79,7 @@ public class MenuGameover {
         });
 
         Table tabla=new Table();
-        tabla.center();
+        tabla.bottom();
         tabla.setFillParent(true);
         tabla.add(boton1).size(500,50).padRight(100);
         tabla.row();

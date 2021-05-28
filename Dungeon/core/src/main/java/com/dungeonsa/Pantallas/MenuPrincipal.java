@@ -76,7 +76,7 @@ public class MenuPrincipal {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                juego.cambiarPantalla(pantallaMenu,new PantallaAccion(Utiles.dungRaulF,Utiles.dungRaulN, Dificultad.FACIL));
+                juego.cambiarPantalla(pantallaMenu,new PantallaAccion(Utiles.dungRaulF,Utiles.dungRaulN, Dificultad.NORMAL));
             }
         });
         boton3= new TextButton("Mazmorra Basilio",estiloBoton);
@@ -84,7 +84,7 @@ public class MenuPrincipal {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                juego.cambiarPantalla(pantallaMenu,new PantallaAccion(Utiles.dungBasilioF,Utiles.dungBasilioN, Dificultad.FACIL));
+                juego.cambiarPantalla(pantallaMenu,new PantallaAccion(Utiles.dungBasilioF,Utiles.dungBasilioN, Dificultad.DIFICIL));
             }
         });
         boton4= new TextButton("Salir",estiloBoton);
