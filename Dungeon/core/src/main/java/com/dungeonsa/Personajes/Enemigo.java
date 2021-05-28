@@ -100,24 +100,16 @@ public  class Enemigo extends Sprite {
     }
     public void dejar_interactuar(){
         PuedeSerAtacado = false;
-        System.out.println("adios");
     }
     public void recivirAtaque(int daño) {
         if(PuedeSerAtacado){
-            System.out.println(hp);
             hp=hp-daño;
             this.setColor(1f,0f,0f,1f);
-            System.out.println(hp);
-            System.out.printf("hay");
-
         }
     }
 
     public void moverHacia(Vector2 objetivo) {
         cuerpo.setLinearVelocity(calculateVelocity(objetivo));
-
-
-
     }
 
 

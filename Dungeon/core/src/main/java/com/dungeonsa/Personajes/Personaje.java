@@ -58,12 +58,12 @@ public class Personaje extends Sprite {
         cuerpo.createFixture(defComponente).setUserData(this);
 
         //Sensor de Interaccion
-        forma.setRadius(1.5f);
+        forma.setRadius(0.6f);
         componenteinteraccion.isSensor=true;
         componenteinteraccion.shape=forma;
         cuerpo.createFixture(componenteinteraccion).setUserData("area_interacciones");
         //Sensor de ataque
-        forma.setRadius(2f);
+        forma.setRadius(0.8f);
         componenteAtacar.isSensor=true;
         componenteAtacar.shape=forma;
         cuerpo.createFixture(componenteAtacar).setUserData("area_ataque");
